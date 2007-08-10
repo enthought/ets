@@ -39,6 +39,7 @@ install_requires = build_reqs([
     ('enthought.pyface.ui.qt4', '3.0a1'),
     ('enthought.pyface.ui.wx', '3.0a1'),
     ("enthought.python", "2.1.0a1"),
+    ('enthought.resource', '2.1.0a1'),
     ("enthought.setuptools", "0.3.0a1"),
     ("enthought.sweet_pickle", "2.1.0a1"),
     ("enthought.testing", "2.1.0a1"),
