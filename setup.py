@@ -11,6 +11,7 @@ install_requires = build_reqs([
     ("enthought.chaco2", "3.0a1"),
     ('enthought.debug', '2.1.0a1'),
     ("enthought.enable2", "3.0a1"),
+    ('enthought.endo', '2.1.0a1'),
 #    ('enthought.enstaller', '2.2.0b3'), -- removed, at Rick's recommendation, due to bugs with running enstaller
 #    ('enthought.enstaller.gui', '2.2.0b3'), -- removed, at Rick's recommendation, due to bugs with running enstaller
     ("enthought.envisage", "3.0a1"),
