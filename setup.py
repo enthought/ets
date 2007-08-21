@@ -30,7 +30,7 @@ install_requires = build_reqs([
     ("enthought.kiva", "3.0.0a1"),
     ("enthought.logger", "3.0.0a1"),
     ("enthought.mathematics", "2.1.0a1"),
-    ("enthought.mayavi", "2.0.2a1"),
+    ("enthought.mayavi", "2.0.1a1"),
     ("enthought.model", "3.0.0a1"),
     ("enthought.naming", "3.0.0a1"),
     ("enthought.numerical_modeling", "3.0.0a1"),
