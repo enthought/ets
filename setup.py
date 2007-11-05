@@ -8,7 +8,7 @@ def build_reqs(list):
 
 # Declare the ETS component versions
 install_requires = build_reqs([
-    ('enthought.block_canvas', '0.1.0a1'),
+    ('enthought.block_canvas', '0.2.0'),
     ("enthought.chaco2", "3.0.0a1"),
     ('enthought.debug', '2.1.0a1'),
     ('enthought.developer', '3.0.0b1'),
