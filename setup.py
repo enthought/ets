@@ -16,7 +16,7 @@ install_requires = build_reqs([
     ('enthought.endo', '2.1.0a1'),
 #    ('enthought.enstaller', '2.2.0b3'), -- removed, at Rick's recommendation, due to bugs with running enstaller
 #    ('enthought.enstaller.gui', '2.2.0b3'), -- removed, at Rick's recommendation, due to bugs with running enstaller
-    ("enthought.envisage", "3.0.0a1"),
+    ("enthought.envisage", "3.0.0b1"),
     ('enthought.envisage.ui.action', '3.0.0a1'),
     ('enthought.envisage.ui.workbench', '3.0.0a1'),
     ('enthought.envisage.ui.workbench.plugin', '3.0.0a1'),
