@@ -18,7 +18,7 @@ install_requires = build_reqs([
     ('EnthoughtBase', '3.0.0b1'),
     ('EnvisageCore', '3.0.0b1'),
     ('EnvisagePlugins', '3.0.0b1'),
-    ('Mayavi', '2.0.3a1'),
+    ('Mayavi', '3.0.0a1'),
     ('PackageTools', '0.3.0a1'),
     ('SciMath', '3.0.0b1'),
     ('Traits', '3.0.0b1'),
