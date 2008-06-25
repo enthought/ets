@@ -10,6 +10,7 @@ def build_reqs(list):
 install_requires = build_reqs([
     ('AppTools', '3.0.0b1'),
     ('BlockCanvas', '3.0.0b1'),
+    ('CodeTools', '3.0.0b1'),
     ('Chaco', '3.0.0b1'),
     ('DevTools', '3.0.0b1'),
     ('Enable', '3.0.0b1'),
