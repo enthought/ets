@@ -43,6 +43,7 @@ setup(
             'AppTools[nonets]',
             'BlockCanvas[nonets]',
             'Chaco[nonets]',
+            'CodeTools[nonets]',
             'DevTools[nonets]',
             'Enable[nonets]',
             #'Enstaller[nonets]',
