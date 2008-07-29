@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+#
+# Copyright (c) 2008 by Enthought, Inc.
+# All rights reserved.
+#
+
+"""
+Enthought Tool Suite.
+
+The Enthought Tool Suite (ETS) is a collection of components developed by 
+Enthought and our partners, which we use every day to construct custom 
+scientific applications.
+
+This project is a "wrapper" for the projects in ETS.
+"""
 from setuptools import setup, find_packages
 
 
