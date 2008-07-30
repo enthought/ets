@@ -5,15 +5,22 @@
 #
 
 """
-Enthought Tool Suite.
+The Enthought Tool Suite meta-project.
 
-The Enthought Tool Suite (ETS) is a collection of components developed by 
-Enthought and our partners, which we use every day to construct custom 
+The Enthought Tool Suite (ETS) is a collection of components developed by
+Enthought and our partners, which we use every day to construct custom
 scientific applications.
 
-This project is a "wrapper" for the projects in ETS.
+This project is a "meta-project wrapper" that bundles up all the other projects
+in ETS.
 """
+
+
 from setuptools import setup, find_packages
+
+
+# Pull the description values for the setup keywords from our file docstring.
+DOCLINES = __doc__.split("\n")
 
 
 # Function to convert simple ETS component names and versions to a requirements
@@ -44,13 +51,29 @@ install_requires = build_reqs([
     ])
 
 
+# The actual setup call.
 setup(
-    author = 'Enthought, Inc',
+    author = 'Enthought, Inc.',
     author_email = 'info@enthought.com',
+    classifiers = [c.strip() for c in """\
+        Development Status :: 4 - Beta
+        Intended Audience :: Developers
+        Intended Audience :: Science/Research
+        License :: OSI Approved :: BSD License
+        Operating System :: MacOS
+        Operating System :: Microsoft :: Windows
+        Operating System :: OS Independent
+        Operating System :: POSIX
+        Operating System :: Unix
+        Programming Language :: Python
+        Topic :: Scientific/Engineering
+        Topic :: Software Development
+        Topic :: Software Development :: Libraries
+        """.splitlines()],
     dependency_links = [
         'http://code.enthought.com/enstaller/eggs/source',
         ],
-    description = 'Enthought Tool Suite Library',
+    description = DOCLINES[1],
     extras_require = {
         # Allow users to decide if they install ETS without external
         # dependencies
@@ -78,8 +101,12 @@ setup(
     include_package_data = True,
     install_requires = install_requires,
     license = 'BSD',
+    long_description = '\n'.join(DOCLINES[3:]),
+    maintainer = 'ETS Developers',
+    maintainer_email = 'enthought-dev@enthought.com',
     name = 'ETS',
     packages = '',
+    platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
     tests_require = [
         'nose >= 0.9',
         ],
