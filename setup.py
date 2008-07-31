@@ -69,7 +69,7 @@ setup(
         Topic :: Scientific/Engineering
         Topic :: Software Development
         Topic :: Software Development :: Libraries
-        """.splitlines()],
+        """.splitlines() if len(c.strip()) > 0],
     dependency_links = [
         'http://code.enthought.com/enstaller/eggs/source',
         ],
@@ -111,7 +111,7 @@ setup(
         'nose >= 0.9',
         ],
     test_suite = 'nose.collector',
-    url = 'http://code.enthought.com/ets',
+    url = 'http://code.enthought.com/projects/tool-suite.php',
     version = '3.0.0b1',
     zip_safe = True,
     )
