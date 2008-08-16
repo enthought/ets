@@ -43,7 +43,7 @@ install_requires = build_reqs([
     ('ETSDevTools', '3.0.0'),
     ('ETSProjectTools', '0.4.0'),
     ('Mayavi', '3.0.0'),
-    ('SciMath', '3.0.1'),
+    ('SciMath', '3.0.0'),
     ('Traits', '3.0.1'),
     ('TraitsBackendQt', '3.0.1'),
     ('TraitsBackendWX', '3.0.1'),
@@ -56,7 +56,7 @@ setup(
     author = 'Enthought, Inc.',
     author_email = 'info@enthought.com',
     classifiers = [c.strip() for c in """\
-        Development Status :: 4 - Beta
+        Development Status :: 5 - Production/Stable
         Intended Audience :: Developers
         Intended Audience :: Science/Research
         License :: OSI Approved :: BSD License
@@ -112,7 +112,7 @@ setup(
         ],
     test_suite = 'nose.collector',
     url = 'http://code.enthought.com/projects/tool-suite.php',
-    version = '3.0.1',
+    version = '3.0.0',
     zip_safe = True,
     )
 
