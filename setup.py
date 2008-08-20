@@ -40,7 +40,7 @@ install_requires = build_reqs([
     ('EnvisagePlugins', '3.0.1'),
     ('ETSDevTools', '3.0.1'),
     ('ETSProjectTools', '0.4.1'),
-    ('Mayavi', '3.0.2'),
+    ('Mayavi', '3.0.3'),
     ('SciMath', '3.0.1'),
     ('Traits', '3.0.2'),
     ('TraitsBackendQt', '3.0.2'),
