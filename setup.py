@@ -30,22 +30,22 @@ def build_reqs(list):
 
 # Declare the ETS component versions
 install_requires = build_reqs([
-    ('AppTools', '3.0.1'),
-    ('BlockCanvas', '3.0.1'),
-    ('CodeTools', '3.0.1'),
-    ('Chaco', '3.0.1'),
+    ('AppTools', '3.0.0'),
+    ('BlockCanvas', '3.0.0'),
+    ('Chaco', '3.0.0'),
+    ('CodeTools', '3.0.0'),
     ('Enable', '3.0.1'),
-    ('EnthoughtBase', '3.0.1'),
-    ('EnvisageCore', '3.0.1'),
-    ('EnvisagePlugins', '3.0.1'),
-    ('ETSDevTools', '3.0.1'),
-    ('ETSProjectTools', '0.4.1'),
-    ('Mayavi', '3.0.3'),
-    ('SciMath', '3.0.1'),
-    ('Traits', '3.0.2'),
-    ('TraitsBackendQt', '3.0.2'),
-    ('TraitsBackendWX', '3.0.2'),
-    ('TraitsGUI', '3.0.2'),
+    ('EnthoughtBase', '3.0.0'),
+    ('EnvisageCore', '3.0.0'),
+    ('EnvisagePlugins', '3.0.0'),
+    ('ETSDevTools', '3.0.0'),
+    ('ETSProjectTools', '0.4.0'),
+    ('Mayavi', '3.0.2'),
+    ('SciMath', '3.0.0'),
+    ('Traits', '3.0.1'),
+    ('TraitsBackendQt', '3.0.1'),
+    ('TraitsBackendWX', '3.0.1'),
+    ('TraitsGUI', '3.0.1'),
     ])
 
 
@@ -54,7 +54,7 @@ setup(
     author = 'Enthought, Inc.',
     author_email = 'info@enthought.com',
     classifiers = [c.strip() for c in """\
-        Development Status :: 4 - Beta
+        Development Status :: 5 - Production/Stable
         Intended Audience :: Developers
         Intended Audience :: Science/Research
         License :: OSI Approved :: BSD License
