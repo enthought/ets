@@ -34,7 +34,7 @@ install_requires = build_reqs([
     ('BlockCanvas', '3.0.1'),
     ('CodeTools', '3.0.1'),
     ('Chaco', '3.0.1'),
-    ('Enable', '3.0.1'),
+    ('Enable', '3.0.2'),
     ('EnthoughtBase', '3.0.1'),
     ('EnvisageCore', '3.0.1'),
     ('EnvisagePlugins', '3.0.1'),
