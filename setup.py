@@ -41,7 +41,7 @@ install_requires = build_reqs([
     ('ETSDevTools', '3.0.1'),
     ('ETSProjectTools', '0.4.2'),
     ('Mayavi', '3.1.0'),
-    ('SciMath', '3.0.1'),
+    ('SciMath', '3.0.2'),
     ('Traits', '3.0.2'),
     ('TraitsBackendWX', '3.0.2'),
     ('TraitsGUI', '3.0.2'),
