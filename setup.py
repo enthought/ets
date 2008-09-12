@@ -43,6 +43,7 @@ install_requires = build_reqs([
     ('Mayavi', '3.1.0'),
     ('SciMath', '3.0.2'),
     ('Traits', '3.0.2'),
+    ('TraitsBackendQt', '3.0.2'),
     ('TraitsBackendWX', '3.0.2'),
     ('TraitsGUI', '3.0.2'),
     ])
@@ -92,13 +93,6 @@ setup(
             'TraitsBackendWX[nonets]',
             'TraitsGUI[nonets]'
             ],
-        # The Qt backend is now an option instead of a requirement.
-        'qt': build_reqs([
-            ('TraitsBackendQt', '3.0.2'),
-            ]),
-        'qtnonets': build_reqs([
-            ('TraitsBackendQt[nonets]', '3.0.2'),
-            ]),
         },
     include_package_data = True,
     install_requires = install_requires,
