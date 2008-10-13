@@ -30,7 +30,7 @@ def build_reqs(list):
 
 # Declare the ETS component versions
 install_requires = build_reqs([
-    ('AppTools', '3.0.1'),
+    ('AppTools', '3.1.0'),
     ('BlockCanvas', '3.0.1'),
     ('CodeTools', '3.0.1'),
     ('Chaco', '3.0.1'),
