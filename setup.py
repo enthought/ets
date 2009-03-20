@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
-# Copyright (c) 2008 by Enthought, Inc.
+# Copyright (c) 2008-2009 by Enthought, Inc.
 # All rights reserved.
-#
+
 
 """
 The Enthought Tool Suite meta-project.
@@ -40,7 +40,7 @@ install_requires = build_reqs([
     ('EnvisagePlugins', '3.0.2'),
     ('ETSDevTools', '3.0.2'),
     ('ETSProjectTools', '0.4.3'),
-    ('Mayavi', '3.1.1'),
+    ('Mayavi', '3.2.0'),
     ('SciMath', '3.0.3'),
     ('Traits', '3.0.4'),
     ('TraitsBackendQt', '3.0.4'),
@@ -68,9 +68,6 @@ setup(
         Topic :: Software Development
         Topic :: Software Development :: Libraries
         """.splitlines() if len(c.strip()) > 0],
-    dependency_links = [
-        'http://code.enthought.com/enstaller/eggs/source',
-        ],
     description = DOCLINES[1],
     extras_require = {
         # Allow users to decide if they install ETS without external
@@ -108,7 +105,7 @@ setup(
         ],
     test_suite = 'nose.collector',
     url = 'http://code.enthought.com/projects/tool-suite.php',
-    version = '3.1.1',
+    version = '3.2.0',
     zip_safe = True,
     )
 
