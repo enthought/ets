@@ -30,21 +30,22 @@ def build_reqs(list):
 
 # Declare the ETS component versions
 install_requires = build_reqs([
-    ('AppTools', '3.1.1'),
+    ('AppTools', '3.2.0'),
     ('BlockCanvas', '3.0.2'),
-    ('Chaco', '3.0.2'),
+    ('Chaco', '3.1.0'),
     ('CodeTools', '3.0.2'),
-    ('Enable', '3.0.3'),
+    ('Enable', '3.1.0'),
     ('EnthoughtBase', '3.0.2'),
-    ('EnvisageCore', '3.0.2'),
-    ('EnvisagePlugins', '3.0.2'),
+    ('EnvisageCore', '3.1.0'),
+    ('EnvisagePlugins', '3.1.0'),
     ('ETSDevTools', '3.0.2'),
     ('ETSProjectTools', '0.5.0'),
     ('Mayavi', '3.2.0'),
     ('SciMath', '3.0.3'),
-    ('Traits', '3.0.4'),
-    ('TraitsBackendQt', '3.0.4'),
-    ('TraitsBackendWX', '3.0.4'),
+    ('SetupDocs', '1.0.1'),
+    ('Traits', '3.1.0'),
+    ('TraitsBackendQt', '3.1.0'),
+    ('TraitsBackendWX', '3.1.0'),
     ('TraitsGUI', '3.0.4'),
     ])
 
@@ -85,6 +86,7 @@ setup(
             'ETSProjectTools[nonets]',
             'Mayavi[nonets]',
             'SciMath[nonets]',
+            'SetupDocs[nonets]',
             'Traits[nonets]',
             'TraitsBackendQt[nonets]',
             'TraitsBackendWX[nonets]',
