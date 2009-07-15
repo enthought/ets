@@ -40,7 +40,7 @@ install_requires = build_reqs([
     ('EnvisagePlugins', '3.1.1'),
     ('ETSDevTools', '3.0.3'),
     ('ETSProjectTools', '0.5.1'),
-    ('Mayavi', '3.2.1'),
+    ('Mayavi', '3.3.0'),
     ('SciMath', '3.0.4'),
     ('SetupDocs', '1.0.3'),
     ('Traits', '3.1.1'),
@@ -107,7 +107,7 @@ setup(
         ],
     test_suite = 'nose.collector',
     url = 'http://code.enthought.com/projects/tool-suite.php',
-    version = '3.2.1',
+    version = '3.3.0',
     zip_safe = True,
     )
 
