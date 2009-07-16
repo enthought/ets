@@ -30,23 +30,23 @@ def build_reqs(list):
 
 # Declare the ETS component versions
 install_requires = build_reqs([
-    ('AppTools', '3.3.0'),
-    ('BlockCanvas', '3.1.0'),
-    ('Chaco', '3.2.0'),
-    ('CodeTools', '3.1.0'),
-    ('Enable', '3.2.0'),
-    ('EnthoughtBase', '3.0.3'),
-    ('EnvisageCore', '3.1.1'),
-    ('EnvisagePlugins', '3.1.1'),
-    ('ETSDevTools', '3.0.3'),
-    ('ETSProjectTools', '0.5.1'),
-    ('Mayavi', '3.3.0'),
-    ('SciMath', '3.0.4'),
-    ('SetupDocs', '1.0.3'),
-    ('Traits', '3.2.0'),
-    ('TraitsBackendQt', '3.2.0'),
-    ('TraitsBackendWX', '3.2.0'),
-    ('TraitsGUI', '3.1.0'),
+    ('AppTools', '3.3.1'),
+    ('BlockCanvas', '3.1.1'),
+    ('Chaco', '3.2.1'),
+    ('CodeTools', '3.1.1'),
+    ('Enable', '3.2.1'),
+    ('EnthoughtBase', '3.0.4'),
+    ('EnvisageCore', '3.1.2'),
+    ('EnvisagePlugins', '3.1.2'),
+    ('ETSDevTools', '3.0.4'),
+    ('ETSProjectTools', '0.5.2'),
+    ('Mayavi', '3.3.1'),
+    ('SciMath', '3.0.5'),
+    ('SetupDocs', '1.0.4'),
+    ('Traits', '3.2.1'),
+    ('TraitsBackendQt', '3.2.1'),
+    ('TraitsBackendWX', '3.2.1'),
+    ('TraitsGUI', '3.1.1'),
     ])
 
 
@@ -107,7 +107,7 @@ setup(
         ],
     test_suite = 'nose.collector',
     url = 'http://code.enthought.com/projects/tool-suite.php',
-    version = '3.3.0',
+    version = '3.3.1',
     zip_safe = True,
     )
 
