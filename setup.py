@@ -32,9 +32,9 @@ def build_reqs(list):
 install_requires = build_reqs([
     ('AppTools', '3.3.1'),
     ('BlockCanvas', '3.1.1'),
-    ('Chaco', '3.2.1'),
+    ('Chaco', '3.3.0'),
     ('CodeTools', '3.1.1'),
-    ('Enable', '3.2.1'),
+    ('Enable', '3.3.0'),
     ('EnthoughtBase', '3.0.4'),
     ('EnvisageCore', '3.1.2'),
     ('EnvisagePlugins', '3.1.2'),
@@ -43,10 +43,10 @@ install_requires = build_reqs([
     ('Mayavi', '3.3.1'),
     ('SciMath', '3.0.5'),
     ('SetupDocs', '1.0.4'),
-    ('Traits', '3.2.1'),
-    ('TraitsBackendQt', '3.2.1'),
-    ('TraitsBackendWX', '3.2.1'),
-    ('TraitsGUI', '3.1.1'),
+    ('Traits', '3.3.0'),
+    ('TraitsBackendQt', '3.3.0'),
+    ('TraitsBackendWX', '3.3.0'),
+    ('TraitsGUI', '3.3.0'),
     ])
 
 
