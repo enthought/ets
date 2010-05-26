@@ -106,6 +106,6 @@ setup(
         ],
     test_suite = 'nose.collector',
     url = 'http://code.enthought.com/projects/tool-suite.php',
-    version = '3.4.1',
+    version = '3.4.2',
     zip_safe = True,
     )
