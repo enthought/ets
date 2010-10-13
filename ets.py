@@ -58,7 +58,7 @@ ets_package_names = """
       SciMath            TraitsBackendQt    TraitsBackendWX
       Enable             AppTools           EnvisageCore
       EnvisagePlugins    Chaco              Mayavi
-      BlockCanvas        ETS"""
+      BlockCanvas"""
 
 
 
