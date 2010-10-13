@@ -51,6 +51,8 @@ install_requires = build_reqs([
 
 # The actual setup call.
 setup(
+    name = 'ETS',
+    version = '3.4.2',
     author = 'Enthought, Inc.',
     author_email = 'info@enthought.com',
     classifiers = [c.strip() for c in """\
@@ -92,20 +94,13 @@ setup(
             'TraitsGUI[nonets]'
             ],
         },
-    include_package_data = True,
     install_requires = install_requires,
     license = 'BSD',
     long_description = '\n'.join(DOCLINES[3:]),
     maintainer = 'ETS Developers',
     maintainer_email = 'enthought-dev@enthought.com',
-    name = 'ETS',
-    packages = '',
+    py_modules = ["ets"],
+    entry_points = dict(console_scripts=["ets = ets:main"]),
     platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
-    tests_require = [
-        'nose >= 0.9',
-        ],
-    test_suite = 'nose.collector',
     url = 'http://code.enthought.com/projects/tool-suite.php',
-    version = '3.4.2',
-    zip_safe = True,
-    )
+)
