@@ -51,7 +51,6 @@ aliases = """
       sdist    python setup.py sdist"""
 
 
-#FIXME: check dependency order. This comes straight from ETSProjectTools:
 ets_package_names = """
       EnthoughtBase      SetupDocs          Traits
       CodeTools          TraitsGUI          ETSDevTools
