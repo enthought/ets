@@ -14,8 +14,7 @@ This project is a "meta-project wrapper" that bundles up all the other projects
 in ETS.
 """
 
-
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 # Pull the description values for the setup keywords from our file docstring.
@@ -38,7 +37,6 @@ install_requires = build_reqs([
     ('EnvisageCore', '3.1.2'),
     ('EnvisagePlugins', '3.1.2'),
     ('ETSDevTools', '3.0.4'),
-    ('ETSProjectTools', '0.6.0'),
     ('Mayavi', '3.3.2'),
     ('SciMath', '3.0.5'),
     ('SetupDocs', '1.0.4'),
@@ -84,7 +82,6 @@ setup(
             'EnvisageCore[nonets]',
             'EnvisagePlugins[nonets]',
             'ETSDevTools[nonets]',
-            'ETSProjectTools[nonets]',
             'Mayavi[nonets]',
             'SciMath[nonets]',
             'SetupDocs[nonets]',
