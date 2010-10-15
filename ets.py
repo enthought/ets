@@ -50,6 +50,41 @@ aliases = """
       install  python setup.py install
       sdist    python setup.py sdist"""
 
+"""
+======================================================================
+ETS installation dependencies.
+Derived from ets_dependends.log, holding the output of ets_depends.py.
+======================================================================
+
+Notes:
+1. Does not include ETS run-time, nor any non-ETS, dependencies.
+2. To avoid clutter, does not list redundant dependencies. For example, does
+   not list Traits or EnthoughtBase dependencies for packages which depend on
+   TraitsGUI, because TraitsGUI itself depends on both of these.
+
+Dependent packages are listed below and to the right of their dependencies.
+* BlockCanvas's multiple dependencies are listed individually.
+
+SetupDocs  (stands alone)
+EnthoughtBase & Traits
+    CodeTools  (depends on Traits only)
+    SciMath
+        BlockCanvas*
+    TraitsGUI
+        ETSDevTools
+            BlocCanvas*
+        TraitsBackendQt
+        TraitsBackendWX
+        Enable
+            Chaco
+               BlockCanvas*
+        AppTools
+            Mayavi
+            EnvisageCore
+                EnvisagePlugins
+            BlockCanvas*
+"""
+
 
 ets_package_names = """
       EnthoughtBase      SetupDocs          Traits
@@ -58,9 +93,6 @@ ets_package_names = """
       Enable             AppTools           EnvisageCore
       EnvisagePlugins    Chaco              Mayavi
       BlockCanvas"""
-
-
-
 
 ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
 
