@@ -16,13 +16,17 @@ Usage: ets -h | --help | co | COMMAND [args] | ALIAS [args]
                directory, each actively maintained package placed in its own
                sub-directory.
 
-   COMMAND     Run this shell command, with any following arguments,
-               inside each package's sub-directory.
+   COMMAND     Run this shell command, with any following arguments, inside
+               each package's sub-directory. If any command arguments must be
+               quoted, you may need to use nested quotes, depending on the
+               quote handling in your shell. For example:
+                  ets svn ci "'check-in comment for all packages'"
 
    ALIAS       Each alias is shorthand for a shell command with arguments.
                The available aliases are pre-defined by this script, not by
                the user. Any alias may be followed by optional additional
                arguments.
+
 
    The available aliases and their equivalent commands are:%s
 
