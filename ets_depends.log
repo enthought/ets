@@ -2,68 +2,66 @@ EnthoughtBase 3.0.6
   ETS installation dependencies:
   Other dependencies:
     agent
-       EnvisageCore >=3.1.2.dev
-       Traits >=3.4.0.dev
-       TraitsGUI >=3.4.0.dev
+       EnvisageCore >=3.1.3.dev
+       Traits >=3.5.0.dev
+       TraitsGUI >=3.5.0.dev
     traits
-       Traits >=3.4.0.dev
-       TraitsBackendWX >=3.4.0.dev
+       Traits >=3.5.0.dev
+       TraitsBackendWX >=3.5.0.dev
     ui
-       TraitsGUI >=3.4.0.dev
-       Traits[ui] >=3.4.0.dev
+       TraitsGUI >=3.5.0.dev
+       Traits[ui] >=3.5.0.dev
     distribution
-       Traits[ui] >=3.4.0.dev
+       Traits[ui] >=3.5.0.dev
     envisage
-       EnvisageCore >=3.1.2.dev
-       EnvisagePlugins >=3.1.2.dev
-       TraitsGUI >=3.4.0.dev
-       Traits[ui] >=3.4.0.dev
+       EnvisageCore >=3.1.3.dev
+       EnvisagePlugins >=3.1.3.dev
+       TraitsGUI >=3.5.0.dev
+       Traits[ui] >=3.5.0.dev
 SetupDocs
   [Errno 2] No such file or directory: 'SetupDocs/setup_data.py'
-Traits 3.4.1
+Traits 3.5.0
   ETS installation dependencies:
   Other dependencies:
     etsconfig
-       EnthoughtBase >=3.0.5.dev
+       EnthoughtBase >=3.0.6.dev
     qt4
-       TraitsBackendQt >=3.4.0.dev
+       TraitsBackendQt >=3.5.0.dev
     nonets
        numpy >= 1.1.0
     ui
-       TraitsGUI >=3.4.0.dev
+       TraitsGUI >=3.5.0.dev
     wx
-       TraitsBackendWX >=3.4.0.dev
+       TraitsBackendWX >=3.5.0.dev
 CodeTools 3.1.2
   ETS installation dependencies:
-    Traits >=3.3.1.dev
+    Traits >=3.5.0.dev
   Other dependencies:
     nonets
        tables
-TraitsGUI 3.4.1
+TraitsGUI 3.5.0
   ETS installation dependencies:
-    EnthoughtBase[ui] >=3.0.5.dev
-    Traits >=3.4.0.dev
+    EnthoughtBase[ui] >=3.0.6.dev
+    Traits >=3.5.0.dev
   Other dependencies:
     dock
-       TraitsBackendWX >=3.4.0.dev
+       TraitsBackendWX >=3.5.0.dev
     qt
-       TraitsBackendQt >=3.4.0.dev
+       TraitsBackendQt >=3.5.0.dev
     wx
-       TraitsBackendWX >=3.4.0.dev
-ETSDevTools 3.0.5
+       TraitsBackendWX >=3.5.0.dev
+ETSDevTools 3.1.0
   ETS installation dependencies:
-    TraitsGUI >=3.3.1.dev
-    Traits[ui] >=3.3.1.dev
+    TraitsGUI >=3.5.0.dev
+    Traits[ui] >=3.5.0.dev
   Other dependencies:
     fbi
-       AppTools >=3.3.2.dev
-       EnthoughtBase[ui] >=3.0.5.dev
-       TraitsBackendWX >=3.3.1.dev
-       TraitsGUI[dock] >=3.3.1.dev
+       AppTools >=3.4.0.dev
+       EnthoughtBase[ui] >=3.0.6.dev
+       TraitsBackendWX >=3.5.0.dev
+       TraitsGUI[dock] >=3.5.0.dev
     nonets
-       cElementTree
        docutils
-       elementtree
        nose
        Pyro
        reportlab
@@ -74,10 +72,10 @@ ETSDevTools 3.0.5
        EnvisageCore >=3.1.3.dev
        EnvisagePlugins >=3.1.3.dev
     developer
-       AppTools >=3.3.2.dev
-       EnthoughtBase[ui] >=3.0.5.dev
-       TraitsBackendWX >=3.3.1.dev
-       TraitsGUI[dock] >=3.3.1.dev
+       AppTools >=3.4.0.dev
+       EnthoughtBase[ui] >=3.0.6.dev
+       TraitsBackendWX >=3.5.0.dev
+       TraitsGUI[dock] >=3.5.0.dev
 SciMath 3.0.6
   ETS installation dependencies:
     EnthoughtBase[traits] >=3.0.5.dev
@@ -96,107 +94,106 @@ SciMath 3.0.6
     nonets
        numpy >= 1.1.0
        scipy >= 0.5.2
-TraitsBackendQt 3.4.1
+TraitsBackendQt 3.5.0
   ETS installation dependencies:
-    EnthoughtBase >=3.0.5.dev
-    Traits >=3.4.0.dev
-    TraitsGUI >=3.4.0.dev
+    EnthoughtBase >=3.0.6.dev
+    Traits >=3.5.0.dev
+    TraitsGUI >=3.5.0.dev
   Other dependencies:
     debug
-       ETSDevTools[developer] >=3.0.4.dev
-TraitsBackendWX 3.4.1
+       ETSDevTools[developer] >=3.1.0.dev
+TraitsBackendWX 3.5.0
   ETS installation dependencies:
-    EnthoughtBase[ui] >=3.0.5.dev
-    TraitsGUI[dock] >=3.4.0.dev
-    Traits >=3.4.0.dev
+    EnthoughtBase[ui] >=3.0.6.dev
+    TraitsGUI[dock] >=3.5.0.dev
+    Traits >=3.5.0.dev
   Other dependencies:
     debug
-       ETSDevTools[developer] >=3.0.4.dev
+       ETSDevTools[developer] >=3.1.0.dev
     dnd
-       AppTools >=3.3.2.dev
+       AppTools >=3.4.0.dev
 Enable 3.3.2
   ETS installation dependencies:
-    EnthoughtBase[ui] >=3.0.5.dev
-    TraitsGUI >=3.4.0.dev
-    Traits[ui] >=3.4.0.dev
+    EnthoughtBase[ui] >=3.0.6.dev
+    TraitsGUI >=3.5.0.dev
+    Traits[ui] >=3.5.0.dev
   Other dependencies:
     nonets
        numpy >= 1.1.0
-AppTools 3.3.3
+AppTools 3.4.0
   ETS installation dependencies:
-    EnthoughtBase >=3.0.5.dev
-    TraitsGUI >=3.4.0.dev
-    Traits[ui] >=3.4.0.dev
+    EnthoughtBase >=3.0.6.dev
+    TraitsGUI >=3.5.0.dev
+    Traits[ui] >=3.5.0.dev
   Other dependencies:
     help
-       EnvisageCore >=3.1.2.dev
-       EnvisagePlugins >=3.1.2.dev
+       EnvisageCore >=3.1.3.dev
+       EnvisagePlugins >=3.1.3.dev
     template
-       BlockCanvas >=3.1.1.dev
-       Chaco >=3.3.1.dev
-       ETSDevTools[developer] >=3.0.4.dev
-       Enable >=3.3.1.dev
-       TraitsBackendWX >=3.4.0.dev
-       TraitsGUI[dock] >=3.4.0.dev
+       BlockCanvas >=3.2.0.dev
+       Chaco >=3.3.2.dev
+       ETSDevTools[developer] >=3.1.0.dev
+       Enable >=3.3.2.dev
+       TraitsBackendWX >=3.5.0.dev
+       TraitsGUI[dock] >=3.5.0.dev
     nonets
        configobj
        numpy
 EnvisageCore 3.1.3
   ETS installation dependencies:
-    AppTools >=3.3.2.dev
-    EnthoughtBase >=3.0.5.dev
-    Traits >=3.3.1.dev
+    AppTools >=3.4.0.dev
+    EnthoughtBase >=3.0.6.dev
+    Traits >=3.5.0.dev
   Other dependencies:
 EnvisagePlugins 3.1.3
   ETS installation dependencies:
-    AppTools >=3.3.2.dev
+    AppTools >=3.4.0.dev
     EnvisageCore >=3.1.3.dev
-    TraitsGUI >=3.3.1.dev
-    Traits[ui] >=3.3.1.dev
+    TraitsGUI >=3.5.0.dev
+    Traits[ui] >=3.5.0.dev
   Other dependencies:
     debug
-       ETSDevTools[fbi] >=3.0.5.dev
+       ETSDevTools[fbi] >=3.0.6.dev
     chaco
-       Chaco >=3.3.1.dev
+       Chaco >=3.3.2.dev
 Chaco 3.3.2
   ETS installation dependencies:
-    Enable[traits] >=3.3.1.dev
-    EnthoughtBase >=3.0.5.dev
-    Traits[ui] >=3.4.0.dev
+    Enable[traits] >=3.3.2.dev
+    EnthoughtBase >=3.0.6.dev
+    Traits[ui] >=3.5.0.dev
   Other dependencies:
     nonets
        numpy >= 1.1.0
     wx
-       TraitsBackendWX >=3.4.0.dev
-Mayavi 3.3.3
+       TraitsBackendWX >=3.5.0.dev
+Mayavi 3.4.0
   ETS installation dependencies:
-    AppTools >=3.3.2.dev
-    EnthoughtBase >=3.0.5.dev
-    TraitsGUI >=3.4.0.dev
-    Traits[ui] >=3.4.0.dev
+    AppTools >=3.4.0.dev
+    EnthoughtBase >=3.0.6.dev
+    TraitsGUI >=3.5.0.dev
+    Traits[ui] >=3.5.0.dev
   Other dependencies:
     util
-       TraitsBackendWX >=3.4.0.dev
+       TraitsBackendWX >=3.5.0.dev
     app
-       EnvisageCore >=3.1.2.dev
-       EnvisagePlugins >=3.1.2.dev
-       TraitsBackendWX >=3.4.0.dev
+       EnvisageCore >=3.1.3.dev
+       EnvisagePlugins >=3.1.3.dev
+       TraitsBackendWX >=3.5.0.dev
     ui
-       EnvisageCore >=3.1.2.dev
-       EnvisagePlugins >=3.1.2.dev
+       EnvisageCore >=3.1.3.dev
+       EnvisagePlugins >=3.1.3.dev
     nonets
        numpy >= 1.1.0
-       setuptools
-BlockCanvas 3.1.2
+BlockCanvas 3.2.0
   ETS installation dependencies:
-    AppTools >=3.3.2.dev
-    Chaco >=3.3.1.dev
-    ETSDevTools >=3.0.5.dev
-    Enable[traits] >=3.3.1.dev
-    EnthoughtBase[distribution,ui] >=3.0.5.dev
-    SciMath[traits] >=3.0.6.dev
-    TraitsGUI >=3.3.1.dev
-    Traits[ui] >=3.3.1.dev
+    AppTools >=3.4.0.dev
+    Chaco >=3.3.2.dev
+    ETSDevTools >=3.1.0.dev
+    Enable[traits] >=3.3.2.dev
+    EnthoughtBase[distribution,ui] >=3.0.6.dev
+    SciMath[traits] >=3.0.5.dev
+    TraitsGUI >=3.5.0.dev
+    Traits[ui] >=3.5.0.dev
   Other dependencies:
     nonets
        configobj
