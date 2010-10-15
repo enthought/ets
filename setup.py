@@ -28,29 +28,29 @@ def build_reqs(list):
 
 # Declare the ETS component versions
 install_requires = build_reqs([
-    ('AppTools', '3.3.2'),
-    ('BlockCanvas', '3.1.1'),
-    ('Chaco', '3.3.1'),
-    ('CodeTools', '3.1.1'),
-    ('Enable', '3.3.1'),
-    ('EnthoughtBase', '3.0.5'),
-    ('EnvisageCore', '3.1.2'),
-    ('EnvisagePlugins', '3.1.2'),
-    ('ETSDevTools', '3.0.4'),
-    ('Mayavi', '3.3.2'),
+    ('AppTools', '3.4.0'),
+    ('BlockCanvas', '3.2.0'),
+    ('Chaco', '3.3.2'),
+    ('CodeTools', '3.1.2'),
+    ('Enable', '3.3.2'),
+    ('EnthoughtBase', '3.0.6'),
+    ('EnvisageCore', '3.1.3'),
+    ('EnvisagePlugins', '3.1.3'),
+    ('ETSDevTools', '3.1.0'),
+    ('Mayavi', '3.4.0'),
     ('SciMath', '3.0.5'),
     ('SetupDocs', '1.0.4'),
-    ('Traits', '3.4.0'),
-    ('TraitsBackendQt', '3.4.0'),
-    ('TraitsBackendWX', '3.4.0'),
-    ('TraitsGUI', '3.4.0'),
-    ])
+    ('Traits', '3.5.0'),
+    ('TraitsBackendQt', '3.5.0'),
+    ('TraitsBackendWX', '3.5.0'),
+    ('TraitsGUI', '3.5.0'),
+])
 
 
 # The actual setup call.
 setup(
     name = 'ETS',
-    version = '3.4.2',
+    version = '3.5.0',
     author = 'Enthought, Inc.',
     author_email = 'info@enthought.com',
     classifiers = [c.strip() for c in """\
