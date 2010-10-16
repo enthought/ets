@@ -78,19 +78,19 @@ ETSDevTools 3.1.0
        TraitsGUI[dock] >=3.5.0.dev
 SciMath 3.0.6
   ETS installation dependencies:
-    EnthoughtBase[traits] >=3.0.5.dev
-    Traits >=3.3.1.dev
+    EnthoughtBase[traits] >=3.0.6.dev
+    Traits >=3.5.0.dev
   Other dependencies:
     traits
-       TraitsBackendWX >=3.3.1.dev
+       TraitsBackendWX >=3.5.0.dev
     converter
-       BlockCanvas >=3.1.2.dev
+       BlockCanvas >=3.2.0.dev
     envisage
-       AppTools >=3.3.2.dev
+       AppTools >=3.4.0.dev
        EnvisageCore >=3.1.3.dev
        EnvisagePlugins >=3.1.3.dev
-       TraitsGUI >=3.3.1.dev
-       Traits[ui] >=3.3.1.dev
+       TraitsGUI >=3.5.0.dev
+       Traits[ui] >=3.5.0.dev
     nonets
        numpy >= 1.1.0
        scipy >= 0.5.2
@@ -163,7 +163,7 @@ Chaco 3.3.2
     Traits[ui] >=3.5.0.dev
   Other dependencies:
     nonets
-       numpy >= 1.1.0
+       numpy >= 1.4.0
     wx
        TraitsBackendWX >=3.5.0.dev
 Mayavi 3.4.0
