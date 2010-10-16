@@ -46,12 +46,16 @@ install_requires = build_reqs([
     ('TraitsGUI', '3.5.0'),
 ])
 
+INFO = {}
+INFO['version'] = '3.5.1'
 
 # The actual setup call.
 setup(
     name = 'ETS',
-    version = '3.5.1',
+    version = INFO['version'],
     author = 'Enthought, Inc.',
+    download_url = ('http://www.enthought.com/repo/ETS/ETS-%s.tar.gz' %
+                    INFO['version']),
     author_email = 'info@enthought.com',
     classifiers = [c.strip() for c in """\
         Development Status :: 4 - Beta
