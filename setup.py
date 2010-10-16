@@ -50,7 +50,7 @@ install_requires = build_reqs([
 # The actual setup call.
 setup(
     name = 'ETS',
-    version = '3.5.0',
+    version = '3.5.1',
     author = 'Enthought, Inc.',
     author_email = 'info@enthought.com',
     classifiers = [c.strip() for c in """\
