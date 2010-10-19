@@ -56,19 +56,10 @@ aliases = """
 
 """
 ======================================================================
-ETS installation dependencies.
+ETS installation dependencies (documentation only).
 Derived from ets_dependends.log, holding the output of ets_depends.py.
-======================================================================
-
-Notes:
-1. Does not include ETS run-time, nor any non-ETS, dependencies.
-2. To avoid clutter, does not list redundant dependencies. For example, does
-   not list Traits or EnthoughtBase dependencies for packages which depend on
-   TraitsGUI, because TraitsGUI itself depends on both of these.
-
 Dependent packages are listed below and to the right of their dependencies.
-* BlockCanvas's multiple dependencies are listed individually.
-
+======================================================================
 SetupDocs  (stands alone)
 EnthoughtBase & Traits
     CodeTools  (depends on Traits only)
@@ -87,6 +78,16 @@ EnthoughtBase & Traits
             EnvisageCore
                 EnvisagePlugins
             BlockCanvas*
+
+Notes:
+1.  * BlockCanvas's multiple dependencies are listed individually.
+2. This string is for documentation only. Unlike the ets_package_names string
+   below, this  is not used programatically. However, string ets_package_names
+   *is* manually derived from the info in this string.
+3. This string does not list ETS run-time, nor any non-ETS, dependencies.
+4. To avoid clutter, this string does not list redundant dependencies. For
+   example, it does not list Traits or EnthoughtBase dependencies for packages
+   which depend on TraitsGUI, because TraitsGUI itself depends on both of these.
 """
 
 
