@@ -5,10 +5,9 @@ shell commands to be run on all packages.
 """
 
 import sys
-import os
 import subprocess
 
-usage = """
+usage = """\
 Usage: ets -h | --help | co | COMMAND [args] | ALIAS [args]
    -h, --help  Print this message.
 
@@ -40,7 +39,7 @@ Usage: ets -h | --help | co | COMMAND [args] | ALIAS [args]
       Update all packages from trunk:
          ets up
 
-   The ETS packages referenced, in order of processing, are:%s"""[1:]
+   The ETS packages referenced, in order of processing, are:%s"""
 
 aliases = """
       diff     svn diff
@@ -101,48 +100,43 @@ ets_package_names = """
 
 ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
 
-def extract_alias_defs(text_defs):
-    """ Given a multi-line string, with each line containing whitespace,
-    then an alias name, then whitespace then the alias definition:
-    Return a dictionary whose keys are the alias nanes and whose
-    values are the corresponding alias definitions.
-    """
-    dic = {}
-    for line in text_defs.split('\n'):
-        tokens = line.split()
-        if tokens:
-            dic[tokens[0]] = " ".join(tokens[1:])
-    return dic
+alias_dict = {}
+for line in aliases.split('\n'):
+    tokens = line.split()
+    if tokens:
+         alias_dict[tokens[0]] = tokens[1:]
+
 
 def main():
-    if len(sys.argv) == 1 or sys.argv[1] in ['-h', '--help']:
+    if len(sys.argv) < 2 or sys.argv[1].startswith('-'):
         print usage % (aliases, ets_package_names)
         return
 
     arg1 = sys.argv[1]
-    if arg1 != 'co':
-        alias_dict = extract_alias_defs(aliases)
+    checkout = bool(arg1 == 'co')
+
+    if not checkout:
         if arg1 in alias_dict:
-            command = " ".join([alias_dict[arg1]] + sys.argv[2:])
+            cmd = alias_dict[arg1] + sys.argv[2:]
+            if cmd[0] == 'python':
+                cmd[0] = sys.executable
         else:
-            command = " ".join(sys.argv[1:])
+            cmd = sys.argv[1:]
 
     for ets_pkg_name in ets_package_names.split():
-        if arg1 =='co':
+        if checkout:
             print "Checking out package %s" % ets_pkg_name
             pkg_url = ets_url % ets_pkg_name
-            status = subprocess.check_call('svn co %s %s' %
-                                           (pkg_url, ets_pkg_name), shell=True)
+            subprocess.check_call(['svn', 'co', pkg_url, ets_pkg_name])
         else:
-            print "Running command '%s' in package %s" % (command, ets_pkg_name)
+            print "Running command %r in package %s" % (cmd, ets_pkg_name)
             try:
-                os.chdir(ets_pkg_name)
-                subprocess.check_call(command, shell=True)
+                subprocess.check_call(cmd, cwd=ets_pkg_name)
             except (OSError, subprocess.CalledProcessError), detail:
-                print "   Error running command '%s' in package %s:\n   %s" % (
-                    command, ets_pkg_name, detail)
+                print "   Error running command in package %s:\n   %s" % (
+                                      ets_pkg_name, detail)
                 raw_input("   Press enter to process remaining packages.")
-            os.chdir('..')
+
 
 if __name__ == "__main__":
     main()
