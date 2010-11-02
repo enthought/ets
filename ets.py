@@ -53,7 +53,7 @@ aliases = """
       install  python setup.py install
       sdist    python setup.py sdist"""
 
-"""
+""" 
 ======================================================================
 ETS installation dependencies (documentation only).
 Derived from ets_dependends.log, holding the output of ets_depends.py.
@@ -90,7 +90,7 @@ Notes:
 """
 
 
-ets_package_names = """
+ets_package_names = """ 
       EnthoughtBase      SetupDocs          Traits
       CodeTools          TraitsGUI          ETSDevTools
       SciMath            TraitsBackendQt    TraitsBackendWX
@@ -129,7 +129,7 @@ def main():
             pkg_url = ets_url % ets_pkg_name
             subprocess.check_call(['svn', 'co', pkg_url, ets_pkg_name])
         else:
-            print "Running command %r in package %s" % (cmd, ets_pkg_name)
+            print "Running command %r in package %s" % (' '.join(cmd), ets_pkg_name)
             try:
                 subprocess.check_call(cmd, cwd=ets_pkg_name)
             except (OSError, subprocess.CalledProcessError), detail:
