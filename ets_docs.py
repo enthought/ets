@@ -6,15 +6,24 @@ maintained ETS packages.
 import sys
 import os
 import subprocess
+from distutils.dir_util import copy_tree
 
 usage = """\
-Usage: ets_docs -h | --help | co | COMMAND [args] | ALIAS [args]
+Usage: ets_docs -h | --help | co | cp | ru [username] | COMMAND [args] | ALIAS [args]
    -h, --help  Print this message.
 
    co          Check out the CEC projects directory into the current working
                directory. This is the repository for the live ETS website.
                Therefore, in order to update the website, you need a local
                checkout.
+
+   cp          Copies the documentation from the various build directories
+               to the local code.enthought.com repsository.
+
+   ru          This command performs a 'remote update', ie it updates the 
+               live website from the repository.  If your remote username
+               is different than your local username, you may specify the
+               remote one here.
 
    COMMAND     Run this shell command, with any following arguments, inside
                each package's documentation sub-directory. If any command 
@@ -30,15 +39,15 @@ Usage: ets_docs -h | --help | co | COMMAND [args] | ALIAS [args]
 
    The available aliases and their equivalent commands are:%s
 
-   Examples:
-      Fresh install all packages from trunk:
-         mkdir ETS
-         cd ETS
-         ets co
-         ets install
+   Example:
+      Fresh install and basic workflow:
+        ets_docs co     # Checkout documentation repository
+        ets_docs html   # Generate new HTML docs
+        ets_docs cp     # Copy over new docs to local repo
+        ets_docs status # See which files changed
+        ets_docs commit -m 'A commit message'
+        ets_docs ru     # Update the website with the commit
 
-      Update all packages from trunk:
-         ets up
 
    The ETS packages referenced, in order of processing, are:%s
    """
@@ -46,14 +55,29 @@ Usage: ets_docs -h | --help | co | COMMAND [args] | ALIAS [args]
 aliases = """\n
       html     make html
       latex    make latex
-      """ 
-ets_package_names = """\n
+      up       svn up
+      add      svn add
+      status   svn status
+      commit   svn commit
+      update   svn update
+      """
+
+project_aliases = """html latex"""
+
+repository_aliases = """up add status commit update"""
+ 
+ets_package_names = """\
       Traits             CodeTools          Chaco
       """
 
-
 ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
 cec_url = "https://svn.enthought.com/svn/cec/trunk/"
+cec_dir = "projects/"
+
+html_dirs = """\
+    Traits/docs/build/html/             projects/traits/docs/html/
+    CodeTools/docs/build/html/          projects/code_tools/docs/html/
+    Chaco/docs/build/html/              projects/chaco/docs/html/"""
 
 alias_dict = {}
 for line in aliases.split('\n'):
@@ -61,6 +85,20 @@ for line in aliases.split('\n'):
     if tokens:
          alias_dict[tokens[0]] = tokens[1:]
 
+def copy_html_docs():
+    n = 0
+    for line in html_dirs.splitlines():
+        ls = line.split()
+
+        if n == 0:
+            n += 1
+        else:
+            print
+        print "Copying documentation from %s to %s" % (ls[0], ls[1])
+
+        ct = copy_tree(*ls)
+        #for f in ct: 
+        #    print f
 
 def main():
     if len(sys.argv) < 2 or sys.argv[1].startswith('-'):
@@ -72,8 +110,25 @@ def main():
     # Checkout 'projects/' dir
     if arg1 == 'co':
         print "Checking out projects documentation directory" 
-        subprocess.check_call(['svn', 'co', cec_url + 'projects/', 'projects/'])
+        subprocess.check_call(['svn', 'co', cec_url + cec_dir, cec_dir])
         return 
+    # Copy documentation
+    elif arg1 == 'cp':
+        copy_html_docs()
+        return
+    # Update the remote server 
+    elif arg1 == 'ru':
+        rucmd = ['ssh', 'www.enthought.com', "'cd /www/htdocs/code/%s; svn up'" % cec_dir]
+
+        if len(sys.argv) == 3:
+            rucmd[1] = sys.argv[2] + '@' + rucmd[1]
+
+        print "Running command %r" % (' '.join(rucmd))
+        try:
+            subprocess.check_call(" ".join(rucmd), shell=True)
+        except:
+            pass
+        return
 
     # Determine command from either alias or command line
     if arg1 in alias_dict:
@@ -83,17 +138,23 @@ def main():
     else:
         cmd = sys.argv[1:]
 
-    # Run the command
-    for ets_pkg_name in ets_package_names.split():
-        print "Running command %r in package %s" % (' '.join(cmd), ets_pkg_name)
+    # Run the command in each project directory
+    if arg1 in project_aliases.split():
+        for ets_pkg_name in ets_package_names.split():
+            print "Running command %r in package %s" % (' '.join(cmd), ets_pkg_name)
         
-        try:
-            subprocess.check_call(cmd, cwd=ets_pkg_name + '/docs/')
-            print
-        except (OSError, subprocess.CalledProcessError), detail:
-            print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-            raw_input("   Press enter to process remaining packages.")
+            try:
+                subprocess.check_call(cmd, cwd=ets_pkg_name + '/docs/')
+                print
+            except (OSError, subprocess.CalledProcessError), detail:
+                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
+                raw_input("   Press enter to process remaining packages.")
 
+    # Run the command only in repository directory
+    else:
+        print "Running command %r in %s" % (' '.join(cmd), cec_dir)
+        subprocess.check_call(cmd, cwd=cec_dir)
+        
 
 if __name__ == "__main__":
     main()
