@@ -68,6 +68,7 @@ repository_aliases = """up add status commit update"""
  
 ets_package_names = """\
       Traits             CodeTools          Chaco
+      Mayavi
       """
 
 ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
@@ -77,7 +78,9 @@ cec_dir = "projects/"
 html_dirs = """\
     Traits/docs/build/html/             projects/traits/docs/html/
     CodeTools/docs/build/html/          projects/code_tools/docs/html/
-    Chaco/docs/build/html/              projects/chaco/docs/html/"""
+    Chaco/docs/build/html/              projects/chaco/docs/html/
+    Mayavi/docs/build/mayavi/html/      projects/mayavi/docs/development/html/mayavi/
+    Mayavi/docs/build/tvtk/html/        projects/mayavi/docs/development/html/tvtk/"""
 
 alias_dict = {}
 for line in aliases.split('\n'):
