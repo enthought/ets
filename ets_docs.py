@@ -49,7 +49,7 @@ Usage: ets_docs -h | --help | co | cp | ru [username] | COMMAND [args] | ALIAS [
         ets_docs ru     # Update the website with the commit
 
 
-   The ETS packages referenced, in order of processing, are:%s
+   The ETS packages referenced, in order of processing, are:\n%s
    """
 
 aliases = """\n

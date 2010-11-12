@@ -39,7 +39,7 @@ Usage: ets -h | --help | co | COMMAND [args] | ALIAS [args]
       Update all packages from trunk:
          ets up
 
-   The ETS packages referenced, in order of processing, are:%s"""
+   The ETS packages referenced, in order of processing, are:\n%s"""
 
 aliases = """\
       diff     svn diff
