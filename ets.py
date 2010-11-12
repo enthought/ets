@@ -59,7 +59,6 @@ ETS installation dependencies (documentation only).
 Derived from ets_dependends.log, holding the output of ets_depends.py.
 Dependent packages are listed below and to the right of their dependencies.
 ======================================================================
-SetupDocs  (stands alone)
 EnthoughtBase & Traits
     CodeTools  (depends on Traits only)
     SciMath
@@ -91,12 +90,11 @@ Notes:
 
 
 ets_package_names = """\
-      EnthoughtBase      SetupDocs          Traits
-      CodeTools          TraitsGUI          ETSDevTools
-      SciMath            TraitsBackendQt    TraitsBackendWX
-      Enable             AppTools           EnvisageCore
-      EnvisagePlugins    Chaco              Mayavi
-      BlockCanvas"""
+      EnthoughtBase      Traits             CodeTools
+      TraitsGUI          ETSDevTools        SciMath
+      TraitsBackendQt    TraitsBackendWX    Enable
+      AppTools           EnvisageCore       EnvisagePlugins
+      Chaco              Mayavi             BlockCanvas"""
 
 ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
 
