@@ -1,5 +1,6 @@
 #! /usr/bin/env python
-"""A thin replacement for SetupDocs. Performs documentation building, check in, updating, etc of all actively 
+"""A thin replacement for SetupDocs (which is no longer part of ETS).
+Performs documentation building, check in, updating, etc of all actively 
 maintained ETS packages.
 """
 
