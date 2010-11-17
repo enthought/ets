@@ -34,7 +34,7 @@ Usage: ets -h | --help | co | COMMAND [args] | ALIAS [args]
          mkdir ETS
          cd ETS
          ets co
-         ets install
+         ets develop
 
       Update all packages from trunk:
          ets up
@@ -50,7 +50,6 @@ aliases = """\
       build    python setup.py build
       bdist    python setup.py bdist
       develop  python setup.py develop
-      install  python setup.py install
       sdist    python setup.py sdist"""
 
 """\
