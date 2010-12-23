@@ -68,8 +68,11 @@ project_aliases = """html latex"""
 repository_aliases = """up add status commit update"""
  
 ets_package_names = """\
-      Traits             CodeTools          Chaco
-      Mayavi
+      EnthoughtBase      Traits             CodeTools
+      TraitsGUI          ETSDevTools        SciMath
+      TraitsBackendQt    TraitsBackendWX    Enable
+      AppTools           EnvisageCore
+      Chaco              Mayavi             BlockCanvas
       """
 
 ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
@@ -77,11 +80,21 @@ cec_url = "https://svn.enthought.com/svn/cec/trunk/"
 cec_dir = "projects/"
 
 html_dirs = """\
+    EnthoughtBase/docs/build/html/      projects/enthought_base/docs/html/
     Traits/docs/build/html/             projects/traits/docs/html/
     CodeTools/docs/build/html/          projects/code_tools/docs/html/
+    TraitsGUI/docs/build/html/          projects/traits_gui/docs/html/
+    ETSDevTools/docs/build/html/        projects/ets_dev_tools/docs/html/
+    SciMath/docs/build/html/            projects/sci_math/docs/html/
+    TraitsBackendQt/docs/build/html/    projects/traits_backend_qt/docs/html/
+    TraitsBackendWX/docs/build/html/    projects/traits_backend_wx/docs/html/
+    Enable/docs/build/html/             projects/enable/docs/html/
+    AppTools/docs/build/html/           projects/app_tools/docs/html/
+    EnvisageCore/docs/build/html/       projects/envisage/docs/html/
     Chaco/docs/build/html/              projects/chaco/docs/html/
     Mayavi/docs/build/mayavi/html/      projects/mayavi/docs/development/html/mayavi/
-    Mayavi/docs/build/tvtk/html/        projects/mayavi/docs/development/html/tvtk/"""
+    Mayavi/docs/build/tvtk/html/        projects/mayavi/docs/development/html/tvtk/
+    BlockCanvas/docs/build/html/        projects/block_canvas/docs/html/"""
 
 alias_dict = {}
 for line in aliases.split('\n'):
