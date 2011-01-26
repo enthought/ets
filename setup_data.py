@@ -8,6 +8,7 @@ requirements = [
     ('EnvisageCore', '3.2.0'),
     ('EnvisagePlugins', '3.2.0'),
     ('ETSDevTools', '3.1.1'),
+    ('GraphCanvas', '3.0.0'),
     ('Mayavi', '3.4.1'),
     ('SciMath', '3.0.7'),
     ('Traits', '3.6.0'),

@@ -93,7 +93,8 @@ ets_package_names = """\
       TraitsGUI          ETSDevTools        SciMath
       TraitsBackendQt    TraitsBackendWX    Enable
       AppTools           EnvisageCore       EnvisagePlugins
-      Chaco              Mayavi             BlockCanvas"""
+      Chaco              Mayavi             GraphCanvas
+      BlockCanvas"""
 
 ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
 
