@@ -126,6 +126,7 @@ def main():
             print "Cloning package %s" % ets_pkg_name
             pkg_url = ets_url % ets_pkg_name
             subprocess.check_call(['git', 'clone', pkg_url, ets_pkg_name])
+            print
         else:
             print "Running command %r in package %s" % (cmd, ets_pkg_name)
             try:
