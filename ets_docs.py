@@ -71,7 +71,7 @@ ets_package_names = """\
       enthoughtbase      traits             codetools
       traitsgui          etsdevtools        scimath
       traitsbackendqt    traitsbackendwx    enable
-      apptools           envisagecore
+      apptools           envisagecore       envisageplugins
       chaco              mayavi             blockcanvas
       """
 
