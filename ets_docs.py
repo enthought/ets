@@ -75,6 +75,8 @@ ets_package_names = """\
       Chaco              Mayavi             BlockCanvas
       """
 
+ets_package_names = """apptools"""
+
 ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
 cec_url = "https://svn.enthought.com/svn/cec/trunk/"
 cec_dir = "projects/"

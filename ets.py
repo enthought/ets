@@ -89,14 +89,12 @@ Notes:
 
 
 ets_package_names = """\
-      EnthoughtBase      Traits             CodeTools
-      TraitsGUI          ETSDevTools        SciMath
-      TraitsBackendQt    TraitsBackendWX    Enable
-      AppTools           EnvisageCore       EnvisagePlugins
-      Chaco              Mayavi             GraphCanvas
-      BlockCanvas"""
-
-ets_package_names = """apptools"""
+      enthoughtbase      traits             codetools
+      traitsgui          etsdevtools        scimath
+      traitsbackendqt    traitsbackendwx    enable
+      apptools           envisagecore       envisageplugins
+      chaco              mayavi             graphcanvas
+      blockcanvas"""
 
 ets_url = "git@github.com:enthought/%s.git"
 
