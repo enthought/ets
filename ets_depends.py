@@ -16,6 +16,8 @@ for pkg_name in ets_package_names.split():
         print INDENT + 'ETS installation dependencies:'
         for item in INFO['install_requires']:
             print INDENT*2 + str(item)
+        if 'extras_require' not in INFO:
+            continue
         print INDENT + 'Other dependencies:'
         for (key,value) in INFO['extras_require'].items():
             if value:
