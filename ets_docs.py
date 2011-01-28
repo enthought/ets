@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 """A thin replacement for SetupDocs (which is no longer part of ETS).
-Performs documentation building, check in, updating, etc of all actively 
+Performs documentation building, check in, updating, etc of all actively
 maintained ETS packages.
 """
 
@@ -13,14 +13,14 @@ usage = """\
 Usage: ets_docs -h | --help | update [PROJ] | COMMAND [args] | ALIAS [args]
    -h, --help  Print this message.
 
-   update      This command performs a 'remote update', ie it updates the 
+   update      This command performs a 'remote update', ie it updates the
                live website from the repository.  If your remote username
                is different than your local username, you may specify the
                remote one here.
 
    COMMAND     Run this shell command, with any following arguments, inside
-               each package's documentation sub-directory. If any command 
-               arguments must be quoted, you may need to use nested quotes, 
+               each package's documentation sub-directory. If any command
+               arguments must be quoted, you may need to use nested quotes,
                depending on the quote handling in your shell. For example:
                   ets_docs svn ci "'check-in comment for all packages'"
 
@@ -88,7 +88,7 @@ def main():
                 subprocess.check_call(['git', 'checkout', 'gh-pages'], cwd=ets_pkg_name)
             except (OSError, subprocess.CalledProcessError), detail:
                 print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")            
+                raw_input("   Press enter to process remaining packages.")
                 continue
 
             # Copy the files over
@@ -104,7 +104,7 @@ def main():
                 subprocess.check_call(['git', 'add', '.'], cwd=ets_pkg_name)
             except (OSError, subprocess.CalledProcessError), detail:
                 print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")            
+                raw_input("   Press enter to process remaining packages.")
                 continue
 
             # Commit to the repo.
@@ -112,7 +112,7 @@ def main():
                 subprocess.check_call(['git', 'commit', '-a', '-m', '"Updated docs."'], cwd=ets_pkg_name)
             except (OSError, subprocess.CalledProcessError), detail:
                 print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")            
+                raw_input("   Press enter to process remaining packages.")
                 continue
 
             # Push these changes.
@@ -120,7 +120,7 @@ def main():
                 subprocess.check_call(['git', 'push'], cwd=ets_pkg_name)
             except (OSError, subprocess.CalledProcessError), detail:
                 print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")            
+                raw_input("   Press enter to process remaining packages.")
                 continue
 
             # Return to the current branch
@@ -128,10 +128,10 @@ def main():
                 subprocess.check_call(['git', 'checkout', current_branch], cwd=ets_pkg_name)
             except (OSError, subprocess.CalledProcessError), detail:
                 print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")            
+                raw_input("   Press enter to process remaining packages.")
                 continue
 
-            print 
+            print
 
         return
 
@@ -146,7 +146,7 @@ def main():
     # Run the command in each project directory
     for ets_pkg_name in ets_package_names.split():
         print "Running command %r in package %s" % (' '.join(cmd), ets_pkg_name)
-        
+
         try:
             subprocess.check_call(cmd, cwd=ets_pkg_name + '/docs/')
             print
