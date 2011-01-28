@@ -41,8 +41,7 @@ Usage: ets -h | --help | clone | COMMAND [args] | ALIAS [args]
 
    The ETS packages referenced, in order of processing, are:\n%s"""
 
-aliases = """\
-      push     git push
+aliases = """
       pull     git pull
       status   git status
       branch   git branch
