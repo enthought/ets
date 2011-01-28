@@ -42,10 +42,13 @@ Usage: ets -h | --help | clone | COMMAND [args] | ALIAS [args]
    The ETS packages referenced, in order of processing, are:\n%s"""
 
 aliases = """\
+      push     git push
+      pull     git pull
+      status   git status
+      branch   git branch
+      checkout git checkout
       diff     git diff
       revert   git revert
-      status   git status
-      push     git push
       setup    python setup.py
       build    python setup.py build
       bdist    python setup.py bdist
@@ -126,7 +129,6 @@ def main():
             print "Cloning package %s" % ets_pkg_name
             pkg_url = ets_url % ets_pkg_name
             subprocess.check_call(['git', 'clone', pkg_url, ets_pkg_name])
-            print
         else:
             print "Running command %r in package %s" % (cmd, ets_pkg_name)
             try:
@@ -136,6 +138,7 @@ def main():
                                       ets_pkg_name, detail)
                 raw_input("   Press enter to process remaining packages.")
 
+        print
 
 if __name__ == "__main__":
     main()
