@@ -10,18 +10,10 @@ import subprocess
 from distutils.dir_util import copy_tree
 
 usage = """\
-Usage: ets_docs -h | --help | co | cp | ru [username] | COMMAND [args] | ALIAS [args]
+Usage: ets_docs -h | --help | update [PROJ] | COMMAND [args] | ALIAS [args]
    -h, --help  Print this message.
 
-   co          Check out the CEC projects directory into the current working
-               directory. This is the repository for the live ETS website.
-               Therefore, in order to update the website, you need a local
-               checkout.
-
-   cp          Copies the documentation from the various build directories
-               to the local code.enthought.com repsository.
-
-   ru          This command performs a 'remote update', ie it updates the 
+   update      This command performs a 'remote update', ie it updates the 
                live website from the repository.  If your remote username
                is different than your local username, you may specify the
                remote one here.
@@ -42,12 +34,8 @@ Usage: ets_docs -h | --help | co | cp | ru [username] | COMMAND [args] | ALIAS [
 
    Example:
       Fresh install and basic workflow:
-        ets_docs co     # Checkout documentation repository
-        ets_docs html   # Generate new HTML docs
-        ets_docs cp     # Copy over new docs to local repo
-        ets_docs status # See which files changed
-        ets_docs commit -m 'A commit message'
-        ets_docs ru     # Update the website with the commit
+        ets_docs html          # Generate new HTML docs
+        ets_docs update traits # Updates the gh-pages branch.
 
 
    The ETS packages referenced, in order of processing, are:\n%s
@@ -56,17 +44,8 @@ Usage: ets_docs -h | --help | co | cp | ru [username] | COMMAND [args] | ALIAS [
 aliases = """\n
       html     make html
       latex    make latex
-      up       svn up
-      add      svn add
-      status   svn status
-      commit   svn commit
-      update   svn update
       """
 
-project_aliases = """html latex"""
-
-repository_aliases = """up add status commit update"""
- 
 ets_package_names = """\
       enthoughtbase      traits             codetools
       traitsgui          etsdevtools        scimath
@@ -75,47 +54,12 @@ ets_package_names = """\
       chaco              mayavi             blockcanvas
       """
 
-ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
-cec_url = "https://svn.enthought.com/svn/cec/trunk/"
-cec_dir = "projects/"
-
-html_dirs = """\
-    EnthoughtBase/docs/build/html/      projects/enthought_base/docs/html/
-    Traits/docs/build/html/             projects/traits/docs/html/
-    CodeTools/docs/build/html/          projects/code_tools/docs/html/
-    TraitsGUI/docs/build/html/          projects/traits_gui/docs/html/
-    ETSDevTools/docs/build/html/        projects/ets_dev_tools/docs/html/
-    SciMath/docs/build/html/            projects/sci_math/docs/html/
-    TraitsBackendQt/docs/build/html/    projects/traits_backend_qt/docs/html/
-    TraitsBackendWX/docs/build/html/    projects/traits_backend_wx/docs/html/
-    Enable/docs/build/html/             projects/enable/docs/html/
-    AppTools/docs/build/html/           projects/app_tools/docs/html/
-    EnvisageCore/docs/build/html/       projects/envisage/docs/html/
-    Chaco/docs/build/html/              projects/chaco/docs/html/
-    Mayavi/docs/build/mayavi/html/      projects/mayavi/docs/development/html/mayavi/
-    Mayavi/docs/build/tvtk/html/        projects/mayavi/docs/development/html/tvtk/
-    BlockCanvas/docs/build/html/        projects/block_canvas/docs/html/"""
-
 alias_dict = {}
 for line in aliases.split('\n'):
     tokens = line.split()
     if tokens:
          alias_dict[tokens[0]] = tokens[1:]
 
-def copy_html_docs():
-    n = 0
-    for line in html_dirs.splitlines():
-        ls = line.split()
-
-        if n == 0:
-            n += 1
-        else:
-            print
-        print "Copying documentation from %s to %s" % (ls[0], ls[1])
-
-        ct = copy_tree(*ls)
-        #for f in ct: 
-        #    print f
 
 def main():
     if len(sys.argv) < 2 or sys.argv[1].startswith('-'):
@@ -124,27 +68,71 @@ def main():
 
     arg1 = sys.argv[1]
 
-    # Checkout 'projects/' dir
-    if arg1 == 'co':
-        print "Checking out projects documentation directory" 
-        subprocess.check_call(['svn', 'co', cec_url + cec_dir, cec_dir])
-        return 
-    # Copy documentation
-    elif arg1 == 'cp':
-        copy_html_docs()
-        return
-    # Update the remote server 
-    elif arg1 == 'ru':
-        rucmd = ['ssh', 'www.enthought.com', "'cd /www/htdocs/code/%s; svn up'" % cec_dir]
+    # Update the gh-pages branch
+    if arg1 == 'update':
+        if 2 < len(sys.argv):
+            ets_packages = sys.argv[2:]
+        else:
+            ets_packages = ets_package_names.split()
 
-        if len(sys.argv) == 3:
-            rucmd[1] = sys.argv[2] + '@' + rucmd[1]
+        for ets_pkg_name in ets_packages:
+            print "Updating documentation branch for {0}...".format(ets_pkg_name)
 
-        print "Running command %r" % (' '.join(rucmd))
-        try:
-            subprocess.check_call(" ".join(rucmd), shell=True)
-        except:
-            pass
+            # Find the current branch, so that we may return to it
+            branches = subprocess.check_output(['git', 'branch'], cwd=ets_pkg_name)
+            current_branch = [line.split()[1] for line in branches.splitlines() if line.startswith('*')]
+            current_branch = current_branch[0]
+
+            # Checkout the gh-pages branch
+            try:
+                subprocess.check_call(['git', 'checkout', 'gh-pages'], cwd=ets_pkg_name)
+            except (OSError, subprocess.CalledProcessError), detail:
+                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
+                raw_input("   Press enter to process remaining packages.")            
+                continue
+
+            # Copy the files over
+            print "Copying files for {0}".format(ets_pkg_name)
+            if ets_pkg_name == 'mayavi':
+                copy_tree(ets_pkg_name + '/docs/build/tvtk/html/',   ets_pkg_name + '/tvtk/')
+                copy_tree(ets_pkg_name + '/docs/build/mayavi/html/', ets_pkg_name + '/mayavi/')
+            else:
+                copy_tree(ets_pkg_name + '/docs/build/html/', ets_pkg_name)
+
+            # Add everything to the repository
+            try:
+                subprocess.check_call(['git', 'add', '.'], cwd=ets_pkg_name)
+            except (OSError, subprocess.CalledProcessError), detail:
+                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
+                raw_input("   Press enter to process remaining packages.")            
+                continue
+
+            # Commit to the repo.
+            try:
+                subprocess.check_call(['git', 'commit', '-a', '-m', '"Updated docs."'], cwd=ets_pkg_name)
+            except (OSError, subprocess.CalledProcessError), detail:
+                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
+                raw_input("   Press enter to process remaining packages.")            
+                continue
+
+            # Push these changes.
+            try:
+                subprocess.check_call(['git', 'push'], cwd=ets_pkg_name)
+            except (OSError, subprocess.CalledProcessError), detail:
+                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
+                raw_input("   Press enter to process remaining packages.")            
+                continue
+
+            # Return to the current branch
+            try:
+                subprocess.check_call(['git', 'checkout', current_branch], cwd=ets_pkg_name)
+            except (OSError, subprocess.CalledProcessError), detail:
+                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
+                raw_input("   Press enter to process remaining packages.")            
+                continue
+
+            print 
+
         return
 
     # Determine command from either alias or command line
@@ -156,22 +144,16 @@ def main():
         cmd = sys.argv[1:]
 
     # Run the command in each project directory
-    if arg1 in project_aliases.split():
-        for ets_pkg_name in ets_package_names.split():
-            print "Running command %r in package %s" % (' '.join(cmd), ets_pkg_name)
+    for ets_pkg_name in ets_package_names.split():
+        print "Running command %r in package %s" % (' '.join(cmd), ets_pkg_name)
         
-            try:
-                subprocess.check_call(cmd, cwd=ets_pkg_name + '/docs/')
-                print
-            except (OSError, subprocess.CalledProcessError), detail:
-                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")
+        try:
+            subprocess.check_call(cmd, cwd=ets_pkg_name + '/docs/')
+            print
+        except (OSError, subprocess.CalledProcessError), detail:
+            print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
+            raw_input("   Press enter to process remaining packages.")
 
-    # Run the command only in repository directory
-    else:
-        print "Running command %r in %s" % (' '.join(cmd), cec_dir)
-        subprocess.check_call(cmd, cwd=cec_dir)
-        
 
 if __name__ == "__main__":
     main()
