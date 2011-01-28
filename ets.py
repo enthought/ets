@@ -8,10 +8,10 @@ import sys
 import subprocess
 
 usage = """\
-Usage: ets -h | --help | co | COMMAND [args] | ALIAS [args]
+Usage: ets -h | --help | clone | COMMAND [args] | ALIAS [args]
    -h, --help  Print this message.
 
-   co          Check out the entire ETS repository into the current working
+   clone       Clone the entire Enthought Tool Suite into the current working
                directory, each actively maintained package placed in its own
                sub-directory.
 
@@ -33,7 +33,7 @@ Usage: ets -h | --help | co | COMMAND [args] | ALIAS [args]
       Fresh install all packages from trunk:
          mkdir ETS
          cd ETS
-         ets co
+         ets clone
          ets develop
 
       Update all packages from trunk:
@@ -42,10 +42,10 @@ Usage: ets -h | --help | co | COMMAND [args] | ALIAS [args]
    The ETS packages referenced, in order of processing, are:\n%s"""
 
 aliases = """\
-      diff     svn diff
-      rev      svn revert
-      status   svn status
-      up       svn update
+      diff     git diff
+      revert   git revert
+      status   git status
+      push     git push
       setup    python setup.py
       build    python setup.py build
       bdist    python setup.py bdist
@@ -96,7 +96,9 @@ ets_package_names = """\
       Chaco              Mayavi             GraphCanvas
       BlockCanvas"""
 
-ets_url = "https://svn.enthought.com/svn/enthought/%s/trunk"
+ets_package_names = """apptools"""
+
+ets_url = "git@github.com:enthought/%s.git"
 
 alias_dict = {}
 for line in aliases.split('\n'):
@@ -111,9 +113,9 @@ def main():
         return
 
     arg1 = sys.argv[1]
-    checkout = bool(arg1 == 'co')
+    clone = bool(arg1 == 'clone')
 
-    if not checkout:
+    if not clone:
         if arg1 in alias_dict:
             cmd = alias_dict[arg1] + sys.argv[2:]
             if cmd[0] == 'python':
@@ -122,10 +124,10 @@ def main():
             cmd = sys.argv[1:]
 
     for ets_pkg_name in ets_package_names.split():
-        if checkout:
-            print "Checking out package %s" % ets_pkg_name
+        if clone:
+            print "Cloning package %s" % ets_pkg_name
             pkg_url = ets_url % ets_pkg_name
-            subprocess.check_call(['svn', 'co', pkg_url, ets_pkg_name])
+            subprocess.check_call(['git', 'clone', pkg_url, ets_pkg_name])
         else:
             print "Running command %r in package %s" % (cmd, ets_pkg_name)
             try:
