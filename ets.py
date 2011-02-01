@@ -30,14 +30,14 @@ Usage: ets -h | --help | clone | COMMAND [args] | ALIAS [args]
    The available aliases and their equivalent commands are:%s
 
    Examples:
-      Fresh install all packages from trunk:
+      Fresh install all packages from master:
          mkdir ETS
          cd ETS
          ets clone
          ets develop
 
-      Update all packages from trunk:
-         ets up
+      Update all packages from master:
+         ets pull
 
    The ETS packages referenced, in order of processing, are:\n%s"""
 
