@@ -8,12 +8,14 @@ import sys
 import subprocess
 
 usage = """\
-Usage: ets -h | --help | clone | COMMAND [args] | ALIAS [args]
+Usage: ets -h | --help | clone [--ssh] | COMMAND [args] | ALIAS [args]
    -h, --help  Print this message.
 
    clone       Clone the entire Enthought Tool Suite into the current working
                directory, each actively maintained package placed in its own
                sub-directory.
+               By default, the https github access URLs are used.
+               The --ssh option changes this to SSH.
 
    COMMAND     Run this shell command, with any following arguments, inside
                each package's sub-directory. If any command arguments must be
@@ -98,7 +100,8 @@ ets_package_names = """\
       chaco              mayavi             graphcanvas
       blockcanvas"""
 
-ets_url = "git@github.com:enthought/%s.git"
+ets_ssh = "git@github.com:enthought/%s.git"
+ets_https = "https://github.com/enthought/%s.git"
 
 alias_dict = {}
 for line in aliases.split('\n'):
@@ -126,7 +129,11 @@ def main():
     for ets_pkg_name in ets_package_names.split():
         if clone:
             print "Cloning package %s" % ets_pkg_name
-            pkg_url = ets_url % ets_pkg_name
+            if '--ssh' in sys.argv:
+                pkg_url = ets_ssh % ets_pkg_name
+            else:
+                pkg_url = ets_https % ets_pkg_name
+            print "URL: %s" % pkg_url
             subprocess.check_call(['git', 'clone', pkg_url, ets_pkg_name])
         else:
             print "Running command %r in package %s" % (cmd, ets_pkg_name)
