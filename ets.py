@@ -52,9 +52,7 @@ aliases = """
       revert   git revert
       setup    python setup.py
       build    python setup.py build
-      bdist    python setup.py bdist
-      develop  python setup.py develop
-      sdist    python setup.py sdist"""
+      develop  python setup.py develop"""
 
 """\
 ======================================================================
