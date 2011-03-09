@@ -52,6 +52,7 @@ aliases = """
       revert   git revert
       setup    python setup.py
       build    python setup.py build
+      install  python setup.py install
       develop  python setup.py develop"""
 
 """\
