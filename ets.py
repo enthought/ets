@@ -92,7 +92,7 @@ Notes:
 
 
 ets_package_names = """\
-      traits             pyface             traitsgui
+      traits             pyface             traitsui
       codetools          etsdevtools        scimath
       enable             apptools           envisagecore
       envisageplugins    chaco              mayavi
