@@ -21,7 +21,7 @@ Usage: ets -h | --help | clone [--ssh] | COMMAND [args] | ALIAS [args]
                each package's sub-directory. If any command arguments must be
                quoted, you may need to use nested quotes, depending on the
                quote handling in your shell. For example:
-                  ets svn ci "'check-in comment for all packages'"
+                  ets git commit -a -m "'commit comment for all packages'"
 
    ALIAS       Each alias is shorthand for a shell command with arguments.
                The available aliases are pre-defined by this script, not by
@@ -43,7 +43,7 @@ Usage: ets -h | --help | clone [--ssh] | COMMAND [args] | ALIAS [args]
 
    The ETS packages referenced, in order of processing, are:\n%s"""
 
-aliases = """
+aliases = """\n
       pull     git pull
       status   git status
       branch   git branch
