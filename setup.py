@@ -14,6 +14,7 @@ This project is a "meta-project wrapper" that bundles up all the other projects
 in ETS.
 """
 
+import sys
 from setuptools import setup
 
 
@@ -23,6 +24,9 @@ DOCLINES = __doc__.split("\n")
 setup_data = dict(__name__='', __file__='setup_data.py')
 execfile('setup_data.py', setup_data)
 INFO = setup_data['INFO']
+
+if 'develop' in sys.argv:
+    INFO['install_requires'] = []
 
 # The actual setup call.
 setup(
