@@ -4,6 +4,7 @@ build, etc, of all actively maintained ETS packages, and allows arbitrary
 shell commands to be run on all packages.
 """
 
+import os
 import sys
 import subprocess
 
@@ -99,6 +100,16 @@ ets_package_names = """\
       chaco              mayavi             graphcanvas
       blockcanvas"""
 
+branched_projects = """
+    traits
+    enable
+    chaco
+    scimath
+    mayavi
+    apptools
+    etsdevtools
+""".strip().split()
+
 ets_ssh = "git@github.com:enthought/%s.git"
 ets_https = "https://github.com/enthought/%s.git"
 
@@ -133,7 +144,10 @@ def main():
             else:
                 pkg_url = ets_https % ets_pkg_name
             print "URL: %s" % pkg_url
-            subprocess.check_call(['git', 'clone', pkg_url, ets_pkg_name])
+            extra = []
+            if ets_pkg_name in branched_projects:
+                extra = ['--branch', 'old-namespace']
+            subprocess.check_call(['git', 'clone'] + extra + [pkg_url, ets_pkg_name])
         else:
             print "Running command %r in package %s" % (cmd, ets_pkg_name)
             try:
