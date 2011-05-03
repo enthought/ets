@@ -92,11 +92,12 @@ Notes:
 
 
 ets_package_names = """\
-      traits             pyface             traitsui
-      codetools          etsdevtools        scimath
-      enable             apptools           envisagecore
-      envisageplugins    chaco              mayavi
-      graphcanvas        blockcanvas        etsproxy"""
+      enthoughtbase      traits             codetools
+      traitsgui          etsdevtools        scimath
+      traitsbackendqt    traitsbackendwx    enable
+      apptools           envisagecore       envisageplugins
+      chaco              mayavi             graphcanvas
+      blockcanvas"""
 
 ets_ssh = "git@github.com:enthought/%s.git"
 ets_https = "https://github.com/enthought/%s.git"

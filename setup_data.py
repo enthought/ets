@@ -8,13 +8,13 @@ requirements = [
     ('EnvisageCore', '3.2.0'),
     ('EnvisagePlugins', '3.2.0'),
     ('ETSDevTools', '3.1.1'),
-    ('etsproxy', '0.1.0'),
     ('GraphCanvas', '3.0.0'),
     ('Mayavi', '3.4.1'),
-    ('pyface', '3.6.0'),
     ('SciMath', '3.0.7'),
-    ('traits', '3.6.0'),
-    ('traitsui', '3.6.0'),
+    ('Traits', '3.6.0'),
+    ('TraitsBackendQt', '3.6.0'),
+    ('TraitsBackendWX', '3.6.0'),
+    ('TraitsGUI', '3.6.0'),
 ]
 
 INFO = {
