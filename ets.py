@@ -50,6 +50,7 @@ aliases = """\n
       checkout git checkout
       diff     git diff
       revert   git revert
+      fetch    git fetch
       setup    python setup.py
       build    python setup.py build
       install  python setup.py install
