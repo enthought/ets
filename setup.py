@@ -33,7 +33,7 @@ setup(
     name = 'ETS',
     version = INFO['version'],
     author = 'Enthought, Inc.',
-    download_url = ('http://www.enthought.com/repo/ETS/ETS-%s.tar.gz' %
+    download_url = ('http://www.enthought.com/repo/ets/ETS-%s.tar.gz' %
                     INFO['version']),
     author_email = 'info@enthought.com',
     classifiers = [c.strip() for c in """\
