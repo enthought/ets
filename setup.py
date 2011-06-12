@@ -1,25 +1,9 @@
-#!/usr/bin/env python
-#
 # Copyright (c) 2008-2011 by Enthought, Inc.
 # All rights reserved.
-
-"""
-The Enthought Tool Suite meta-project.
-
-The Enthought Tool Suite (ETS) is a collection of components developed by
-Enthought and our partners, which we use every day to construct custom
-scientific applications.
-
-This project is a "meta-project wrapper" that bundles up all the other projects
-in ETS.
-"""
 
 import sys
 from setuptools import setup
 
-
-# Pull the description values for the setup keywords from our file docstring.
-DOCLINES = __doc__.split("\n")
 
 setup_data = dict(__name__='', __file__='setup_data.py')
 execfile('setup_data.py', setup_data)
@@ -51,10 +35,10 @@ setup(
         Topic :: Software Development
         Topic :: Software Development :: Libraries
         """.splitlines() if len(c.strip()) > 0],
-    description = DOCLINES[1],
+    description = 'Enthought Tool Suite meta-project',
+    long_description = open('README.rst').read(),
     install_requires = INFO['install_requires'],
     license = 'BSD',
-    long_description = '\n'.join(DOCLINES[3:]),
     maintainer = 'ETS Developers',
     maintainer_email = 'enthought-dev@enthought.com',
     py_modules = ["ets"],
