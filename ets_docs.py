@@ -47,10 +47,9 @@ aliases = """\n
       """
 
 ets_package_names = """\
-      enthoughtbase      traits             codetools
-      traitsgui          etsdevtools        scimath
-      traitsbackendqt    traitsbackendwx    enable
-      apptools           envisagecore       envisageplugins
+      traits             pyface             traitsui
+      codetools          etsdevtools        scimath
+      enable             apptools           envisage
       chaco              mayavi             blockcanvas
       """
 
