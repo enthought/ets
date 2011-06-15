@@ -41,8 +41,11 @@ setup(
     license = 'BSD',
     maintainer = 'ETS Developers',
     maintainer_email = 'enthought-dev@enthought.com',
-    py_modules = ["ets"],
-    entry_points = dict(console_scripts=["ets = ets:main"]),
+    py_modules = ["ets", "ets_docs"],
+    entry_points = dict(console_scripts=[
+            "ets = ets:main",
+            "ets-docs = ets_docs:main",
+    ]),
     platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
     url = 'http://code.enthought.com/projects/tool-suite.php',
 )
