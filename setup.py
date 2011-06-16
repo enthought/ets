@@ -5,7 +5,7 @@ import sys
 from setuptools import setup
 
 
-setup_data = dict(__name__='', __file__='setup_data.py')
+setup_data = {}
 execfile('setup_data.py', setup_data)
 INFO = setup_data['INFO']
 
@@ -17,7 +17,7 @@ setup(
     name = 'ETS',
     version = INFO['version'],
     author = 'Enthought, Inc.',
-    download_url = ('http://www.enthought.com/repo/ets/ETS-%s.tar.gz' %
+    download_url = ('http://www.enthought.com/repo/ets/ets-%s.tar.gz' %
                     INFO['version']),
     author_email = 'info@enthought.com',
     classifiers = [c.strip() for c in """\
