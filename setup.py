@@ -14,7 +14,7 @@ if 'develop' in sys.argv:
 
 # The actual setup call.
 setup(
-    name = 'ETS',
+    name = 'ets',
     version = INFO['version'],
     author = 'Enthought, Inc.',
     download_url = ('http://www.enthought.com/repo/ets/ets-%s.tar.gz' %
