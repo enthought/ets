@@ -15,6 +15,7 @@ But, it also contains the ets.py module, which allows pulling all other
 ETS projects from github, and other useful features.
 
 Installation::
+
   mkdir ets
   cd ets
   git clone git@github.com:enthought/ets.git
