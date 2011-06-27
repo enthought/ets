@@ -11,5 +11,14 @@ scientific applications.
 This project is a "meta-project wrapper" that bundles up the actual
 projects.
 
-But, it also contains the eps.py module, which allows pulling all other
+But, it also contains the ets.py module, which allows pulling all other
 ETS projects from github, and other useful features.
+
+Installation::
+  mkdir ets
+  cd ets
+  git clone git@github.com:enthought/ets.git
+  cd ets
+  python setup.py develop
+  cd ..
+  ets -h
