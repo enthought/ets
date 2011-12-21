@@ -62,7 +62,7 @@ ETS installation dependencies (documentation only).
 Derived from ets_dependends.log, holding the output of ets_depends.py.
 Dependent packages are listed below and to the right of their dependencies.
 ======================================================================
-Traits & Encore
+Traits
     CodeTools  (depends on Traits only)
     SciMath
         BlockCanvas*
@@ -95,9 +95,9 @@ Notes:
 ets_package_names = """\
       traits             pyface             traitsui
       codetools          etsdevtools        scimath
-      enable             apptools           encore 
-      envisage           chaco              mayavi             
-      graphcanvas        blockcanvas        etsproxy"""
+      enable             apptools           envisage
+      chaco              mayavi             graphcanvas
+      blockcanvas        etsproxy"""
 
 ets_ssh = "git@github.com:enthought/%s.git"
 ets_https = "https://github.com/enthought/%s.git"
