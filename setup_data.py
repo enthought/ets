@@ -4,6 +4,8 @@ requirements = [
     ('chaco', '4.1.0'),
     ('codetools', '4.0.0'),
     ('enable', '4.1.0'),
+    ('enaml', '0.2.0'),
+    ('encore', '0.2.0'),
     ('envisage', '4.1.0'),
     ('etsdevtools', '4.0.0'),
     ('etsproxy', '0.1.1'),
