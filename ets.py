@@ -98,7 +98,7 @@ ets_package_names = """\
       etsdevtools        scimath            enable
       apptools           envisage           chaco
       mayavi             graphcanvas        blockcanvas
-      etsproxy"""
+      etsproxy           casuarius"""
 
 ets_ssh = "git@github.com:enthought/%s.git"
 ets_https = "https://github.com/enthought/%s.git"
