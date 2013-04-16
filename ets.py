@@ -62,43 +62,36 @@ ETS installation dependencies (documentation only).
 Derived from ets_dependends.log, holding the output of ets_depends.py.
 Dependent packages are listed below and to the right of their dependencies.
 ======================================================================
+Casuarius
+Encore
 Traits
     CodeTools  (depends on Traits only)
     SciMath
-        BlockCanvas*
     TraitsGUI
-        ETSDevTools
-            BlocCanvas*
-        TraitsBackendQt
-        TraitsBackendWX
         Enable
             Chaco
-               BlockCanvas*
         AppTools
             Mayavi
             EnvisageCore
                 EnvisagePlugins
-            BlockCanvas*
 
 Notes:
-1.  * BlockCanvas's multiple dependencies are listed individually.
-2. This string is for documentation only. Unlike the ets_package_names string
+1. This string is for documentation only. Unlike the ets_package_names string
    below, this  is not used programatically. However, string ets_package_names
    *is* manually derived from the info in this string.
-3. This string does not list ETS run-time, nor any non-ETS, dependencies.
-4. To avoid clutter, this string does not list redundant dependencies. For
-   example, it does not list Traits or EnthoughtBase dependencies for packages
-   which depend on TraitsGUI, because TraitsGUI itself depends on both of these.
+2. This string does not list ETS run-time, nor any non-ETS, dependencies.
+3. To avoid clutter, this string does not list redundant dependencies. For
+   example, it does not list Traits dependencies for packages which depend on
+   TraitsGUI, because TraitsGUI itself depends on both of these.
 """
 
 
 ets_package_names = """\
-      encore             traits             pyface
-      traitsui           enaml              codetools
-      etsdevtools        scimath            enable
+      casuarius          encore             traits
+      pyface             traitsui           enaml
+      codetools          scimath            enable
       apptools           envisage           chaco
-      mayavi             graphcanvas        blockcanvas
-      etsproxy           casuarius"""
+      mayavi             graphcanvas"""
 
 ets_ssh = "git@github.com:enthought/%s.git"
 ets_https = "https://github.com/enthought/%s.git"
