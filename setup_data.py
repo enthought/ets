@@ -2,7 +2,7 @@ requirements = [
     ('apptools', '4.2.0'),
     ('blockcanvas', '4.0.3'),
     ('casuarius', '1.1'),
-    ('chaco', '4.4.0'),
+    ('chaco', '4.4.1'),
     ('codetools', '4.2.0'),
     ('enable', '4.3.0'),
     ('enaml', '0.6.8'),
