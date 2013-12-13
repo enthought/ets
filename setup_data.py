@@ -20,6 +20,6 @@ requirements = [
 
 INFO = {
     'name': 'ets',
-    'version': '4.4.0',
+    'version': '4.4.1',
     'install_requires': ['%s >= %s.dev' % nv for nv in requirements],
 }
