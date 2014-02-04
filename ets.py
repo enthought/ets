@@ -70,6 +70,7 @@ Traits
     TraitsGUI
         Enable
             Chaco
+            enable-mapping
         AppTools
             Mayavi
             EnvisageCore
@@ -91,7 +92,7 @@ ets_package_names = """\
       pyface             traitsui           enaml
       codetools          scimath            enable
       apptools           envisage           chaco
-      mayavi             graphcanvas"""
+      mayavi             graphcanvas        enable-mapping"""
 
 ets_ssh = "git@github.com:enthought/%s.git"
 ets_https = "https://github.com/enthought/%s.git"
