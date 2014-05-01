@@ -4,7 +4,7 @@ requirements = [
     ('casuarius', '1.1'),
     ('chaco', '4.4.0'),
     ('codetools', '4.2.0'),
-    ('enable', '4.3.0'),
+    ('enable', '4.4.0'),
     ('enaml', '0.6.8'),
     ('encore', '0.4.0'),
     ('envisage', '4.4.0'),
