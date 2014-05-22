@@ -65,7 +65,6 @@ Dependent packages are listed below and to the right of their dependencies.
 casuarius
 encore
 traits
-    enaml
     codetools
     scimath
     pyface
