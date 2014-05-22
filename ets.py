@@ -59,21 +59,23 @@ aliases = """\n
 """\
 ======================================================================
 ETS installation dependencies (documentation only).
-Derived from ets_dependends.log, holding the output of ets_depends.py.
+Derived from ets_depends.log, holding the output of ets_depends.py.
 Dependent packages are listed below and to the right of their dependencies.
 ======================================================================
-Casuarius
-Encore
-Traits
-    CodeTools  (depends on Traits only)
-    SciMath
-    TraitsGUI
-        Enable
-            Chaco
-        AppTools
-            Mayavi
-            EnvisageCore
-                EnvisagePlugins
+casuarius
+encore
+traits
+    enaml
+    codetools
+    scimath
+    pyface
+        traitsui
+            enable
+                chaco
+                graphcanvas
+            apptools
+                mayavi
+                envisage
 
 Notes:
 1. This string is for documentation only. Unlike the ets_package_names string
@@ -81,8 +83,8 @@ Notes:
    *is* manually derived from the info in this string.
 2. This string does not list ETS run-time, nor any non-ETS, dependencies.
 3. To avoid clutter, this string does not list redundant dependencies. For
-   example, it does not list Traits dependencies for packages which depend on
-   TraitsGUI, because TraitsGUI itself depends on both of these.
+   example, it does not list traits dependencies for packages which depend on
+   traitsui, because traitsui itself depends on both of these.
 """
 
 
