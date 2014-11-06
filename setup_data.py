@@ -1,7 +1,7 @@
 requirements = [
     ('apptools', '4.2.1'),
     ('blockcanvas', '4.0.3'),
-    ('chaco', '4.4.1'),
+    ('chaco', '4.5.0'),
     ('codetools', '4.2.0'),
     ('enable', '4.4.1'),
     ('encore', '0.5.1'),
@@ -18,6 +18,6 @@ requirements = [
 
 INFO = {
     'name': 'ets',
-    'version': '4.4.2',
+    'version': '4.4.3',
     'install_requires': ['%s >= %s.dev' % nv for nv in requirements],
 }
