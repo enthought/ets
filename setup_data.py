@@ -4,7 +4,7 @@ requirements = [
     ('chaco', '4.5.0'),
     ('codetools', '4.2.0'),
     ('enable', '4.4.1'),
-    ('encore', '0.5.1'),
+    ('encore', '0.6.0'),
     ('envisage', '4.4.0'),
     ('etsdevtools', '4.0.2'),
     ('etsproxy', '0.1.2'),
@@ -18,6 +18,6 @@ requirements = [
 
 INFO = {
     'name': 'ets',
-    'version': '4.4.3',
+    'version': '4.4.4',
     'install_requires': ['%s >= %s.dev' % nv for nv in requirements],
 }
