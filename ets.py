@@ -92,7 +92,7 @@ ets_package_names = """\
       pyface             traitsui           codetools
       scimath            enable             apptools
       envisage           chaco              mayavi
-      graphcanvas"""
+      graphcanvas        qt_binder          enable-mapping"""
 
 ets_ssh = "git@github.com:enthought/%s.git"
 ets_https = "https://github.com/enthought/%s.git"
