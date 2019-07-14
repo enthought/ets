@@ -26,7 +26,7 @@ of typed attributes.
 Community support for ETS is available on the `ets-users group <https://groups.google.com/forum/#!forum/ets-users>`_,
 and on `stackoverflow (tag "enthought") <https://stackoverflow.com/search?q=%23enthought>`_ .
 
-Traits: run-time type-checking and reactive programming
+Traits: Run-Time Type-Checking and Reactive Programming
 =======================================================
 
 Traits provides :py:mod:`~.dataclasses`-like type-checked attributes, the
@@ -40,7 +40,7 @@ ability to watch and react to changes in attribute values, together with
    :align: right
    :height: 125px
 
-TraitsUI: easy GUI-building
+TraitsUI: Easy GUI-Building
 ===========================
 
 TraitsUI provides a declarative GUI system built on top of Traits.  Reasonable
@@ -55,7 +55,7 @@ with PyQt, PySide or WxPython.
    :align: right
    :width: 250px
 
-Mayavi: applicaiton and 3D visualization library
+Mayavi: Application and 3D Visualization Library
 ================================================
 
 Mayavi provides a 3D visualization application, a library for 3D plotting within
@@ -69,7 +69,7 @@ in TraitsUI, PyQt, PySide and WxPython.
    :align: right
    :width: 250px
 
-Chaco: Interactive 2D plotting library
+Chaco: Interactive 2D Plotting Library
 ======================================
 
 Chaco provides an interactive 2D plotting library for GUI applications in TraitsUI,
@@ -78,7 +78,7 @@ PyQt, PySide and WxPython.
 - Documentation: `<http://docs.enthought.com/chaco>`_
 - Source: `<http://github.com/enthought/chaco>`_
 
-Envisage: plug-in application framework
+Envisage: Plug-In Application Framework
 =======================================
 
 Envisage is a plug-in application framework for Python inspired by the plug-in
@@ -87,7 +87,7 @@ framework of the `Eclipse <https://www.eclipse.org/>`_ IDE.
 - Documentation: `<http://docs.enthought.com/envisage>`_
 - Source: `<http://github.com/enthought/envisage>`_
 
-Pyface: low level GUI components
+Pyface: Low Level GUI Components
 ================================
 
 Pyface provides a traits-aware wrapper around basic GUI components, providing
@@ -97,7 +97,7 @@ interoperate with PyQt, PySide or WxPython.
 - Documentation: `<http://docs.enthought.com/pyface>`_
 - Source: `<http://github.com/enthought/pyface>`_
 
-Apptools: GUI application components and systems
+Apptools: GUI Application Components and Systems
 ================================================
 
 Apptools provides a collection of utilities and systems for building GUI
@@ -107,7 +107,7 @@ macro recording.
 - Documentation: `<http://docs.enthought.com/apptools>`_
 - Source: `<http://github.com/enthought/apptools>`_
 
-Kiva and Enable: 2D vector drawing and interaction
+Kiva and Enable: 2D Vector Drawing and Interaction
 ==================================================
 
 Kiva provides a 2D vector drawing abstraction over a variety of backends,
@@ -117,17 +117,17 @@ Traits-based interactivity and event-handling on top of Qt or Wx.
 - Documentation: `<http://docs.enthought.com/enable>`_
 - Source: `<http://github.com/enthought/enable>`_
 
-Codetools: Python code analysis and execution
+Codetools: Python Code Analysis and Execution
 =============================================
 
-Codetools provides tools for analyzing data flow throught Python
+Codetools provides tools for analyzing data flow through Python
 code and advanced execution contexts that permit observation of
 changes to variables as code is executed.
 
 - Documentation: `<http://docs.enthought.com/codetoold>`_
 - Source: `<http://github.com/enthought/codetools>`_
 
-SciMath: Scientific utilities including units
+SciMath: Scientific Utilities Including Units
 =============================================
 
 Scimath provides a collection of scientific computation utilities, including
@@ -136,7 +136,7 @@ scalar and numpy array quantities with physical units.
 - Documentation: `<http://docs.enthought.com/scimath>`_
 - Source: `<http://github.com/enthought/scimath>`_
 
-GraphCanvas: 2D network visualization (under development)
+GraphCanvas: 2D Network Visualization (Under Development)
 =========================================================
 
 GraphCanvas provides interactive 2D representations of networks and graphs using
