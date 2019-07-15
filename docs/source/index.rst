@@ -97,6 +97,17 @@ interoperate with PyQt, PySide or WxPython.
 - Documentation: `<https://docs.enthought.com/pyface>`_
 - Source: `<https://github.com/enthought/pyface>`_
 
+Traits Futures: Background Processing for TraitsUI
+==================================================
+
+Traits-futures provides a means to fire off a background calculation from a
+TraitsUI application, and later respond to the result(s) of that calculation,
+leaving the main UI responsive for user interactions while the background
+calculation is in progress.
+
+- Documentation: `<https://docs.enthought.com/traits-futures>`_
+- Source: `<https://github.com/enthought/traits-futures>`_
+
 Apptools: GUI Application Components and Systems
 ================================================
 
