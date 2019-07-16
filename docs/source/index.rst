@@ -55,7 +55,7 @@ with PyQt, PySide or WxPython.
    :align: right
    :width: 250px
 
-Mayavi: Application and 3D Visualization Library
+Mayavi: 3D Visualization Application and Library
 ================================================
 
 Mayavi provides a 3D visualization application, a library for 3D plotting within
@@ -95,7 +95,17 @@ a toolkit-agnostic framework for building application UIs.  Pyface uses and can
 interoperate with PyQt, PySide or WxPython.
 
 - Documentation: `<https://docs.enthought.com/pyface>`_
-- Source: `<https://github.com/enthought/pyface>`_
+- Source: `<https://github.com/enthought/qt_binder>`_
+
+Qt Binder: Low Level Trait Bindings for Qt
+==========================================
+
+QtBinder thinly wraps Qt widgets with Traits.  Binder widgets can be used inside
+a Traits UI View using a special Item called Bound. Binder widgets can be bound to
+model traits using binding expressions.
+
+- Documentation: `<https://qt-binder.readthedocs.io>`_
+- Source: `<https://github.com/enthought/qt_binder>`_
 
 Traits Futures: Background Processing for TraitsUI
 ==================================================
@@ -154,3 +164,39 @@ GraphCanvas provides interactive 2D representations of networks and graphs using
 Enable and NetworkX.
 
 - Source: `<https://github.com/enthought/graphcanvas>`_
+
+Other Enthought Open Source
+===========================
+
+Enthought also offers a number of other open source packages that aren't part
+of the wider Enthought Tool Suite, but which will hopefully be of use to the
+wider community.
+
+ibm2ieee
+--------
+
+The **ibm2ieee** package provides NumPy universal functions ("ufuncs") for
+converting IBM single-precision and double-precision hexadecimal floats to
+the IEEE 754-format floats used by Python and NumPy on almost all current
+platforms.
+
+- Source: `<https://github.com/enthought/ibm2ieee>`_
+
+pywin32-ctypes
+--------------
+
+A reimplementation of pywin32 that is pure python. It uses cffi, if available,
+otherwise falling back to using ctypes.  There is no need to have a compiler
+available on installation or at runtime.
+
+- Documentation: `<https://pywin32-ctypes.readthedocs.io/en/stable/>`_
+- Source: `<https://github.com/enthought/pywin32-ctypes>`_
+
+comtypes
+--------
+
+**comtypes** is a lightweight Python COM package, based on the ctypes_
+FFI library.
+
+- Documentation: `<https://pythonhosted.org/comtypes>`_
+- Source: `<https://github.com/enthought/comtypes>`_
