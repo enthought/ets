@@ -108,8 +108,8 @@ with PyQt, PySide or WxPython.</p>
 </ul>
 <a class="reference internal image-reference" href="_images/mayavi.png"><img alt="_images/mayavi.png" class="align-right" src="_images/mayavi.png" style="width: 250px;" /></a>
 </div>
-<div class="section" id="mayavi-application-and-3d-visualization-library">
-<h2>Mayavi: Application and 3D Visualization Library<a class="headerlink" href="#mayavi-application-and-3d-visualization-library" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mayavi-3d-visualization-application-and-library">
+<h2>Mayavi: 3D Visualization Application and Library<a class="headerlink" href="#mayavi-3d-visualization-application-and-library" title="Permalink to this headline">¶</a></h2>
 <p>Mayavi provides a 3D visualization application, a library for 3D plotting within
 IPython, and a library for embedding 3D visualizations into GUI applications
 in TraitsUI, PyQt, PySide and WxPython.</p>
@@ -144,7 +144,17 @@ a toolkit-agnostic framework for building application UIs.  Pyface uses and can
 interoperate with PyQt, PySide or WxPython.</p>
 <ul class="simple">
 <li>Documentation: <a class="reference external" href="https://docs.enthought.com/pyface">https://docs.enthought.com/pyface</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/pyface">https://github.com/enthought/pyface</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/qt_binder">https://github.com/enthought/qt_binder</a></li>
+</ul>
+</div>
+<div class="section" id="qt-binder-low-level-trait-bindings-for-qt">
+<h2>Qt Binder: Low Level Trait Bindings for Qt<a class="headerlink" href="#qt-binder-low-level-trait-bindings-for-qt" title="Permalink to this headline">¶</a></h2>
+<p>QtBinder thinly wraps Qt widgets with Traits.  Binder widgets can be used inside
+a Traits UI View using a special Item called Bound. Binder widgets can be bound to
+model traits using binding expressions.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://qt-binder.readthedocs.io">https://qt-binder.readthedocs.io</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/qt_binder">https://github.com/enthought/qt_binder</a></li>
 </ul>
 </div>
 <div class="section" id="traits-futures-background-processing-for-traitsui">
@@ -205,6 +215,41 @@ Enable and NetworkX.</p>
 <li>Source: <a class="reference external" href="https://github.com/enthought/graphcanvas">https://github.com/enthought/graphcanvas</a></li>
 </ul>
 </div>
+<div class="section" id="other-enthought-open-source">
+<h2>Other Enthought Open Source<a class="headerlink" href="#other-enthought-open-source" title="Permalink to this headline">¶</a></h2>
+<p>Enthought also offers a number of other open source packages that aren’t part
+of the wider Enthought Tool Suite, but which will hopefully be of use to the
+wider community.</p>
+<div class="section" id="ibm2ieee">
+<h3>ibm2ieee<a class="headerlink" href="#ibm2ieee" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>ibm2ieee</strong> package provides NumPy universal functions (“ufuncs”) for
+converting IBM single-precision and double-precision hexadecimal floats to
+the IEEE 754-format floats used by Python and NumPy on almost all current
+platforms.</p>
+<ul class="simple">
+<li>Source: <a class="reference external" href="https://github.com/enthought/ibm2ieee">https://github.com/enthought/ibm2ieee</a></li>
+</ul>
+</div>
+<div class="section" id="pywin32-ctypes">
+<h3>pywin32-ctypes<a class="headerlink" href="#pywin32-ctypes" title="Permalink to this headline">¶</a></h3>
+<p>A reimplementation of pywin32 that is pure python. It uses cffi, if available,
+otherwise falling back to using ctypes.  There is no need to have a compiler
+available on installation or at runtime.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://pywin32-ctypes.readthedocs.io/en/stable/">https://pywin32-ctypes.readthedocs.io/en/stable/</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/pywin32-ctypes">https://github.com/enthought/pywin32-ctypes</a></li>
+</ul>
+</div>
+<div class="section" id="comtypes">
+<h3>comtypes<a class="headerlink" href="#comtypes" title="Permalink to this headline">¶</a></h3>
+<p><strong>comtypes</strong> is a lightweight Python COM package, based on the <a href="#id5"><span class="problematic" id="id6">ctypes_</span></a>
+FFI library.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://pythonhosted.org/comtypes">https://pythonhosted.org/comtypes</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/comtypes">https://github.com/enthought/comtypes</a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
@@ -221,16 +266,23 @@ Enable and NetworkX.</p>
 <li><a class="reference internal" href="#">Enthought Tool Suite</a><ul>
 <li><a class="reference internal" href="#traits-run-time-type-checking-and-reactive-programming">Traits: Run-Time Type-Checking and Reactive Programming</a></li>
 <li><a class="reference internal" href="#traitsui-easy-gui-building">TraitsUI: Easy GUI-Building</a></li>
-<li><a class="reference internal" href="#mayavi-application-and-3d-visualization-library">Mayavi: Application and 3D Visualization Library</a></li>
+<li><a class="reference internal" href="#mayavi-3d-visualization-application-and-library">Mayavi: 3D Visualization Application and Library</a></li>
 <li><a class="reference internal" href="#chaco-interactive-2d-plotting-library">Chaco: Interactive 2D Plotting Library</a></li>
 <li><a class="reference internal" href="#envisage-plug-in-application-framework">Envisage: Plug-In Application Framework</a></li>
 <li><a class="reference internal" href="#pyface-low-level-gui-components">Pyface: Low Level GUI Components</a></li>
+<li><a class="reference internal" href="#qt-binder-low-level-trait-bindings-for-qt">Qt Binder: Low Level Trait Bindings for Qt</a></li>
 <li><a class="reference internal" href="#traits-futures-background-processing-for-traitsui">Traits Futures: Background Processing for TraitsUI</a></li>
 <li><a class="reference internal" href="#apptools-gui-application-components-and-systems">Apptools: GUI Application Components and Systems</a></li>
 <li><a class="reference internal" href="#kiva-and-enable-2d-vector-drawing-and-interaction">Kiva and Enable: 2D Vector Drawing and Interaction</a></li>
 <li><a class="reference internal" href="#codetools-python-code-analysis-and-execution">Codetools: Python Code Analysis and Execution</a></li>
 <li><a class="reference internal" href="#scimath-scientific-utilities-including-units">SciMath: Scientific Utilities Including Units</a></li>
 <li><a class="reference internal" href="#graphcanvas-2d-network-visualization-under-development">GraphCanvas: 2D Network Visualization (Under Development)</a></li>
+<li><a class="reference internal" href="#other-enthought-open-source">Other Enthought Open Source</a><ul>
+<li><a class="reference internal" href="#ibm2ieee">ibm2ieee</a></li>
+<li><a class="reference internal" href="#pywin32-ctypes">pywin32-ctypes</a></li>
+<li><a class="reference internal" href="#comtypes">comtypes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
