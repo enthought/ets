@@ -1,0 +1,7 @@
+include LICENSE.txt
+include README.rst
+include setup_data.py
+
+include docs/Makefile
+include docs/source/conf.py
+recursive-include docs/source *.rst *.css *.png *.ico

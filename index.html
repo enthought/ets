@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Enthought Tool Suite &mdash; Enthought Tool Suite  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="_static/img/favicon.ico">
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Enthought Tool Suite  documentation" href="#" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="enthought-tool-suite">
+<h1>Enthought Tool Suite<a class="headerlink" href="#enthought-tool-suite" title="Permalink to this headline">¶</a></h1>
+<p>The Enthought Tool Suite (ETS) is a collection of open-source components
+developed by Enthought, our partners and the scientific Python community,
+which we use every day to construct custom scientific applications. It
+includes a wide variety of components, including:</p>
+<ul class="simple">
+<li>an <a class="reference external" href="https://docs.enthought.com/envisage">extensible application framework</a></li>
+<li><a class="reference external" href="https://docs.enthought.com/traitsui">application building blocks</a></li>
+<li><a class="reference external" href="https://docs.enthought.com/chaco">2-D</a> and <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi">3-D</a> graphics libraries</li>
+<li>scientific and math libraries</li>
+<li>developer tools</li>
+</ul>
+<p>The cornerstone on which these tools rest is the <a class="reference external" href="https://docs.enthought.com/traits">Traits</a>
+package, which provides the observer pattern in Python; its features include
+initialization, validation, delegation, notification, and visualization
+of typed attributes.</p>
+<p>Community support for ETS is available on the <a class="reference external" href="https://groups.google.com/forum/#!forum/ets-users">ets-users group</a>,
+and on <a class="reference external" href="https://stackoverflow.com/search?q=%23enthought">stackoverflow (tag “enthought”)</a> .</p>
+<div class="section" id="traits-run-time-type-checking-and-reactive-programming">
+<h2>Traits: Run-Time Type-Checking and Reactive Programming<a class="headerlink" href="#traits-run-time-type-checking-and-reactive-programming" title="Permalink to this headline">¶</a></h2>
+<p>Traits provides <a class="reference external" href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses" title="(in Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataclasses</span></code></a>-like type-checked attributes, the
+ability to watch and react to changes in attribute values, together with
+(optional) automatic GUI generation.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/traits">https://docs.enthought.com/traits</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/traits">https://github.com/enthought/traits</a></li>
+</ul>
+<a class="reference internal image-reference" href="_images/traitsui.png"><img alt="_images/traitsui.png" class="align-right" src="_images/traitsui.png" style="height: 125px;" /></a>
+</div>
+<div class="section" id="traitsui-easy-gui-building">
+<h2>TraitsUI: Easy GUI-Building<a class="headerlink" href="#traitsui-easy-gui-building" title="Permalink to this headline">¶</a></h2>
+<p>TraitsUI provides a declarative GUI system built on top of Traits.  Reasonable
+default values allow incremental improvement from an automatically generated
+GUI through to highly customized behaviour.  TraitsUI uses and can interoperate
+with PyQt, PySide or WxPython.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/traitsui">https://docs.enthought.com/traitsui</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/traitsui">https://github.com/enthought/traitsui</a></li>
+</ul>
+<a class="reference internal image-reference" href="_images/mayavi.png"><img alt="_images/mayavi.png" class="align-right" src="_images/mayavi.png" style="width: 250px;" /></a>
+</div>
+<div class="section" id="mayavi-application-and-3d-visualization-library">
+<h2>Mayavi: Application and 3D Visualization Library<a class="headerlink" href="#mayavi-application-and-3d-visualization-library" title="Permalink to this headline">¶</a></h2>
+<p>Mayavi provides a 3D visualization application, a library for 3D plotting within
+IPython, and a library for embedding 3D visualizations into GUI applications
+in TraitsUI, PyQt, PySide and WxPython.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/apptools">https://docs.enthought.com/apptools</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/apptools">https://github.com/enthought/apptools</a></li>
+</ul>
+<a class="reference internal image-reference" href="_images/chaco.png"><img alt="_images/chaco.png" class="align-right" src="_images/chaco.png" style="width: 250px;" /></a>
+</div>
+<div class="section" id="chaco-interactive-2d-plotting-library">
+<h2>Chaco: Interactive 2D Plotting Library<a class="headerlink" href="#chaco-interactive-2d-plotting-library" title="Permalink to this headline">¶</a></h2>
+<p>Chaco provides an interactive 2D plotting library for GUI applications in TraitsUI,
+PyQt, PySide and WxPython.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/chaco">https://docs.enthought.com/chaco</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/chaco">https://github.com/enthought/chaco</a></li>
+</ul>
+</div>
+<div class="section" id="envisage-plug-in-application-framework">
+<h2>Envisage: Plug-In Application Framework<a class="headerlink" href="#envisage-plug-in-application-framework" title="Permalink to this headline">¶</a></h2>
+<p>Envisage is a plug-in application framework for Python inspired by the plug-in
+framework of the <a class="reference external" href="https://www.eclipse.org/">Eclipse</a> IDE.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/envisage">https://docs.enthought.com/envisage</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/envisage">https://github.com/enthought/envisage</a></li>
+</ul>
+</div>
+<div class="section" id="pyface-low-level-gui-components">
+<h2>Pyface: Low Level GUI Components<a class="headerlink" href="#pyface-low-level-gui-components" title="Permalink to this headline">¶</a></h2>
+<p>Pyface provides a traits-aware wrapper around basic GUI components, providing
+a toolkit-agnostic framework for building application UIs.  Pyface uses and can
+interoperate with PyQt, PySide or WxPython.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/pyface">https://docs.enthought.com/pyface</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/pyface">https://github.com/enthought/pyface</a></li>
+</ul>
+</div>
+<div class="section" id="traits-futures-background-processing-for-traitsui">
+<h2>Traits Futures: Background Processing for TraitsUI<a class="headerlink" href="#traits-futures-background-processing-for-traitsui" title="Permalink to this headline">¶</a></h2>
+<p>Traits-futures provides a means to fire off a background calculation from a
+TraitsUI application, and later respond to the result(s) of that calculation,
+leaving the main UI responsive for user interactions while the background
+calculation is in progress.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/traits-futures">https://docs.enthought.com/traits-futures</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/traits-futures">https://github.com/enthought/traits-futures</a></li>
+</ul>
+</div>
+<div class="section" id="apptools-gui-application-components-and-systems">
+<h2>Apptools: GUI Application Components and Systems<a class="headerlink" href="#apptools-gui-application-components-and-systems" title="Permalink to this headline">¶</a></h2>
+<p>Apptools provides a collection of utilities and systems for building GUI
+applications, including logging, undo/redo, application-wide selection,
+macro recording.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/apptools">https://docs.enthought.com/apptools</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/apptools">https://github.com/enthought/apptools</a></li>
+</ul>
+</div>
+<div class="section" id="kiva-and-enable-2d-vector-drawing-and-interaction">
+<h2>Kiva and Enable: 2D Vector Drawing and Interaction<a class="headerlink" href="#kiva-and-enable-2d-vector-drawing-and-interaction" title="Permalink to this headline">¶</a></h2>
+<p>Kiva provides a 2D vector drawing abstraction over a variety of backends,
+including AGG, Cairo, Quartz, QPainter, PDF and PostScript.  Enable adds
+Traits-based interactivity and event-handling on top of Qt or Wx.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/enable">https://docs.enthought.com/enable</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/enable">https://github.com/enthought/enable</a></li>
+</ul>
+</div>
+<div class="section" id="codetools-python-code-analysis-and-execution">
+<h2>Codetools: Python Code Analysis and Execution<a class="headerlink" href="#codetools-python-code-analysis-and-execution" title="Permalink to this headline">¶</a></h2>
+<p>Codetools provides tools for analyzing data flow through Python
+code and advanced execution contexts that permit observation of
+changes to variables as code is executed.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="http://docs.enthought.com/codetools">http://docs.enthought.com/codetools</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/codetools">https://github.com/enthought/codetools</a></li>
+</ul>
+</div>
+<div class="section" id="scimath-scientific-utilities-including-units">
+<h2>SciMath: Scientific Utilities Including Units<a class="headerlink" href="#scimath-scientific-utilities-including-units" title="Permalink to this headline">¶</a></h2>
+<p>Scimath provides a collection of scientific computation utilities, including
+scalar and numpy array quantities with physical units.</p>
+<ul class="simple">
+<li>Documentation: <a class="reference external" href="https://docs.enthought.com/scimath">https://docs.enthought.com/scimath</a></li>
+<li>Source: <a class="reference external" href="https://github.com/enthought/scimath">https://github.com/enthought/scimath</a></li>
+</ul>
+</div>
+<div class="section" id="graphcanvas-2d-network-visualization-under-development">
+<h2>GraphCanvas: 2D Network Visualization (Under Development)<a class="headerlink" href="#graphcanvas-2d-network-visualization-under-development" title="Permalink to this headline">¶</a></h2>
+<p>GraphCanvas provides interactive 2D representations of networks and graphs using
+Enable and NetworkX.</p>
+<ul class="simple">
+<li>Source: <a class="reference external" href="https://github.com/enthought/graphcanvas">https://github.com/enthought/graphcanvas</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Enthought Tool Suite</a><ul>
+<li><a class="reference internal" href="#traits-run-time-type-checking-and-reactive-programming">Traits: Run-Time Type-Checking and Reactive Programming</a></li>
+<li><a class="reference internal" href="#traitsui-easy-gui-building">TraitsUI: Easy GUI-Building</a></li>
+<li><a class="reference internal" href="#mayavi-application-and-3d-visualization-library">Mayavi: Application and 3D Visualization Library</a></li>
+<li><a class="reference internal" href="#chaco-interactive-2d-plotting-library">Chaco: Interactive 2D Plotting Library</a></li>
+<li><a class="reference internal" href="#envisage-plug-in-application-framework">Envisage: Plug-In Application Framework</a></li>
+<li><a class="reference internal" href="#pyface-low-level-gui-components">Pyface: Low Level GUI Components</a></li>
+<li><a class="reference internal" href="#traits-futures-background-processing-for-traitsui">Traits Futures: Background Processing for TraitsUI</a></li>
+<li><a class="reference internal" href="#apptools-gui-application-components-and-systems">Apptools: GUI Application Components and Systems</a></li>
+<li><a class="reference internal" href="#kiva-and-enable-2d-vector-drawing-and-interaction">Kiva and Enable: 2D Vector Drawing and Interaction</a></li>
+<li><a class="reference internal" href="#codetools-python-code-analysis-and-execution">Codetools: Python Code Analysis and Execution</a></li>
+<li><a class="reference internal" href="#scimath-scientific-utilities-including-units">SciMath: Scientific Utilities Including Units</a></li>
+<li><a class="reference internal" href="#graphcanvas-2d-network-visualization-under-development">GraphCanvas: 2D Network Visualization (Under Development)</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <div>
+    <a href="_sources/index.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Enthought Developers
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
