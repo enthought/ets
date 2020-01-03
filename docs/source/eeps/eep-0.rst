@@ -48,7 +48,7 @@ Pyface/TraitsUI Corran Webster
 Envisage        Mark Dickinson
 Apptools        Robert Kern
 Kiva/Enable     John Wiggins
-Chaco           Joris Vankerscharver
+Chaco           Joris Vankerschaver
 Mayavi          Prabhu Ramachandran
 =============== ===========================
 
