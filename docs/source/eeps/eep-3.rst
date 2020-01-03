@@ -43,8 +43,11 @@ break things in hard to diagnose ways. [3]_
 By building a similar but cleaner alternative, we allow legacy applications
 to continue to run as-is, but provide a straightforward update path.
 
-This proposal in many ways follows the successful change made in the Traitlets library
-to introduce an `observe` method and decorator, although this proposal is to use a. [4]_
+This proposal in many ways follows the successful change made in the
+Traitlets library to introduce an `observe` method and decorator, although
+this proposal is to use an object rather than a dictionary to hold information
+about the state as that allows code to more easily understand what change took
+place and what information is being provided. [4]_
 
 
 Design
@@ -57,9 +60,10 @@ but use ``observe`` instead.  The primary differences are:
 
 * observers pass lightweight event objects to their callbacks, rather than the
   (confusingly) different function signatures that listeners currently use.
-* the extended trait change syntax will be simplified and behaviours standardized
-* container objects become more first-class, so if you have a list of lists, you can
-  listen to ``foo.items.items``
+* the extended trait change syntax will be simplified and behaviours
+  standardized
+* container objects become more first-class, so if you have a list of lists,
+  you can listen to ``foo.items.items``
 
 To use the new observable system, users will use a new ``observe`` method and
 corresponding decorator for ``HasTraits`` classes::
@@ -76,17 +80,20 @@ corresponding decorator for ``HasTraits`` classes::
     example.x = 5.0
     example.observe(print, 'x', remove=True)
 
-The callback or decorated function is expected to accept just one argument, an event
-object.  This object will be an instance of new ``TraitEvent`` classes, which will either
-be ``namedtuple`` subclasses or classes with ``__slots__`` and a limited collection of attributes.
-The most basic of these will be for standard trait changes, and will have attributes
-for ``object``, ``name``, ``old`` and ``new``, but for example list events would have
-attributes for ``index``, ``removed`` and ``added``, and extended trait change events
-should include additional attributes that give context about which part of the extended
-trait change expression was invoked, and the base object being observed.
+The callback or decorated function is expected to accept just one argument, an
+event object.  This object will be an instance of new ``TraitEvent`` classes,
+which will either be ``namedtuple`` subclasses or classes with ``__slots__``
+and a limited collection of attributes. The most basic of these will be for
+standard trait changes, and will have attributes for ``object``, ``name``,
+``old`` and ``new``, but for example list events would have attributes for
+``index``, ``removed`` and ``added``, and extended trait change events should
+include additional attributes that give context about which part of the
+extended trait change expression was invoked, and the base object being
+observed.
 
-Additionally the traits container types (``TraitListObject``, etc.) will be first-class
-observables, so users will be able to write things like, for example::
+Presuming EEP 2 [5]_ is approved and implemented, the traits container types
+(``TraitListObject``, etc.) will be first-class observables, so users will be
+able to write things like, for example::
 
     class ListExample(HasTraits):
 
@@ -107,9 +114,9 @@ or even::
     l = TraitList()
     l.observe(print, 'items')
 
-The last piece is to simplify the extended trait change syntax.  We keep the '.' and ':'
-as before, but this combined with the ability to listen directly to containers means we
-don't need '[]' any more, so we can translate:
+The last piece is to simplify the extended trait change syntax.  We keep the
+'.' and ':' as before, but this combined with the ability to listen directly
+to containers means we don't need '[]' any more, so we can translate:
 
 - ``l`` remains ``l``
 - ``l_items`` becomes ``l:items``
@@ -118,18 +125,21 @@ don't need '[]' any more, so we can translate:
 - ``l:x`` becomes ``l:items:x``
 
 and in addition gain the ability to add more nuanced observations such as
-``l.items:x`` or ``l:items.x``, if desired.
+``l.items:x`` or ``l:items.x``, if desired.  To support this, it we might
+need to add an ``items`` property to trait list objects that returns the
+list.
 
-We keep the ability to observe to multiple different trait patterns using ``[...,...]``
-to observe based on the existence of metadata using '+', and to specify recursive
-patterns using '*'.
+We keep the ability to observe to multiple different trait patterns using
+``[...,...]`` to observe based on the existence of metadata using '+', and to
+specify recursive patterns using '*'.
 
-We may drop the ability to observe based on the absence of metadata, and matching
-prefixes; on the other hand it may be simpler to keep support.
+We may drop the ability to observe based on the absence of metadata, and
+matching prefixes; on the other hand it may be simpler to keep support.
 
-To support the new language, we also want a way to programatically generate pattens as
-an intermediate form.  This intermediate language has the potential to be more powerful
-than the text version (eg. by specifying more powerful metadata matches):
+To support the new language, we also want a way to programatically generate
+pattens as an intermediate form.  This intermediate language has the potential
+to be more powerful than the text version (eg. by specifying more powerful
+metadata matches):
 
 * ``l.index.x`` -> ``obs('l', obs('items', 'x'))``
 * ``l:index:x`` -> ``obs('l', obs('items', 'x', quiet=True), quiet=True)``
@@ -141,16 +151,16 @@ than the text version (eg. by specifying more powerful metadata matches):
 Implementation
 ==============
 
-Much if this can be implemented using the existing notification system.  At the core,
-cTrait classes have a list of "notifiers" which are callables that expect a signature
-of the form ``object, name, old, new``.  The current trait listeners system wraps the
-various listener methods to adapt the various signatures to this standard notifier
-signature, and in the case of extended trait listeners, dynamically manages their
-connection and disconnection.
+Much if this can be implemented using the existing notification system.  At
+the core, cTrait classes have a list of "notifiers" which are callables that
+expect a signature of the form ``object, name, old, new``.  The current trait
+listeners system wraps the various listener methods to adapt the various
+signatures to this standard notifier signature, and in the case of extended
+trait listeners, dynamically manages their connection and disconnection.
 
-The new system proposes to use the same mechanism, wrapping the observe callbacks to
-take the notification data plus context they hold as state and build the event.  At its
-most basic, this looks something like::
+The new system proposes to use the same mechanism, wrapping the observe
+callbacks to take the notification data plus context they hold as state and
+build the event.  At its most basic, this looks something like::
 
     class SimpleTraitEventNotifyWrapper:
 
@@ -190,12 +200,9 @@ most basic, this looks something like::
                 ...
 
 This is very similar in feel to the current ``TraitChangeNotifyWrapper``, but
-constructing an event rather than dispatching based on signature.  A similar collection
-of notify wrapper subclasses will be needed for different dispatch targets and extended
-trait change situations.
-
-The new trait container classes will be implemented as a simpler base class that has a
-validate method and a notify method and will
+constructing an event rather than dispatching based on signature.  A similar
+collection of notify wrapper subclasses will be needed for different dispatch
+targets and extended trait change situations.
 
 References and Footnotes
 ========================
@@ -211,4 +218,7 @@ References and Footnotes
 
 .. [4] Traitlets Pull Request #61
    (https://github.com/ipython/traitlets/pull/61)
+
+.. [4] EEP 2
+   (eep-2.html)
 
