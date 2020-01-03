@@ -279,12 +279,6 @@ and then using the various ``logger`` methods to emit log records
 (``logger.warning``, ``logger.exception``, etc.).  Logging configuration
 should be left to the application.
 
-There's one notable exception to the above rule: top-level ETS library
-packages that use logging *should* add a NullHandler for their logger
-in their ``__init__.py``.  This prevents ``No handlers could be found
-for ...`` warnings from the logging library for applications that use
-the library but don't configure logging.
-
 Tests should also avoid making persistent changes to logging
 configuration, though they may need to make temporary configuration
 changes (for example, to verify that a particular condition is logged
