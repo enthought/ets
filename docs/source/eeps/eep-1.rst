@@ -254,7 +254,7 @@ Logging
 -------
 
 In general, library code should not do any logging configuration: for
-example, setting levels on loggers, calling ``logging.BasicConfig``,
+example, setting levels on loggers, calling ``logging.basicConfig``,
 or creating ``logging.Handler`` or ``logging.Filter`` objects.
 Library code should restrict itself to creating loggers via the usual
 
