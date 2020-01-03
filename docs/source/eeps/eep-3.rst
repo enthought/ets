@@ -219,6 +219,5 @@ References and Footnotes
 .. [4] Traitlets Pull Request #61
    (https://github.com/ipython/traitlets/pull/61)
 
-.. [4] EEP 2
-   (eep-2.html)
+.. [5] EEP 2 (`<eep-2.html>`_)
 
