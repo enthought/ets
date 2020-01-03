@@ -220,7 +220,7 @@ For Envisage service IDs, it is *not* recommended to split long
 strings to comply with the PEP8-recommended maximum line length; this
 makes it more difficult to search for those strings when refactoring
 or debugging.  Instead, keep those strings on one line, and decorate
-the line with a ``noqa`` comment to prevent the ``pep8`` utility from
+the line with a ``noqa`` comment to prevent the ``flake8`` utility from
 complaining about the excessive line length.
 
 Yes::
