@@ -13,8 +13,8 @@ EEP 0: EEP Purpose and Guidelines
 What is an EEP?
 ===============
 
-An EEP is an ETS Enhancement Proposal, similar in pupose and conventions
-to Python Enhancement Proposals [1]_.  At present they are intended to be
+An EEP is an ETS Enhancement Proposal, similar in purpose and conventions
+to a Python Enhancement Proposal [1]_.  At present they are intended to be
 less formal than a PEP, but like PEPs are intended to record the design
 decisions about significant new features or changes.
 

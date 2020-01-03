@@ -10,8 +10,8 @@ EEP-1: Coding Style Guidelines
 :Post-History: 2020-01-02
 
 
-ETS projects largely follow the `PEP7`_ and `PEP8`_ coding style guide and
-`NumPy docstring standard`_, with some `exceptions`_ derived from Enthought
+ETS projects largely follow the PEP7_ and PEP8_ coding style guide and
+`NumPy docstring standard`_, with some exceptions_ derived from Enthought
 standard practice. [1]_ [2]_
 
 .. _exceptions:
