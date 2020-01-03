@@ -95,21 +95,31 @@ parantheses to mark line continuation, not backslashes.
 
 Yes::
 
-    from traits.api import (Float, HasStrictTraits, Str,
-        Tuple)
+    from traits.api import (
+        Float, HasStrictTraits, Str, Tuple
+    )
 
 No::
 
     from traits.api import Float, HasStrictTraits, Str, \
        Tuple
 
-Implicit relative imports are forbidden; all modules should be written as if
-``from __future__ import absolute_import`` is at the top of each module. For
-imports within the same package, explicit relative imports are encouraged. For
-imports outside of a package, use fully-qualified absolute imports. One should
-not use explicit relative imports to go up a level and over to another package.
+For imports within a sub-package, explicit relative imports are encouraged.
+For imports outside of a package, use fully-qualified absolute imports. One
+should not use explicit relative imports to go up a level and over to another
+package.
 
-For example, let us say that we have the following package layout::
+Yes::
+
+    from .foo import bar
+    from . import foo
+
+No::
+
+    from ..foo import bar
+    from .. import foo
+
+More concretely, let us say that we have the following package layout::
 
     my_project/
         foo/
@@ -140,8 +150,9 @@ Or this::
     from ..bar.ghi import GHI
     from .def import DEF
 
-Tests can use two levels of relative imports to get to the module under test.
-So in ``test_abc.py`` we import the ``my_project.foo.abc`` module like so::
+One exception to this is that tests can use two levels of relative imports to
+get to the module under test.  So in ``test_abc.py`` we may import the
+``my_project.foo.abc`` module like so::
 
     from .. import abc
 
