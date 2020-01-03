@@ -265,7 +265,7 @@ Library code should restrict itself to creating loggers via the usual
 
 
 and then using the various ``logger`` methods to emit log records
-(``logger.warn``, ``logger.exception``, etc.).  Logging configuration
+(``logger.warning``, ``logger.exception``, etc.).  Logging configuration
 should be left to the application.
 
 There's one notable exception to the above rule: top-level ETS library
