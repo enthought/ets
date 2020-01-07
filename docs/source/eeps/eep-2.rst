@@ -46,7 +46,7 @@ tracking and keeping track of objects and names that need to have
 
 By making the container instances first-class listenables, we can then
 write infrastructure code that either extends the existing trait listeners
-(or perhaps replaces it with something better) that can performed chained
+(or perhaps replaces it with something better) that can perform chained
 listening down into nested containers.
 
 There are also advantages that may be able to be taken advantage of in
@@ -66,7 +66,7 @@ pieces of state beyond the base list class:
 - a ``validator`` which is a callable that expects information about
   the change that the object is about to undergo (eg. adding or removing
   items) and either returns a validated replacement for that
-  information or raises a TraitError.
+  information or raises a ``TraitError``.
 
 - a list of ``notifiers`` which are callables that are given information
   about the change that the object has just undergone and can do whatever
@@ -89,7 +89,7 @@ object or sub-list of objects that were removed, and the value or list of
 values that were added in their place.
 
 For backwards compatibility, there would be validators and notifiers written
-that implement the current behaviours.  So the backwards comptaibile
+that implement the current behaviours.  So the backwards compatibile
 validators would hold references to the inner traits of the container to
 validate values and would also check that any length constraints were being
 maintained.  The backwards compatible notifier would hold a weak reference
