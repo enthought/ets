@@ -152,7 +152,7 @@ Implementation
 ==============
 
 Much if this can be implemented using the existing notification system.  At
-the core, cTrait classes have a list of "notifiers" which are callables that
+the core, cTrait instances have a list of "notifiers" which are callables that
 expect a signature of the form ``object, name, old, new``.  The current trait
 listeners system wraps the various listener methods to adapt the various
 signatures to this standard notifier signature, and in the case of extended
