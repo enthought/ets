@@ -101,12 +101,12 @@ alias_dict = {}
 for line in aliases.split('\n'):
     tokens = line.split()
     if tokens:
-         alias_dict[tokens[0]] = tokens[1:]
+        alias_dict[tokens[0]] = tokens[1:]
 
 
 def main():
     if len(sys.argv) < 2 or sys.argv[1].startswith('-'):
-        print usage % (aliases, ets_package_names)
+        print(usage % (aliases, ets_package_names))
         return
 
     arg1 = sys.argv[1]
@@ -122,23 +122,24 @@ def main():
 
     for ets_pkg_name in ets_package_names.split():
         if clone:
-            print "Cloning package %s" % ets_pkg_name
+            print("Cloning package %s" % ets_pkg_name)
             if '--ssh' in sys.argv:
                 pkg_url = ets_ssh % ets_pkg_name
             else:
                 pkg_url = ets_https % ets_pkg_name
-            print "URL: %s" % pkg_url
+            print("URL: %s" % pkg_url)
             subprocess.check_call(['git', 'clone', pkg_url, ets_pkg_name])
         else:
-            print "Running command %r in package %s" % (cmd, ets_pkg_name)
+            print("Running command %r in package %s" % (cmd, ets_pkg_name))
             try:
                 subprocess.check_call(cmd, cwd=ets_pkg_name)
-            except (OSError, subprocess.CalledProcessError), detail:
-                print "   Error running command in package %s:\n   %s" % (
-                                      ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")
+            except (OSError, subprocess.CalledProcessError) as detail:
+                print("   Error running command in package %s:\n   %s" % (
+                                      ets_pkg_name, detail))
+                input("   Press enter to process remaining packages.")
 
-        print
+        print()
+
 
 if __name__ == "__main__":
     main()
