@@ -63,7 +63,7 @@ but use ``observe`` instead.  The primary differences are:
 * the extended trait change syntax will be simplified and behaviours
   standardized
 * container objects become more first-class, so if you have a list of lists,
-  you can listen to ``foo.items.items``
+  you can listen to ``foo.items.items`` (or some similar construct)
 
 To use the new observable system, users will use a new ``observe`` method and
 corresponding decorator for ``HasTraits`` classes::
@@ -91,6 +91,9 @@ include additional attributes that give context about which part of the
 extended trait change expression was invoked, and the base object being
 observed.
 
+Container Objects
+-----------------
+
 Presuming EEP 2 [5]_ is approved and implemented, the traits container types
 (``TraitListObject``, etc.) will be first-class observables, so users will be
 able to write things like, for example::
@@ -114,6 +117,9 @@ or even::
     l = TraitList()
     l.observe(print, 'items')
 
+Observation Mini-Language
+-------------------------
+
 The last piece is to simplify the extended trait change syntax.  We keep the
 '.' and ':' as before, but this combined with the ability to listen directly
 to containers means we don't need '[]' any more, so we can translate:
@@ -125,9 +131,10 @@ to containers means we don't need '[]' any more, so we can translate:
 - ``l:x`` becomes ``l:items:x``
 
 and in addition gain the ability to add more nuanced observations such as
-``l.items:x`` or ``l:items.x``, if desired.  To support this, it we might
-need to add an ``items`` property to trait list objects that returns the
-list.
+``l.items:x`` or ``l:items.x``, if desired.  To support this, it may help to
+have a corresponding property on trait lists, however that would preculde
+the use of "items" to avoid conflict with ``dict.items``,  and we might need
+some alternative such as "trait_items" or "elements".
 
 We keep the ability to observe to multiple different trait patterns using
 ``[...,...]`` to observe based on the existence of metadata using '+', and to
@@ -136,13 +143,26 @@ specify recursive patterns using '*'.
 We may drop the ability to observe based on the absence of metadata, and
 matching prefixes; on the other hand it may be simpler to keep support.
 
+Whatever form the langauge takes, it will be clearly specified with a grammar
+so that the implementation of the parser can be replaced with another with
+minimal difficulty.  Expressed in a similar style to Python's grammar, it
+might look something like this:
+::
+
+    group: item (',' item)*
+    item: term (connector term)*
+    connector: '.' | ':'
+    term: (union_group | simple_term) ['*']
+    union_group: '[' group ']'
+    simple_term: NAME | '+' NAME
+
 To support the new language, we also want a way to programatically generate
 pattens as an intermediate form.  This intermediate language has the potential
 to be more powerful than the text version (eg. by specifying more powerful
 metadata matches):
 
-* ``l.index.x`` -> ``obs('l', obs('items', 'x'))``
-* ``l:index:x`` -> ``obs('l', obs('items', 'x', quiet=True), quiet=True)``
+* ``l.items.x`` -> ``obs('l', obs('items', 'x'))``
+* ``l:items:x`` -> ``obs('l', obs('items', 'x', quiet=True), quiet=True)``
 * ``i.+foo`` -> ``obs('i', obs('', metadata={'foo': not_none}))``
 * ``[x,y].z`` -> ``obs(['x', 'y'], 'z')``
 * ``[x,y.z]`` -> ``obs(['x', obs('y', 'z')])``
@@ -152,9 +172,9 @@ Implementation
 ==============
 
 Much if this can be implemented using the existing notification system.  At
-the core, cTrait instances have a list of "notifiers" which are callables that
-expect a signature of the form ``object, name, old, new``.  The current trait
-listeners system wraps the various listener methods to adapt the various
+the core, ``cTrait`` instances have a list of "notifiers" which are callables
+that expect a signature of the form ``object, name, old, new``.  The current
+trait listeners system wraps the various listener methods to adapt the various
 signatures to this standard notifier signature, and in the case of extended
 trait listeners, dynamically manages their connection and disconnection.
 
