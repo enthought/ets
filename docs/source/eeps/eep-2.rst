@@ -65,8 +65,8 @@ pieces of state beyond the base list class:
 
 - a ``validator`` which is a callable that expects information about
   the change that the object is about to undergo (eg. adding or removing
-  items) and either returns a validated replacement for that
-  information or raises a ``TraitError``.
+  items) and either returns a validated replacement for the added items
+  or raises a ``TraitError``.
 
 - a list of ``notifiers`` which are callables that are given information
   about the change that the object has just undergone and can do whatever
