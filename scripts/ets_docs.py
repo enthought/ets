@@ -1,4 +1,17 @@
 #! /usr/bin/env python
+# flake8: noqa
+# type: ignore
+# nosec
+
+# (C) Copyright 2005-2020 Enthought, Inc., Austin, TX
+# All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
 """A thin replacement for SetupDocs (which is no longer part of ETS).
 Performs documentation building, check in, updating, etc of all actively
 maintained ETS packages.
@@ -62,7 +75,7 @@ for line in aliases.split('\n'):
 
 def main():
     if len(sys.argv) < 2 or sys.argv[1].startswith('-'):
-        print usage % (aliases, ets_package_names)
+        print(usage % (aliases, ets_package_names))
         return
 
     arg1 = sys.argv[1]
@@ -75,7 +88,7 @@ def main():
             ets_packages = ets_package_names.split()
 
         for ets_pkg_name in ets_packages:
-            print "Updating documentation branch for {0}...".format(ets_pkg_name)
+            print("Updating documentation branch for {0}...".format(ets_pkg_name))
 
             # Find the current branch, so that we may return to it
             branches = subprocess.check_output(['git', 'branch'], cwd=ets_pkg_name)
@@ -85,13 +98,13 @@ def main():
             # Checkout the gh-pages branch
             try:
                 subprocess.check_call(['git', 'checkout', 'gh-pages'], cwd=ets_pkg_name)
-            except (OSError, subprocess.CalledProcessError), detail:
-                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")
+            except (OSError, subprocess.CalledProcessError) as detail:
+                print("   Error running command in package %s:\n   %s" % (ets_pkg_name, detail))
+                input("   Press enter to process remaining packages.")
                 continue
 
             # Copy the files over
-            print "Copying files for {0}".format(ets_pkg_name)
+            print("Copying files for {0}".format(ets_pkg_name))
             if ets_pkg_name == 'mayavi':
                 copy_tree(ets_pkg_name + '/docs/build/tvtk/html/',   ets_pkg_name + '/tvtk/')
                 copy_tree(ets_pkg_name + '/docs/build/mayavi/html/', ets_pkg_name + '/mayavi/')
@@ -101,33 +114,33 @@ def main():
             # Add everything to the repository
             try:
                 subprocess.check_call(['git', 'add', '.'], cwd=ets_pkg_name)
-            except (OSError, subprocess.CalledProcessError), detail:
-                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")
+            except (OSError, subprocess.CalledProcessError) as detail:
+                print("   Error running command in package %s:\n   %s" % (ets_pkg_name, detail))
+                input("   Press enter to process remaining packages.")
                 continue
 
             # Commit to the repo.
             try:
                 subprocess.check_call(['git', 'commit', '-a', '-m', '"Updated docs."'], cwd=ets_pkg_name)
-            except (OSError, subprocess.CalledProcessError), detail:
-                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")
+            except (OSError, subprocess.CalledProcessError) as detail:
+                print("   Error running command in package %s:\n   %s" % (ets_pkg_name, detail))
+                input("   Press enter to process remaining packages.")
                 continue
 
             # Push these changes.
             try:
                 subprocess.check_call(['git', 'push'], cwd=ets_pkg_name)
-            except (OSError, subprocess.CalledProcessError), detail:
-                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")
+            except (OSError, subprocess.CalledProcessError) as detail:
+                print("   Error running command in package %s:\n   %s" % (ets_pkg_name, detail))
+                input("   Press enter to process remaining packages.")
                 continue
 
             # Return to the current branch
             try:
                 subprocess.check_call(['git', 'checkout', current_branch], cwd=ets_pkg_name)
-            except (OSError, subprocess.CalledProcessError), detail:
-                print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-                raw_input("   Press enter to process remaining packages.")
+            except (OSError, subprocess.CalledProcessError) as detail:
+                print("   Error running command in package %s:\n   %s" % (ets_pkg_name, detail))
+                input("   Press enter to process remaining packages.")
                 continue
 
             print
@@ -144,14 +157,14 @@ def main():
 
     # Run the command in each project directory
     for ets_pkg_name in ets_package_names.split():
-        print "Running command %r in package %s" % (' '.join(cmd), ets_pkg_name)
+        print("Running command %r in package %s" % (' '.join(cmd), ets_pkg_name))
 
         try:
             subprocess.check_call(cmd, cwd=ets_pkg_name + '/docs/')
             print
-        except (OSError, subprocess.CalledProcessError), detail:
-            print "   Error running command in package %s:\n   %s" % (ets_pkg_name, detail)
-            raw_input("   Press enter to process remaining packages.")
+        except (OSError, subprocess.CalledProcessError) as detail:
+            print("   Error running command in package %s:\n   %s" % (ets_pkg_name, detail))
+            input("   Press enter to process remaining packages.")
 
 
 if __name__ == "__main__":
