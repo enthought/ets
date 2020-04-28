@@ -1,12 +1,19 @@
-# Copyright (c) 2008-2012 by Enthought, Inc.
+# (C) Copyright 2005-2020 Enthought, Inc., Austin, TX
 # All rights reserved.
+#
+# This software is provided without warranty under the terms of the BSD
+# license included in LICENSE.txt and may be redistributed only under
+# the conditions described in the aforementioned license. The license
+# is also available online at http://www.enthought.com/licenses/BSD.txt
+#
+# Thanks for using Enthought open source!
 
 import sys
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
-setup_data = {}
-execfile('setup_data.py', setup_data)
+setup_data = {'requirements': []}
+exec(open('setup_data.py').read(), setup_data)
 INFO = setup_data['INFO']
 
 if 'develop' in sys.argv:
@@ -14,38 +21,17 @@ if 'develop' in sys.argv:
 
 # The actual setup call.
 setup(
-    name = 'ets',
-    version = INFO['version'],
-    author = 'Enthought, Inc.',
-    download_url = ('http://www.enthought.com/repo/ets/ets-%s.tar.gz' %
-                    INFO['version']),
-    author_email = 'info@enthought.com',
-    classifiers = [c.strip() for c in """\
-        Development Status :: 4 - Beta
-        Intended Audience :: Developers
-        Intended Audience :: Science/Research
-        License :: OSI Approved :: BSD License
-        Operating System :: MacOS
-        Operating System :: Microsoft :: Windows
-        Operating System :: OS Independent
-        Operating System :: POSIX
-        Operating System :: Unix
-        Programming Language :: Python
-        Topic :: Scientific/Engineering
-        Topic :: Software Development
-        Topic :: Software Development :: Libraries
-        """.splitlines() if len(c.strip()) > 0],
-    description = 'Enthought Tool Suite meta-project',
-    long_description = open('README.rst').read(),
-    install_requires = INFO['install_requires'],
-    license = 'BSD',
-    maintainer = 'ETS Developers',
-    maintainer_email = 'enthought-dev@enthought.com',
-    py_modules = ["ets", "ets_docs"],
-    entry_points = dict(console_scripts=[
-            "ets = ets:main",
-            "ets-docs = ets_docs:main",
-    ]),
-    platforms = ["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
-    url = 'http://code.enthought.com/projects/tool-suite.php',
+    version=INFO['version'],
+    install_requires=INFO['install_requires'],
+    packages=find_packages(),
+    entry_points={
+        # 'console_scripts': [
+        #     "ets = ets.scripts.ets:main",
+        #     "ets-docs = ets.scripts.ets_docs:main",
+        # ],
+        "flake8.extension": [
+            "H = ets.copyright_header:CopyrightHeaderExtension",
+        ],
+    },
+#    platforms=["Windows", "Linux", "Mac OS-X", "Unix", "Solaris"],
 )
