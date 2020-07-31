@@ -62,8 +62,8 @@ Mayavi provides a 3D visualization application, a library for 3D plotting within
 IPython, and a library for embedding 3D visualizations into GUI applications
 in TraitsUI, PyQt, PySide and WxPython.
 
-- Documentation: `<https://docs.enthought.com/apptools>`_
-- Source: `<https://github.com/enthought/apptools>`_
+- Documentation: `<https://docs.enthought.com/mayavi/mayavi/>`_
+- Source: `<https://github.com/enthought/mayavi>`_
 
 .. image:: images/chaco.png
    :align: right
