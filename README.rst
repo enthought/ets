@@ -2,7 +2,7 @@
 Enthought Tool Suite meta-project
 =================================
 
-http://docs.enthought.com/ets
+https://docs.enthought.com/ets
 
 The Enthought Tool Suite (ETS) is a collection of components developed by
 Enthought and our partners, which we use every day to construct custom
