@@ -95,7 +95,7 @@ a toolkit-agnostic framework for building application UIs.  Pyface uses and can
 interoperate with PyQt, PySide or WxPython.
 
 - Documentation: `<https://docs.enthought.com/pyface>`_
-- Source: `<https://github.com/enthought/qt_binder>`_
+- Source: `<https://github.com/enthought/pyface>`_
 
 Qt Binder: Low Level Trait Bindings for Qt
 ==========================================
