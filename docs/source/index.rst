@@ -186,7 +186,7 @@ pywin32-ctypes
 --------------
 
 A reimplementation of pywin32 that is pure python. It uses cffi, if available,
-otherwise falling back to using ctypes.  There is no need to have a compiler
+otherwise falling back to using `ctypes`_.  There is no need to have a compiler
 available on installation or at runtime.
 
 - Documentation: `<https://pywin32-ctypes.readthedocs.io/en/stable/>`_
@@ -195,8 +195,10 @@ available on installation or at runtime.
 comtypes
 --------
 
-**comtypes** is a lightweight Python COM package, based on the ctypes_
+**comtypes** is a lightweight Python COM package, based on the `ctypes`_
 FFI library.
 
 - Documentation: `<https://pythonhosted.org/comtypes>`_
 - Source: `<https://github.com/enthought/comtypes>`_
+
+.. _ctypes: https://docs.python.org/3/library/ctypes.html
