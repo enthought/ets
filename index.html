@@ -16,6 +16,8 @@
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '',
+        SOURCELINK_SUFFIX: '.txt',
         HAS_SOURCE:  true
       };
     </script>
@@ -64,7 +66,7 @@
           <div class="span9">
             
         <div class="bodywrapper">
-          <div class="body" id="spc-section-body">
+          <div class="body" id="spc-section-body" role="main">
             
   <div class="section" id="enthought-tool-suite">
 <h1>Enthought Tool Suite<a class="headerlink" href="#enthought-tool-suite" title="Permalink to this headline">¶</a></h1>
@@ -73,11 +75,11 @@ developed by Enthought, our partners and the scientific Python community,
 which we use every day to construct custom scientific applications. It
 includes a wide variety of components, including:</p>
 <ul class="simple">
-<li>an <a class="reference external" href="https://docs.enthought.com/envisage">extensible application framework</a></li>
-<li><a class="reference external" href="https://docs.enthought.com/traitsui">application building blocks</a></li>
-<li><a class="reference external" href="https://docs.enthought.com/chaco">2-D</a> and <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi">3-D</a> graphics libraries</li>
-<li>scientific and math libraries</li>
-<li>developer tools</li>
+<li><p>an <a class="reference external" href="https://docs.enthought.com/envisage">extensible application framework</a></p></li>
+<li><p><a class="reference external" href="https://docs.enthought.com/traitsui">application building blocks</a></p></li>
+<li><p><a class="reference external" href="https://docs.enthought.com/chaco">2-D</a> and <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi">3-D</a> graphics libraries</p></li>
+<li><p>scientific and math libraries</p></li>
+<li><p>developer tools</p></li>
 </ul>
 <p>The cornerstone on which these tools rest is the <a class="reference external" href="https://docs.enthought.com/traits">Traits</a>
 package, which provides the observer pattern in Python; its features include
@@ -87,12 +89,12 @@ of typed attributes.</p>
 and on <a class="reference external" href="https://stackoverflow.com/search?q=%23enthought">stackoverflow (tag “enthought”)</a> .</p>
 <div class="section" id="traits-run-time-type-checking-and-reactive-programming">
 <h2>Traits: Run-Time Type-Checking and Reactive Programming<a class="headerlink" href="#traits-run-time-type-checking-and-reactive-programming" title="Permalink to this headline">¶</a></h2>
-<p>Traits provides <a class="reference external" href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses" title="(in Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataclasses</span></code></a>-like type-checked attributes, the
+<p>Traits provides <a class="reference external" href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataclasses</span></code></a>-like type-checked attributes, the
 ability to watch and react to changes in attribute values, together with
 (optional) automatic GUI generation.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/traits">https://docs.enthought.com/traits</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/traits">https://github.com/enthought/traits</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/traits">https://docs.enthought.com/traits</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/traits">https://github.com/enthought/traits</a></p></li>
 </ul>
 <a class="reference internal image-reference" href="_images/traitsui.png"><img alt="_images/traitsui.png" class="align-right" src="_images/traitsui.png" style="height: 125px;" /></a>
 </div>
@@ -103,8 +105,8 @@ default values allow incremental improvement from an automatically generated
 GUI through to highly customized behaviour.  TraitsUI uses and can interoperate
 with PyQt, PySide or WxPython.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/traitsui">https://docs.enthought.com/traitsui</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/traitsui">https://github.com/enthought/traitsui</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/traitsui">https://docs.enthought.com/traitsui</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/traitsui">https://github.com/enthought/traitsui</a></p></li>
 </ul>
 <a class="reference internal image-reference" href="_images/mayavi.png"><img alt="_images/mayavi.png" class="align-right" src="_images/mayavi.png" style="width: 250px;" /></a>
 </div>
@@ -114,8 +116,8 @@ with PyQt, PySide or WxPython.</p>
 IPython, and a library for embedding 3D visualizations into GUI applications
 in TraitsUI, PyQt, PySide and WxPython.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/apptools">https://docs.enthought.com/apptools</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/apptools">https://github.com/enthought/apptools</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">https://docs.enthought.com/mayavi/mayavi/</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/mayavi">https://github.com/enthought/mayavi</a></p></li>
 </ul>
 <a class="reference internal image-reference" href="_images/chaco.png"><img alt="_images/chaco.png" class="align-right" src="_images/chaco.png" style="width: 250px;" /></a>
 </div>
@@ -124,8 +126,8 @@ in TraitsUI, PyQt, PySide and WxPython.</p>
 <p>Chaco provides an interactive 2D plotting library for GUI applications in TraitsUI,
 PyQt, PySide and WxPython.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/chaco">https://docs.enthought.com/chaco</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/chaco">https://github.com/enthought/chaco</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/chaco">https://docs.enthought.com/chaco</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/chaco">https://github.com/enthought/chaco</a></p></li>
 </ul>
 </div>
 <div class="section" id="envisage-plug-in-application-framework">
@@ -133,8 +135,8 @@ PyQt, PySide and WxPython.</p>
 <p>Envisage is a plug-in application framework for Python inspired by the plug-in
 framework of the <a class="reference external" href="https://www.eclipse.org/">Eclipse</a> IDE.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/envisage">https://docs.enthought.com/envisage</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/envisage">https://github.com/enthought/envisage</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/envisage">https://docs.enthought.com/envisage</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/envisage">https://github.com/enthought/envisage</a></p></li>
 </ul>
 </div>
 <div class="section" id="pyface-low-level-gui-components">
@@ -143,8 +145,8 @@ framework of the <a class="reference external" href="https://www.eclipse.org/">E
 a toolkit-agnostic framework for building application UIs.  Pyface uses and can
 interoperate with PyQt, PySide or WxPython.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/pyface">https://docs.enthought.com/pyface</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/qt_binder">https://github.com/enthought/qt_binder</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/pyface">https://docs.enthought.com/pyface</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/pyface">https://github.com/enthought/pyface</a></p></li>
 </ul>
 </div>
 <div class="section" id="qt-binder-low-level-trait-bindings-for-qt">
@@ -153,8 +155,8 @@ interoperate with PyQt, PySide or WxPython.</p>
 a Traits UI View using a special Item called Bound. Binder widgets can be bound to
 model traits using binding expressions.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://qt-binder.readthedocs.io">https://qt-binder.readthedocs.io</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/qt_binder">https://github.com/enthought/qt_binder</a></li>
+<li><p>Documentation: <a class="reference external" href="https://qt-binder.readthedocs.io">https://qt-binder.readthedocs.io</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/qt_binder">https://github.com/enthought/qt_binder</a></p></li>
 </ul>
 </div>
 <div class="section" id="traits-futures-background-processing-for-traitsui">
@@ -164,8 +166,8 @@ TraitsUI application, and later respond to the result(s) of that calculation,
 leaving the main UI responsive for user interactions while the background
 calculation is in progress.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/traits-futures">https://docs.enthought.com/traits-futures</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/traits-futures">https://github.com/enthought/traits-futures</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/traits-futures">https://docs.enthought.com/traits-futures</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/traits-futures">https://github.com/enthought/traits-futures</a></p></li>
 </ul>
 </div>
 <div class="section" id="apptools-gui-application-components-and-systems">
@@ -174,8 +176,8 @@ calculation is in progress.</p>
 applications, including logging, undo/redo, application-wide selection,
 macro recording.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/apptools">https://docs.enthought.com/apptools</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/apptools">https://github.com/enthought/apptools</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/apptools">https://docs.enthought.com/apptools</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/apptools">https://github.com/enthought/apptools</a></p></li>
 </ul>
 </div>
 <div class="section" id="kiva-and-enable-2d-vector-drawing-and-interaction">
@@ -184,8 +186,8 @@ macro recording.</p>
 including AGG, Cairo, Quartz, QPainter, PDF and PostScript.  Enable adds
 Traits-based interactivity and event-handling on top of Qt or Wx.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/enable">https://docs.enthought.com/enable</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/enable">https://github.com/enthought/enable</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/enable">https://docs.enthought.com/enable</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/enable">https://github.com/enthought/enable</a></p></li>
 </ul>
 </div>
 <div class="section" id="codetools-python-code-analysis-and-execution">
@@ -194,8 +196,8 @@ Traits-based interactivity and event-handling on top of Qt or Wx.</p>
 code and advanced execution contexts that permit observation of
 changes to variables as code is executed.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="http://docs.enthought.com/codetools">http://docs.enthought.com/codetools</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/codetools">https://github.com/enthought/codetools</a></li>
+<li><p>Documentation: <a class="reference external" href="http://docs.enthought.com/codetools">http://docs.enthought.com/codetools</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/codetools">https://github.com/enthought/codetools</a></p></li>
 </ul>
 </div>
 <div class="section" id="scimath-scientific-utilities-including-units">
@@ -203,8 +205,8 @@ changes to variables as code is executed.</p>
 <p>Scimath provides a collection of scientific computation utilities, including
 scalar and numpy array quantities with physical units.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://docs.enthought.com/scimath">https://docs.enthought.com/scimath</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/scimath">https://github.com/enthought/scimath</a></li>
+<li><p>Documentation: <a class="reference external" href="https://docs.enthought.com/scimath">https://docs.enthought.com/scimath</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/scimath">https://github.com/enthought/scimath</a></p></li>
 </ul>
 </div>
 <div class="section" id="graphcanvas-2d-network-visualization-under-development">
@@ -212,7 +214,7 @@ scalar and numpy array quantities with physical units.</p>
 <p>GraphCanvas provides interactive 2D representations of networks and graphs using
 Enable and NetworkX.</p>
 <ul class="simple">
-<li>Source: <a class="reference external" href="https://github.com/enthought/graphcanvas">https://github.com/enthought/graphcanvas</a></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/graphcanvas">https://github.com/enthought/graphcanvas</a></p></li>
 </ul>
 </div>
 <div class="section" id="other-enthought-open-source">
@@ -227,26 +229,26 @@ converting IBM single-precision and double-precision hexadecimal floats to
 the IEEE 754-format floats used by Python and NumPy on almost all current
 platforms.</p>
 <ul class="simple">
-<li>Source: <a class="reference external" href="https://github.com/enthought/ibm2ieee">https://github.com/enthought/ibm2ieee</a></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/ibm2ieee">https://github.com/enthought/ibm2ieee</a></p></li>
 </ul>
 </div>
 <div class="section" id="pywin32-ctypes">
 <h3>pywin32-ctypes<a class="headerlink" href="#pywin32-ctypes" title="Permalink to this headline">¶</a></h3>
 <p>A reimplementation of pywin32 that is pure python. It uses cffi, if available,
-otherwise falling back to using ctypes.  There is no need to have a compiler
+otherwise falling back to using <a class="reference external" href="https://docs.python.org/3/library/ctypes.html">ctypes</a>.  There is no need to have a compiler
 available on installation or at runtime.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://pywin32-ctypes.readthedocs.io/en/stable/">https://pywin32-ctypes.readthedocs.io/en/stable/</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/pywin32-ctypes">https://github.com/enthought/pywin32-ctypes</a></li>
+<li><p>Documentation: <a class="reference external" href="https://pywin32-ctypes.readthedocs.io/en/stable/">https://pywin32-ctypes.readthedocs.io/en/stable/</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/pywin32-ctypes">https://github.com/enthought/pywin32-ctypes</a></p></li>
 </ul>
 </div>
 <div class="section" id="comtypes">
 <h3>comtypes<a class="headerlink" href="#comtypes" title="Permalink to this headline">¶</a></h3>
-<p><strong>comtypes</strong> is a lightweight Python COM package, based on the <a href="#id5"><span class="problematic" id="id6">ctypes_</span></a>
+<p><strong>comtypes</strong> is a lightweight Python COM package, based on the <a class="reference external" href="https://docs.python.org/3/library/ctypes.html">ctypes</a>
 FFI library.</p>
 <ul class="simple">
-<li>Documentation: <a class="reference external" href="https://pythonhosted.org/comtypes">https://pythonhosted.org/comtypes</a></li>
-<li>Source: <a class="reference external" href="https://github.com/enthought/comtypes">https://github.com/enthought/comtypes</a></li>
+<li><p>Documentation: <a class="reference external" href="https://pythonhosted.org/comtypes">https://pythonhosted.org/comtypes</a></p></li>
+<li><p>Source: <a class="reference external" href="https://github.com/enthought/comtypes">https://github.com/enthought/comtypes</a></p></li>
 </ul>
 </div>
 </div>
@@ -293,13 +295,11 @@ FFI library.</p>
        rel="nofollow">Show Source</a>
   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -323,7 +323,7 @@ FFI library.</p>
         &copy; Copyright 2019, Enthought Developers
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.3.1.
       </li>
     </ul>
     </div>
