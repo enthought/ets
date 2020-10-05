@@ -391,7 +391,7 @@ and use the new package where appropriate, and release.
 Step 14
 -------
 
-Once all ETS dependencies have been fixed to use the new pacakge,
+Once all ETS dependencies have been fixed to use the new package,
 hard-deprecate the old API in Apptools.
 
 Step 15
