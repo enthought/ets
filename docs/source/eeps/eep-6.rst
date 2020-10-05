@@ -15,7 +15,9 @@ Introduction
 
 Apptools is a collection of packages that provides services for ETS
 applications.  This EEP is a discussion about how this package can be
-refactored to be more useful.
+refactored to be more useful.  As part of this refactor, we are proposing
+removing a number of sub-packages of apptools and the creation of a new
+lower-level package for application services.
 
 
 Motivation
@@ -43,7 +45,8 @@ of generic event loops outside of the context of GUIs.
 
 Finally, the interaction of apptools with Envisage is ambiguous: Envisage
 depends on some apptools components (such as preferences), but other
-components provide Envisage plugins (such as logger and help).
+components provide Envisage plugins (such as logger and help).  This causes
+issues with packaging, distribution and release management.
 
 
 Discussion
@@ -80,7 +83,7 @@ depends in turn on features from ``sweet_pickle`` and ``type_manager``.
 
 The following packages duplicate functionality found elsewhere:
 
-- ``appscripting`` has the same goals as ``scripting`` and Canopy's scripting library
+- ``appscripting`` has the same goals as ``scripting`` and Canopy's closed-source internal scripting library
 - ``io.file`` is essentially a traited version of the Python 3 ``pathlib``
 - ``io.h5`` has a lot of overlap with Zarr
 - ``permissions`` has some overlap with an internal Enthought closed source library
@@ -220,9 +223,21 @@ These interdependencies can largely be resolved if we were to
 have the low-level ``preferences``, ``io.file``, ``naming`` and
 ``sweet_pickle`` in one library, and the UI-level ``preferences``
 and ``logger`` UI code, together with the plugins in a high-level
-apptools GUI library.  In particular the UI preferences code is
-mostly integrated with Workbench code, so if that were moved to
-apptools those dependencies would resolve themselves.
+apptools GUI library.  In particular the preferences GUI code used
+by Envisage is mostly integrated with Workbench plugin code, so if
+that were moved to apptools along with the rest of Workbench, those
+dependencies would resolve themselves.
+
+The dependency diagram for this "Core Services" library might look
+something like this:
+
+.. graphviz::
+
+   digraph {
+        "Mayavi" -> "Apptools" -> "Envisage" -> "Core Services" -> "Traits"
+        "Apptools" -> "TraitsUI" -> "Pyface" -> "Core Services"
+   }
+
 
 Testing
 -------
@@ -237,6 +252,8 @@ testing:
 - ``permissions``
 - ``template``
 
+Some other packages use pytest rather than unittest.
+
 This needs to be considered when thinking about refactoring.
 
 
@@ -246,6 +263,9 @@ Proposal
 Resolving these issues will likely take some time, and several
 releases of Apptools if we are to prevent problems with backward
 compatibility.
+
+This proposal also involves the creation of a new, to-be-named,
+ETS library to hold application services.
 
 Step 1
 ------
@@ -346,7 +366,7 @@ modules in such a way as to not break existing code as much as
 possible.  The old import locations should be soft-deprecated.
 
 The only dependencies of code in this package should be on Traits
-and
+and (possibly, optionally) PyTables (for file.io.h5).
 
 Packages that should be in the new package are:
 
