@@ -77,7 +77,7 @@ which can then lead to further issues.
 
 As a result, a more conservative approach is warranted, at least initially.
 Rather than starting to annotate directly and completely, it makes more sense
-to only partically annotate, and to do so with the use of stub files, so that
+to only partially annotate, and to do so with the use of stub files, so that
 the type annotation is distinct from the source code; this also permits some
 more freedom in the way that we annotate.
 
@@ -139,10 +139,11 @@ We won't be able to give typing hints for:
 Implementation
 ==============
 
-A reasonably initial step may be to use stub generation tools to generate
+A reasonable initial step may be to use stub generation tools to generate
 stub files for most of the modules.  However most of the work will need to
 be done with the :module:`traits.trait_types` module, since those need to
-be converted into something that represents the
+be converted into something that represents the value type (eg. int, str,
+list, etc.) rather than the ``TraitType`` object.
 
 For example, a stub file annotation for the :class:`Int` might, in the
 simplest possible approach, look like::
@@ -195,7 +196,7 @@ However some further overloading will be needed to cover the full signature
 of the class.
 
 With some work, we can hope to cover perhaps 80-90% of typical usage without
-giving warnings in cases where.
+giving warnings in cases where there is no way to represent the type.
 
 
 What is Not Part of this Proposal
