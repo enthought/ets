@@ -85,6 +85,8 @@ EEP                      EEP Title
 `EEP-2 <eep-2.html>`_    Improved Trait Container Types
 `EEP-3 <eep-3.html>`_    Trait Observables
 `EEP-4 <eep-4.html>`_    Type Annotation Integration
+`EEP-5 <eep-5.html>`_    TraitsUI Tables and Trees
+`EEP-6 <eep-6.html>`_    Whither Apptools?
 ======================== =====================================================
 
 
