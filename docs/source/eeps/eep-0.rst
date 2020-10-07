@@ -84,6 +84,7 @@ EEP                      EEP Title
 `EEP-1 <eep-1.html>`_    ETS Code Style
 `EEP-2 <eep-2.html>`_    Improved Trait Container Types
 `EEP-3 <eep-3.html>`_    Trait Observables
+`EEP-4 <eep-4.html>`_    Type Annotation Integration
 ======================== =====================================================
 
 
