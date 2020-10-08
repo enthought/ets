@@ -56,9 +56,9 @@ to Traits, and would not permit existing code to enjoy the benefits of
 type annotation.
 
 Additionally, there has been substantial change in the design of standard
-library support for type annotations (particularly the :module:`typing`
+library support for type annotations (particularly the :mod:`typing`
 module) through the supported versions of Python (currently 3.5 to 3.8).
-This provides technical obstacles in mapping complex :module:`typing` types
+This provides technical obstacles in mapping complex :mod:`typing` types
 to corresponding Traits types.
 
 Finally, because the :class:`HasMetaTraits` class manipulates the structure
@@ -94,7 +94,7 @@ following restrictions:
   discourage the use of bare classes like ``Int``, as supporting this adds
   some complexity to the codebase.
 - for classes with inner traits eg. :class:`List(Int)` we may initially simply
-  annotate as :class:`list` rather than using the full :module:`typing` module
+  annotate as :class:`list` rather than using the full :mod:`typing` module
   ``List[int]``.  A partial, but true, annotation is better than a complex and
   complete annotation, at least initially.  However initial experimentation
   indicates that it should be possible to cover the inner types.
@@ -103,7 +103,7 @@ following restrictions:
 
 This will require some auxilliary type definitions (and likely some generic
 types) to describe these situations, but should not require any deep work
-with the :module:`typing` module.
+with the :mod:`typing` module.
 
 Since developing the stub files is an iterative process which is likely to
 proceed quickly initially, we do not want to be tied to the Traits release
@@ -117,7 +117,7 @@ the issue of keeping stubs synchronized with the traits release.
 We won't be able to give typing hints for:
 
 - ``**traits`` keyword arguments: if a user wants this they will need to
-  express it themselves in the signature of the :method:`__init__` as the
+  express it themselves in the signature of the :meth:`__init__` as the
   typing system has no way to link the keyword arguments with particular
   named attributes.  Fortunately these will be run-time type-checked.
 - overloaded defaults of the form::
@@ -141,7 +141,7 @@ Implementation
 
 A reasonable initial step may be to use stub generation tools to generate
 stub files for most of the modules.  However most of the work will need to
-be done with the :module:`traits.trait_types` module, since those need to
+be done with the :mod:`traits.trait_types` module, since those need to
 be converted into something that represents the value type (eg. int, str,
 list, etc.) rather than the ``TraitType`` object.
 
