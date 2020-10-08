@@ -13,7 +13,7 @@ EEP 7: ETS Code Modernization
 Introduction
 ============
 
-All of the ETS codebase, with the exeption of the Codetools module,
+All of the ETS codebase, with the exception of the Codetools module,
 supports Python 3.  With the end-of-life of Python 2 in 2020, we want
 to move to a Python 3-only codebase.
 
