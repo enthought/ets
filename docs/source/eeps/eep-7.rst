@@ -18,8 +18,9 @@ supports Python 3.  With the end-of-life of Python 2 in 2020, we want
 to move to a Python 3-only codebase.
 
 Additionally, we would like to make use of some of the new features of
-Traits 6.1 and remove things which were deprecated in Traits 6.0 and 6.1.
-In doing this we want to minimize the disruption to other codebases.
+Traits 6.1 and remove the usage of things like ``TraitHandlers`` which
+were deprecated in Traits 6.0 and 6.1.  In doing this we want to minimize
+the disruption to other codebases.
 
 This also presents a plan for dropping support for old versions of the
 GUI toolkits (Qt 4, WxPython < 4.1).
@@ -33,7 +34,8 @@ or which is overly complicated because it needs to take into account the
 changes in behaviour of code over the past decade and a half.
 
 Currently the codebase supports Python 2.7 and 3.5+ in most cases, with
-the notable exception of Codetools.
+the notable exception of Codetools, which has substantial components which
+need to be re-written for Python 3.
 
 Supporting Python 2 requires additional effort from the ETS maintainers
 and becomes more and more difficult as Python 3 progresses, preventing
@@ -73,7 +75,8 @@ This proposal talks about the development of the following ETS libraries:
 
 We might also use this process for Codetools, but the effort there is
 likely to be larger since it is more closely bound to the syntax of Python
-by the nature of the library.
+by the nature of the library, and as a result will likely be upgraded
+next year and as a separate effort.
 
 We propose to support all Python versions that are not yet end-of-life.
 At the time of writing this is Python 3.6 through to Python 3.9.  All
@@ -96,7 +99,9 @@ We propose that for all ETS projects that have not yet dropped Python 2
 support that the next major release should support Qt 4.8, Qt 5.6+, and
 WxPython 4.0+ as much as possible.  This will likely require modernization
 of any WxPython code that these libraries contain, and possibly some minor
-fixes to Qt code, but is not likely to be a major effort.
+fixes to Qt code, but is not likely to be a major effort.  Enable is the
+library which is most likely to have work to do here, as it is the library
+with the most Wx-specific code that needs updating.
 
 The releases for Pyface 7.2 and TraitsUI 7.2 should drop support for Qt
 versions earlier than 5.6 and WxPython 4.0.  This will likely have little
@@ -107,4 +112,5 @@ Finally, as part of code clean-up, re-formatting to match modern code
 style should be done opportunistically during the modernization process.
 In particular, bulk clean-up, like running ``black`` over a codebase should
 be done at a point where there are not a lot of open PRs, to reduce the
-impact from merge conflicts from re-formatting operations.
+impact from merge conflicts from re-formatting operations.  Once this is
+done, CI should check to ensure flake8 tests continue to pass.
