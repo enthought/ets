@@ -55,7 +55,7 @@ def cached(func):
 
 
 # Uncomment decorator to cache responses
-#@cached
+# @cached
 def get_response(repo, event):
     """ Return the JSON data for the GitHub organization/repo runs triggered
     by the given event. The most recent and at most 100 runs will be returned.
@@ -141,7 +141,12 @@ def get_short_summary(repo_to_records):
 
 def create_report_tables(repo_to_records, file=sys.stdout):
     print("Generated on: ", datetime.date.today().isoformat(), file=file)
+    print(file=file)
+
     print("Event trigger: ", EVENT, file=file)
+    print(file=file)
+
+    print("Include runs no older than: ", str(NO_OLDER_THAN), file=file)
     print(file=file)
 
     # Print each table
