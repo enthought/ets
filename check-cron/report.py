@@ -118,7 +118,7 @@ def to_table(repo_records):
         summary = record_summary(record)
         keys = list(summary.keys())
         table.append(list(summary.values()))
-    return tabulate(table, headers=keys, tablefmt="rst")
+    return tabulate(table, headers=keys, tablefmt="github")
 
 
 def get_repo_records():
@@ -154,7 +154,7 @@ def create_report_tables(repo_to_records, file=sys.stdout):
 def main():
     repo_to_records = get_repo_records()
 
-    with open("results.rst", "w", encoding="utf-8") as fp:
+    with open("results.md", "w", encoding="utf-8") as fp:
         create_report_tables(repo_to_records, file=fp)
 
     print(get_short_summary(repo_to_records))
