@@ -1,18 +1,18 @@
-Generated on:  2020-11-30
+Generated on:  2020-12-03
 
-Event trigger:  pull_request
+Include runs triggered by:  schedule
 
-Include runs no older than:  6 days, 0:00:00
+Include runs no older than:  7 days, 0:00:00
 
 **enthought/traits**
 
 
 **enthought/traitsui**
-| Name           | Conclusion   | Updated                            | URL                                                                     |
-|----------------|--------------|------------------------------------|-------------------------------------------------------------------------|
-| Style check    | ✅ success    | 2020-11-30T12:11:43Z  (0 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/391545841) |
-| Test with PyPI | ✅ success    | 2020-11-30T12:17:00Z  (0 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/391545840) |
-| Minimal setup  | ✅ success    | 2020-11-30T12:12:37Z  (0 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/391545838) |
+| Name               | Conclusion   | Updated                            | URL                                                                     |
+|--------------------|--------------|------------------------------------|-------------------------------------------------------------------------|
+| ETS from source    | ✅ success    | 2020-12-03T00:47:30Z  (1 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/397303097) |
+| Test with Traits 6 | ✅ success    | 2020-12-03T00:43:07Z  (1 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/397302352) |
+| Integration tests  | ✅ success    | 2020-12-03T00:20:46Z  (1 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/397266878) |
 
 **enthought/pyface**
 

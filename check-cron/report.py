@@ -20,11 +20,11 @@ REPOS = [
     "enthought/mayavi",
 ]
 
-# Only analyze runs that are not older than 6 days
-NO_OLDER_THAN = datetime.timedelta(days=6)
+# Only analyze runs that are not older than this long
+NO_OLDER_THAN = datetime.timedelta(days=7)
 
 # Only runs triggered by this event type will be reported
-EVENT = "pull_request"
+EVENT = "schedule"
 
 
 def parse_timestamp(timestamp):
@@ -143,7 +143,7 @@ def create_report_tables(repo_to_records, file=sys.stdout):
     print("Generated on: ", datetime.date.today().isoformat(), file=file)
     print(file=file)
 
-    print("Event trigger: ", EVENT, file=file)
+    print("Include runs triggered by: ", EVENT, file=file)
     print(file=file)
 
     print("Include runs no older than: ", str(NO_OLDER_THAN), file=file)
