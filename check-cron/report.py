@@ -21,7 +21,8 @@ REPOS = [
 ]
 
 # Only analyze runs that are not older than this long
-NO_OLDER_THAN = datetime.timedelta(days=7)
+AS_RECENT_AS = datetime.timedelta(days=7)
+INCLUDE_RUNS_SINCE = datetime.datetime.now() - AS_RECENT_AS
 
 # Only runs triggered by this event type will be reported
 EVENT = "schedule"
@@ -59,6 +60,25 @@ def cached(func):
 def get_response(repo, event):
     """ Return the JSON data for the GitHub organization/repo runs triggered
     by the given event. The most recent and at most 100 runs will be returned.
+
+    Parameters
+    ----------
+    repo: str
+        Name for a GitHub repository, including organization
+        e.g. 'python/cpython'
+    event: str
+        Name of the event to monitor, e.g. 'schedule'
+        See GitHub Actions Web API references.
+
+    Returns
+    -------
+    response : dict
+        JSON response
+
+    Raises
+    ------
+    urllib2.HTMLError
+        If the response indicates errors.
     """
     response = requests.get(
         f"https://api.github.com/repos/{repo}/actions/runs?event={event}",
@@ -68,16 +88,29 @@ def get_response(repo, event):
     response.raise_for_status()
 
 
-def get_latest_runs(data):
+def get_latest_runs(data, since):
     """ Given the full response, filter runs such that only the latest runs
     for each workflow id are returned.
+
+    Parameters
+    ----------
+    data : dict
+        JSON response, e.g. output of get_response
+    since : datetime
+        Only runs created since this datetime are returned.
+
+    Returns
+    -------
+    last_runs : list
+        List of run records where each one corresponds to the latest run for
+        a given workflow.
     """
     id_to_latest = {}
     id_to_last_run = {}
     for run in data["workflow_runs"]:
         workflow_id = run["workflow_id"]
         created_time = parse_timestamp(run["created_at"])
-        if datetime.datetime.now() - created_time > NO_OLDER_THAN:
+        if created_time <= since:
             continue
         latest = id_to_latest.setdefault(
             workflow_id, datetime.datetime(1, 1, 1)
@@ -90,7 +123,17 @@ def get_latest_runs(data):
 
 def record_summary(record):
     """ For a given job run record, return the formatted entries to be
-    reported in reStructuredText format.
+    reported in (rich) text format.
+
+    Parameters
+    ----------
+    record : dict
+        A single run record
+
+    Returns
+    -------
+    summary : dict
+        Filtered and formatted data.
     """
     name = record["name"]
     conclusion = record["conclusion"]
@@ -123,12 +166,24 @@ def to_table(repo_records):
 
 def get_repo_records():
     return {
-        repo: get_latest_runs(get_response(repo, EVENT))
+        repo: get_latest_runs(get_response(repo, EVENT), INCLUDE_RUNS_SINCE)
         for repo in REPOS
     }
 
 
 def get_short_summary(repo_to_records):
+    """ Given a mapping from repositories to its list of job run records,
+    return a short sentence as a summary.
+
+    Parameters
+    ----------
+    repo_to_records : dict(str, list(dict))
+        Keys are repo names. Values are list of run job records.
+
+    Returns
+    -------
+    summary : str
+    """
     # Get overall success/failure counts
     conclusion_counter = Counter()
     for records in repo_to_records.values():
@@ -140,13 +195,23 @@ def get_short_summary(repo_to_records):
 
 
 def create_report_tables(repo_to_records, file=sys.stdout):
+    """ Given a mapping from repositories to its list of job run records,
+    print the report table to a stream.
+
+    Parameters
+    ----------
+    repo_to_records : dict(str, list(dict))
+        Keys are repo names. Values are list of run job records.
+    file : file-like
+        Output stream to print reports to.
+    """
     print("Generated on: ", datetime.date.today().isoformat(), file=file)
     print(file=file)
 
     print("Include runs triggered by: ", EVENT, file=file)
     print(file=file)
 
-    print("Include runs no older than: ", str(NO_OLDER_THAN), file=file)
+    print("Include runs in the last: ", str(AS_RECENT_AS), file=file)
     print(file=file)
 
     # Print each table
