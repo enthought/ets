@@ -1,4 +1,3 @@
-from collections import Counter
 import datetime
 from tabulate import tabulate
 import os
@@ -189,8 +188,6 @@ def get_short_summary(repo_to_records):
     unknowns = set()
 
     for repo, records in repo_to_records.items():
-        counter = Counter(record["conclusion"] for record in records)
-        failed_or_errorred = (len(records) - counter["success"]) > 0
 
         if not records:
             unknowns.add(repo)
