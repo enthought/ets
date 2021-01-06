@@ -184,14 +184,27 @@ def get_short_summary(repo_to_records):
     -------
     summary : str
     """
-    # Get overall success/failure counts
-    conclusion_counter = Counter()
-    for records in repo_to_records.values():
-        conclusion_counter.update(record["conclusion"] for record in records)
-    sadness = sum(
-        count for key, count in conclusion_counter.items() if key != "success"
+    successes = set()
+    failures = set()
+    unknowns = set()
+
+    for repo, records in repo_to_records.items():
+        counter = Counter(record["conclusion"] for record in records)
+        failed_or_errorred = (len(records) - counter["success"]) > 0
+
+        if not records:
+            unknowns.add(repo)
+            continue
+
+        if any(record["conclusion"] != "success" for record in records):
+            failures.add(repo)
+            continue
+
+        successes.add(repo)
+
+    return "OK: {}  NOT OK: {}  Unknown: {}".format(
+        len(successes), len(failures), len(unknowns)
     )
-    return "There is some sadness." if sadness > 0 else "Happy Day!"
 
 
 def create_report_tables(repo_to_records, file=sys.stdout):
