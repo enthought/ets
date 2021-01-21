@@ -1,8 +1,8 @@
-Generated on:  2021-01-06
+Generated on:  2021-01-21
 
 Include runs triggered by:  schedule
 
-Include runs no older than:  7 days, 0:00:00
+Include runs in the last:  7 days, 0:00:00
 
 **enthought/traits**
 
@@ -10,15 +10,18 @@ Include runs no older than:  7 days, 0:00:00
 **enthought/traitsui**
 | Name               | Conclusion   | Updated                            | URL                                                                     |
 |--------------------|--------------|------------------------------------|-------------------------------------------------------------------------|
-| ETS from source    | ✅ success    | 2020-12-31T01:05:44Z  (6 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/453675596) |
-| Test with Traits 6 | ✅ success    | 2020-12-31T01:03:58Z  (6 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/453674736) |
-| Integration tests  | ✅ success    | 2020-12-31T00:35:22Z  (6 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/453639538) |
+| Test with PyPI     | ✅ success    | 2021-01-21T03:56:35Z  (0 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/500208512) |
+| ETS from source    | ✅ success    | 2021-01-21T01:31:23Z  (0 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/500004015) |
+| Test with Traits 6 | ✅ success    | 2021-01-21T01:28:50Z  (0 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/500002737) |
+| Integration tests  | ✅ success    | 2021-01-21T00:56:15Z  (0 days ago) | [Details](https://github.com/enthought/traitsui/actions/runs/499951488) |
 
 **enthought/pyface**
 
 
 **enthought/enable**
-
+| Name            | Conclusion   | Updated                            | URL                                                                   |
+|-----------------|--------------|------------------------------------|-----------------------------------------------------------------------|
+| ETS from source | ✅ success    | 2021-01-15T01:20:51Z  (6 days ago) | [Details](https://github.com/enthought/enable/actions/runs/486816393) |
 
 **enthought/chaco**
 
