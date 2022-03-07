@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>EEP-1: Coding Style Guidelines &mdash; Enthought Tool Suite  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Enthought Tool Suite  documentation" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Enthought Tool Suite  documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="eep-1-coding-style-guidelines">
+<h1>EEP-1: Coding Style Guidelines<a class="headerlink" href="#eep-1-coding-style-guidelines" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Corran Webster</p>
+</dd>
+<dt class="field-even">Status</dt>
+<dd class="field-even"><p>Active</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Informational</p>
+</dd>
+<dt class="field-even">Content-Type</dt>
+<dd class="field-even"><p>text/x-rst</p>
+</dd>
+<dt class="field-odd">Created</dt>
+<dd class="field-odd"><p>2020-01-02</p>
+</dd>
+<dt class="field-even">Post-History</dt>
+<dd class="field-even"><p>2020-01-02</p>
+</dd>
+</dl>
+<p>ETS projects largely follow the <a class="reference external" href="http://www.python.org/dev/peps/pep-0007/">PEP7</a> and <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">PEP8</a> coding style guide and
+<a class="reference external" href="https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt">NumPy docstring standard</a>, with some <a class="reference internal" href="#exceptions">exceptions</a> derived from Enthought
+standard practice. <a class="footnote-reference brackets" href="#id3" id="id1">1</a> <a class="footnote-reference brackets" href="#id4" id="id2">2</a></p>
+<div class="section" id="exceptions-to-cpython-s-style-guide">
+<span id="exceptions"></span><h2>Exceptions to CPython’s Style Guide<a class="headerlink" href="#exceptions-to-cpython-s-style-guide" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="docstrings">
+<h3>Docstrings<a class="headerlink" href="#docstrings" title="Permalink to this headline">¶</a></h3>
+<p>Function and method docstrings should follow the
+<a class="reference external" href="https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt">NumPy Docstring Standard</a>, falling back to <a class="reference external" href="https://www.python.org/dev/peps/pep-0257/">PEP 257</a> if something is
+not specified there.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">HasTraits</span></code> subclasses, do not include an <code class="docutils literal notranslate"><span class="pre">Attributes</span></code> section in the
+class docstring. Our API reference generator can extract the necessary
+information.</p>
+<p>ETS style for docstrings puts a single space after the opening triple-quotes.
+Docstrings may or may not have a final blank line, as our documentation
+generator does not care.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is a class with a docstring.</span>
+
+<span class="sd">    And no final blank line.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Single-line docstrings may either follow <a class="reference external" href="https://www.python.org/dev/peps/pep-0257/">PEP 257</a> and put the closing
+triple-quotes on the same line as the docstring or on the following line.
+In addition, for a single-line docstring with the closing quotes on the
+same line, an additional space may be left after the final character
+to provide balance with the opening space.</p>
+<p>This means any of following are acceptable:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_function</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Do something that is simple and easy to describe.&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_function&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">my_second_function</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Do something that is simple and easy to describe. &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_second_function&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">my_third_function</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Do something else simple and easy to describe.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;my_third_function&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="imports">
+<h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
+<p>Imports should be broken into separate blocks, separated by a blank line:</p>
+<ul class="simple">
+<li><p>Standard library imports.</p></li>
+<li><p>Third-party imports (comtraits, PyOpenGL).</p></li>
+<li><p>Enthought imports (traits, enaml, chaco, etc.).</p></li>
+<li><p>Local imports.</p></li>
+</ul>
+<p>Import statements should usually happen at the top of the module, not inside
+functions. There are some standard exceptions to this rule, however.  Much of
+the framework APIs in our codebase make heavy use of factory functions to
+configure objects in the frameworks. In many cases, these factory functions
+should do their imports locally to avoid loading possibly-heavy modules if the
+factory is never needed. For example, Envisage <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> definitions should
+have almost no imports at the top other than what is necessary to define the
+traits on the <code class="docutils literal notranslate"><span class="pre">Plugin</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> files should be empty and contain no imports.  Public APIs
+should be exposed instead via a standard <code class="docutils literal notranslate"><span class="pre">api.py</span></code> module in the package.</p>
+<p>Import statements that need to be broken up across multiple lines should use
+parantheses to mark line continuation, not backslashes.</p>
+<p>Yes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Float</span><span class="p">,</span> <span class="n">HasStrictTraits</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>No:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">traits.api</span> <span class="kn">import</span> <span class="n">Float</span><span class="p">,</span> <span class="n">HasStrictTraits</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> \
+   <span class="n">Tuple</span>
+</pre></div>
+</div>
+<p>For imports within a sub-package, explicit relative imports are encouraged.
+For imports outside of a package, use fully-qualified absolute imports. One
+should not use explicit relative imports to go up a level and over to another
+package.</p>
+<p>Yes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.foo</span> <span class="kn">import</span> <span class="n">bar</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">foo</span>
+</pre></div>
+</div>
+<p>No:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">..foo</span> <span class="kn">import</span> <span class="n">bar</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">foo</span>
+</pre></div>
+</div>
+<p>More concretely, let us say that we have the following package layout:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_project</span><span class="o">/</span>
+    <span class="n">foo</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">abc</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">def</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">tests</span><span class="o">/</span>
+              <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+              <span class="n">test_abc</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">bar</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">ghi</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">my_project/foo/abc.py</span></code> needs to import the <code class="docutils literal notranslate"><span class="pre">DEF</span></code> class from
+<code class="docutils literal notranslate"><span class="pre">my_project.foo.def</span></code> and the <code class="docutils literal notranslate"><span class="pre">GHI</span></code> class from <code class="docutils literal notranslate"><span class="pre">my_project.bar.ghi</span></code>.
+The imports should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">my_project.bar.ghi</span> <span class="kn">import</span> <span class="n">GHI</span>
+<span class="kn">from</span> <span class="nn">.def</span> <span class="kn">import</span> <span class="n">DEF</span>
+</pre></div>
+</div>
+<p>Not this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">my_project.bar.ghi</span> <span class="kn">import</span> <span class="n">GHI</span>
+<span class="kn">from</span> <span class="nn">my_project.foo.def</span> <span class="kn">import</span> <span class="n">DEF</span>
+</pre></div>
+</div>
+<p>Or this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">..bar.ghi</span> <span class="kn">import</span> <span class="n">GHI</span>
+<span class="kn">from</span> <span class="nn">.def</span> <span class="kn">import</span> <span class="n">DEF</span>
+</pre></div>
+</div>
+<p>One exception to this is that tests can use two levels of relative imports to
+get to the module under test.  So in <code class="docutils literal notranslate"><span class="pre">test_abc.py</span></code> we may import the
+<code class="docutils literal notranslate"><span class="pre">my_project.foo.abc</span></code> module like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">abc</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="traits">
+<h3>Traits<a class="headerlink" href="#traits" title="Permalink to this headline">¶</a></h3>
+<p>Traits should be defined at the top of the class definition, before the
+methods are defined. Each trait definition should be preceded by a comment
+documenting the attribute.  Comments should use Sphinx’s <code class="docutils literal notranslate"><span class="pre">#:</span></code> convention
+so that automated documentation tools can collect them.</p>
+<p>Groups of related traits can be grouped with a comment line heading them;
+public traits should be closer to the top:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+
+    <span class="c1"># Foo public interface ----------------------------------------------</span>
+
+    <span class="c1">#: The X coordinate.</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Float</span><span class="p">)</span>
+
+    <span class="c1">#: The Y coordinate.</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="n">Float</span><span class="p">)</span>
+
+    <span class="c1"># Internal state traits ---------------------------------------------</span>
+
+    <span class="c1">#: The combined (x, y) position.</span>
+    <span class="n">_position</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">Float</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Similarly, methods can be broken up by similar comment headings. Methods that
+implement a specific interface or override those on a superclass should usually
+be called out under their own heading:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SubFoo</span><span class="p">(</span><span class="n">Foo</span><span class="p">):</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># Foo interface</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># SubFoo interface</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">sub_foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># ------------------------------------------------------------</span>
+    <span class="c1"># Traits stuff</span>
+    <span class="c1"># ------------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">__position_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+     <span class="k">def</span> <span class="nf">_get_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="envisage">
+<h3>Envisage<a class="headerlink" href="#envisage" title="Permalink to this headline">¶</a></h3>
+<p>For Envisage service IDs, it is <em>not</em> recommended to split long
+strings to comply with the PEP8-recommended maximum line length; this
+makes it more difficult to search for those strings when refactoring
+or debugging.  Instead, keep those strings on one line, and decorate
+the line with a <code class="docutils literal notranslate"><span class="pre">noqa</span></code> comment to prevent the <code class="docutils literal notranslate"><span class="pre">flake8</span></code> utility from
+complaining about the excessive line length.</p>
+<p>Yes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MESSAGING_SERVICE</span> <span class="o">=</span> <span class="s1">&#39;canopy.service.messaging.AsynchronousMessagingService&#39;</span>  <span class="c1"># noqa</span>
+</pre></div>
+</div>
+<p>No:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MESSAGING_SERVICE</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;canopy.service.messaging.&#39;</span>
+                     <span class="s1">&#39;AsynchronousMessagingService&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<p>All new code should be tested. Tests should be written in unittest-style
+and should be runnable with <code class="docutils literal notranslate"><span class="pre">unittest</span> <span class="pre">discover</span></code>.  ETS libraries should
+provide standard scripts (usually called <code class="docutils literal notranslate"><span class="pre">etstool.py</span></code>) for installing
+dependencies and running tests.</p>
+</div>
+<div class="section" id="unused-code">
+<h3>Unused code<a class="headerlink" href="#unused-code" title="Permalink to this headline">¶</a></h3>
+<p>Unused code should not be committed to the master branch: please
+remove any commented-out code or unreachable code paths before merging
+to master.</p>
+</div>
+<div class="section" id="logging">
+<h3>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h3>
+<p>In general, library code should not do any logging configuration: for
+example, setting levels on loggers, calling <code class="docutils literal notranslate"><span class="pre">logging.basicConfig</span></code>,
+or creating <code class="docutils literal notranslate"><span class="pre">logging.Handler</span></code> or <code class="docutils literal notranslate"><span class="pre">logging.Filter</span></code> objects.
+Library code should restrict itself to creating loggers via the usual</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and then using the various <code class="docutils literal notranslate"><span class="pre">logger</span></code> methods to emit log records
+(<code class="docutils literal notranslate"><span class="pre">logger.warning</span></code>, <code class="docutils literal notranslate"><span class="pre">logger.exception</span></code>, etc.).  Logging configuration
+should be left to the application.</p>
+<p>Tests should also avoid making persistent changes to logging
+configuration, though they may need to make temporary configuration
+changes (for example, to verify that a particular condition is logged
+properly).  Any such configuration changes should be reverted before
+the test exits, even if the test fails.</p>
+<p>Other exceptions:</p>
+<ul class="simple">
+<li><p>It’s fine to configure logging in scripts and examples:  those
+count as mini-applications rather than parts of the library.</p></li>
+<li><p>Ditto for <code class="docutils literal notranslate"><span class="pre">main</span></code> functions in a Python file that are used to
+demonstrate functionality.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="legacy-code">
+<h2>Legacy Code<a class="headerlink" href="#legacy-code" title="Permalink to this headline">¶</a></h2>
+<p>As of the writing of this EEP, there is a significant portion of the ETS
+toolbase which is written to a much older, pre-PEP8 style.  This code will
+eventually be migrated to PEP8 style using automated tools like <a class="reference external" href="https://black.readthedocs.io/en/stable/">Black</a>.
+Contributors should use their best judgement when modifying existing code
+about whether to perform a drive-by cleanup or whether to follow the
+existing style.</p>
+</div>
+<div class="section" id="references-and-footnotes">
+<h2>References and Footnotes<a class="headerlink" href="#references-and-footnotes" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>PEP 7, Style Guide for C Code
+(<a class="reference external" href="http://www.python.org/dev/peps/pep-0007">http://www.python.org/dev/peps/pep-0007</a>)</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>PEP 8, Style Guide for Python Code
+(<a class="reference external" href="http://www.python.org/dev/peps/pep-0008">http://www.python.org/dev/peps/pep-0008</a>)</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EEP-1: Coding Style Guidelines</a><ul>
+<li><a class="reference internal" href="#exceptions-to-cpython-s-style-guide">Exceptions to CPython’s Style Guide</a><ul>
+<li><a class="reference internal" href="#docstrings">Docstrings</a></li>
+<li><a class="reference internal" href="#imports">Imports</a></li>
+<li><a class="reference internal" href="#traits">Traits</a></li>
+<li><a class="reference internal" href="#envisage">Envisage</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+<li><a class="reference internal" href="#unused-code">Unused code</a></li>
+<li><a class="reference internal" href="#logging">Logging</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#legacy-code">Legacy Code</a></li>
+<li><a class="reference internal" href="#references-and-footnotes">References and Footnotes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/eeps/eep-1.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Enthought Developers
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

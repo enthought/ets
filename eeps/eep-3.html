@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>EEP 3: Trait Observables &mdash; Enthought Tool Suite  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Enthought Tool Suite  documentation" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Enthought Tool Suite  documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="eep-3-trait-observables">
+<h1>EEP 3: Trait Observables<a class="headerlink" href="#eep-3-trait-observables" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Corran Webster</p>
+</dd>
+<dt class="field-even">Status</dt>
+<dd class="field-even"><p>Active</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Standards Track</p>
+</dd>
+<dt class="field-even">Content-Type</dt>
+<dd class="field-even"><p>text/x-rst</p>
+</dd>
+<dt class="field-odd">Created</dt>
+<dd class="field-odd"><p>2020-01-02</p>
+</dd>
+<dt class="field-even">Post-History</dt>
+<dd class="field-even"><p>2020-01-02</p>
+</dd>
+</dl>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This is a proposal to add a new, simpler and cleaner, parallel notification
+system to the current trait listeners, with the eventual intent of replacing
+the existing listeners in new code, and eventually deprecating for old code.</p>
+</div>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>Traits is a successful, battle-tested object model system that has been used
+extensively inside and outside Enthought for 15 years.  It does what it does
+fairly well but, as with any complex system that has grown somewhat
+organically, there are issues with it.</p>
+<p>Perhaps the biggest problem with the current system is the high cognitive load
+in some areas.  Principal amongst these is the listener system, with its
+complex system of function signatures and extended trait change descriptions
+and the introspection which is required to make this work.  A common cause of
+bugs is the failure to anticipate every circumstance that a trait change
+handler might be called under, particularly given that changing the signature
+can change when an extended trait change handler is called.  Additionally,
+there are known bugs in the extended trait change system where behaviour
+doesn’t match documentation under some circumstances. <a class="footnote-reference brackets" href="#id6" id="id1">1</a> <a class="footnote-reference brackets" href="#id7" id="id2">2</a></p>
+<p>An obvious question is why we don’t simply fix or replace trait listeners.
+The core problem is that even basic “bugfixes” or improvements potentially
+break things in hard to diagnose ways. <a class="footnote-reference brackets" href="#id8" id="id3">3</a></p>
+<p>By building a similar but cleaner alternative, we allow legacy applications
+to continue to run as-is, but provide a straightforward update path.</p>
+<p>This proposal in many ways follows the successful change made in the
+Traitlets library to introduce an <cite>observe</cite> method and decorator, although
+this proposal is to use an object rather than a dictionary to hold information
+about the state as that allows code to more easily understand what change took
+place and what information is being provided. <a class="footnote-reference brackets" href="#id9" id="id4">4</a></p>
+</div>
+<div class="section" id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<p>Observables are a replacement for trait listeners.  They are to be implemented
+alongside the existing listener infrastructure because so much code depends on
+the current behaviour.  In many ways they will resemble <code class="docutils literal notranslate"><span class="pre">on_trait_change</span></code>
+but use <code class="docutils literal notranslate"><span class="pre">observe</span></code> instead.  The primary differences are:</p>
+<ul class="simple">
+<li><p>observers pass lightweight event objects to their callbacks, rather than the
+(confusingly) different function signatures that listeners currently use.</p></li>
+<li><p>the extended trait change syntax will be simplified and behaviours
+standardized</p></li>
+<li><p>container objects become more first-class, so if you have a list of lists,
+you can listen to <code class="docutils literal notranslate"><span class="pre">foo.items.items</span></code> (or some similar construct)</p></li>
+</ul>
+<p>To use the new observable system, users will use a new <code class="docutils literal notranslate"><span class="pre">observe</span></code> method and
+corresponding decorator for <code class="docutils literal notranslate"><span class="pre">HasTraits</span></code> classes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Example</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Float</span>
+
+    <span class="nd">@observe</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">x_updated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x updated&#39;</span><span class="p">)</span>
+
+<span class="n">example</span> <span class="o">=</span> <span class="n">Example</span><span class="p">()</span>
+<span class="n">example</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">dispatch</span><span class="o">=</span><span class="s1">&#39;ui&#39;</span><span class="p">)</span>
+<span class="n">example</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">example</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The callback or decorated function is expected to accept just one argument, an
+event object.  This object will be an instance of new <code class="docutils literal notranslate"><span class="pre">TraitEvent</span></code> classes,
+which will either be <code class="docutils literal notranslate"><span class="pre">namedtuple</span></code> subclasses or classes with <code class="docutils literal notranslate"><span class="pre">__slots__</span></code>
+and a limited collection of attributes. The most basic of these will be for
+standard trait changes, and will have attributes for <code class="docutils literal notranslate"><span class="pre">object</span></code>, <code class="docutils literal notranslate"><span class="pre">name</span></code>,
+<code class="docutils literal notranslate"><span class="pre">old</span></code> and <code class="docutils literal notranslate"><span class="pre">new</span></code>, but for example list events would have attributes for
+<code class="docutils literal notranslate"><span class="pre">index</span></code>, <code class="docutils literal notranslate"><span class="pre">removed</span></code> and <code class="docutils literal notranslate"><span class="pre">added</span></code>, and extended trait change events should
+include additional attributes that give context about which part of the
+extended trait change expression was invoked, and the base object being
+observed.</p>
+<div class="section" id="container-objects">
+<h3>Container Objects<a class="headerlink" href="#container-objects" title="Permalink to this headline">¶</a></h3>
+<p>Presuming EEP 2 <a class="footnote-reference brackets" href="#id10" id="id5">5</a> is approved and implemented, the traits container types
+(<code class="docutils literal notranslate"><span class="pre">TraitListObject</span></code>, etc.) will be first-class observables, so users will be
+able to write things like, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ListExample</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+
+    <span class="n">l</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="n">Example</span><span class="p">))</span>
+
+    <span class="nd">@observe</span><span class="p">(</span><span class="s1">&#39;l.items&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">l_updated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Whole list changed.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;items&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;List modified in-place.&quot;</span><span class="p">)</span>
+
+<span class="n">list_example</span> <span class="o">=</span> <span class="n">ListExample</span><span class="p">()</span>
+<span class="n">example</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="s1">&#39;items&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or even:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="o">=</span> <span class="n">TraitList</span><span class="p">()</span>
+<span class="n">l</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="s1">&#39;items&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="observation-mini-language">
+<h3>Observation Mini-Language<a class="headerlink" href="#observation-mini-language" title="Permalink to this headline">¶</a></h3>
+<p>The last piece is to simplify the extended trait change syntax.  We keep the
+‘.’ and ‘:’ as before, but this combined with the ability to listen directly
+to containers means we don’t need ‘[]’ any more, so we can translate:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">l</span></code> remains <code class="docutils literal notranslate"><span class="pre">l</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l_items</span></code> becomes <code class="docutils literal notranslate"><span class="pre">l:items</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l[]</span></code> becomes <code class="docutils literal notranslate"><span class="pre">l.items</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l.x</span></code> becomes <code class="docutils literal notranslate"><span class="pre">l.items.x</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l:x</span></code> becomes <code class="docutils literal notranslate"><span class="pre">l:items:x</span></code></p></li>
+</ul>
+<p>and in addition gain the ability to add more nuanced observations such as
+<code class="docutils literal notranslate"><span class="pre">l.items:x</span></code> or <code class="docutils literal notranslate"><span class="pre">l:items.x</span></code>, if desired.  To support this, it may help to
+have a corresponding property on trait lists, however that would preculde
+the use of “items” to avoid conflict with <code class="docutils literal notranslate"><span class="pre">dict.items</span></code>,  and we might need
+some alternative such as “trait_items” or “elements”.</p>
+<p>We keep the ability to observe to multiple different trait patterns using
+<code class="docutils literal notranslate"><span class="pre">[...,...]</span></code> to observe based on the existence of metadata using ‘+’, and to
+specify recursive patterns using ‘*’.</p>
+<p>We may drop the ability to observe based on the absence of metadata, and
+matching prefixes; on the other hand it may be simpler to keep support.</p>
+<p>Whatever form the langauge takes, it will be clearly specified with a grammar
+so that the implementation of the parser can be replaced with another with
+minimal difficulty.  Expressed in a similar style to Python’s grammar, it
+might look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">group</span><span class="p">:</span> <span class="n">item</span> <span class="p">(</span><span class="s1">&#39;,&#39;</span> <span class="n">item</span><span class="p">)</span><span class="o">*</span>
+<span class="n">item</span><span class="p">:</span> <span class="n">term</span> <span class="p">(</span><span class="n">connector</span> <span class="n">term</span><span class="p">)</span><span class="o">*</span>
+<span class="n">connector</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span> <span class="o">|</span> <span class="s1">&#39;:&#39;</span>
+<span class="n">term</span><span class="p">:</span> <span class="p">(</span><span class="n">union_group</span> <span class="o">|</span> <span class="n">simple_term</span><span class="p">)</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">]</span>
+<span class="n">union_group</span><span class="p">:</span> <span class="s1">&#39;[&#39;</span> <span class="n">group</span> <span class="s1">&#39;]&#39;</span>
+<span class="n">simple_term</span><span class="p">:</span> <span class="n">NAME</span> <span class="o">|</span> <span class="s1">&#39;+&#39;</span> <span class="n">NAME</span>
+</pre></div>
+</div>
+<p>To support the new language, we also want a way to programatically generate
+pattens as an intermediate form.  This intermediate language has the potential
+to be more powerful than the text version (eg. by specifying more powerful
+metadata matches):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">l.items.x</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">obs('l',</span> <span class="pre">obs('items',</span> <span class="pre">'x'))</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l:items:x</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">obs('l',</span> <span class="pre">obs('items',</span> <span class="pre">'x',</span> <span class="pre">quiet=True),</span> <span class="pre">quiet=True)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">i.+foo</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">obs('i',</span> <span class="pre">obs('',</span> <span class="pre">metadata={'foo':</span> <span class="pre">not_none}))</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[x,y].z</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">obs(['x',</span> <span class="pre">'y'],</span> <span class="pre">'z')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[x,y.z]</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">obs(['x',</span> <span class="pre">obs('y',</span> <span class="pre">'z')])</span></code></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>Much if this can be implemented using the existing notification system.  At
+the core, <code class="docutils literal notranslate"><span class="pre">cTrait</span></code> instances have a list of “notifiers” which are callables
+that expect a signature of the form <code class="docutils literal notranslate"><span class="pre">object,</span> <span class="pre">name,</span> <span class="pre">old,</span> <span class="pre">new</span></code>.  The current
+trait listeners system wraps the various listener methods to adapt the various
+signatures to this standard notifier signature, and in the case of extended
+trait listeners, dynamically manages their connection and disconnection.</p>
+<p>The new system proposes to use the same mechanism, wrapping the observe
+callbacks to take the notification data plus context they hold as state and
+build the event.  At its most basic, this looks something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SimpleTraitEventNotifyWrapper</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">owner</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="o">&lt;</span><span class="n">observer</span> <span class="ow">is</span> <span class="n">function</span><span class="o">-</span><span class="n">style</span> <span class="n">callable</span><span class="o">&gt;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">observer</span> <span class="o">=</span> <span class="n">observer</span>
+        <span class="k">elif</span> <span class="o">&lt;</span><span class="n">observer</span> <span class="ow">is</span> <span class="n">method</span><span class="o">-</span><span class="n">style</span> <span class="n">callable</span><span class="o">&gt;</span><span class="p">:</span>
+            <span class="c1"># store weakref to object + unbound method</span>
+            <span class="o">...</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
+        <span class="c1"># handle event tracers</span>
+        <span class="o">...</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">SimpleTraitEvent</span><span class="p">(</span>
+            <span class="nb">object</span><span class="p">,</span>
+            <span class="n">trait_name</span><span class="p">,</span>
+            <span class="n">old</span><span class="p">,</span>
+            <span class="n">new</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="o">&lt;</span><span class="n">function</span><span class="o">-</span><span class="n">style</span><span class="o">&gt;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="o">&lt;</span><span class="n">method</span><span class="o">-</span><span class="n">style</span><span class="o">&gt;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="n">exists</span><span class="o">&gt;</span><span class="p">:</span>
+                    <span class="c1"># bind and call</span>
+                    <span class="o">...</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># handle event tracers</span>
+            <span class="o">...</span>
+            <span class="n">handle_exception</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">trait_name</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># handle event tracers</span>
+            <span class="o">...</span>
+</pre></div>
+</div>
+<p>This is very similar in feel to the current <code class="docutils literal notranslate"><span class="pre">TraitChangeNotifyWrapper</span></code>, but
+constructing an event rather than dispatching based on signature.  A similar
+collection of notify wrapper subclasses will be needed for different dispatch
+targets and extended trait change situations.</p>
+</div>
+<div class="section" id="references-and-footnotes">
+<h2>References and Footnotes<a class="headerlink" href="#references-and-footnotes" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Traits Issue #537
+(<a class="reference external" href="https://github.com/enthought/traits/issues/537">https://github.com/enthought/traits/issues/537</a>)</p>
+</dd>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Traits Issue #538
+(<a class="reference external" href="https://github.com/enthought/traits/issues/538">https://github.com/enthought/traits/issues/538</a>)</p>
+</dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>Traits Pull Request #621
+(<a class="reference external" href="https://github.com/enthought/traits/pull/621">https://github.com/enthought/traits/pull/621</a>)</p>
+</dd>
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>Traitlets Pull Request #61
+(<a class="reference external" href="https://github.com/ipython/traitlets/pull/61">https://github.com/ipython/traitlets/pull/61</a>)</p>
+</dd>
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dd><p>EEP 2 (<a class="reference external" href="eep-2.html">eep-2.html</a>)</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EEP 3: Trait Observables</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#motivation">Motivation</a></li>
+<li><a class="reference internal" href="#design">Design</a><ul>
+<li><a class="reference internal" href="#container-objects">Container Objects</a></li>
+<li><a class="reference internal" href="#observation-mini-language">Observation Mini-Language</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+<li><a class="reference internal" href="#references-and-footnotes">References and Footnotes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/eeps/eep-3.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Enthought Developers
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
