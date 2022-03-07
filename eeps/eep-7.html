@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>EEP 7: ETS Code Modernization &mdash; Enthought Tool Suite  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Enthought Tool Suite  documentation" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Enthought Tool Suite  documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="eep-7-ets-code-modernization">
+<h1>EEP 7: ETS Code Modernization<a class="headerlink" href="#eep-7-ets-code-modernization" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Corran Webster</p>
+</dd>
+<dt class="field-even">Status</dt>
+<dd class="field-even"><p>Active</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Standards Track</p>
+</dd>
+<dt class="field-even">Content-Type</dt>
+<dd class="field-even"><p>text/x-rst</p>
+</dd>
+<dt class="field-odd">Created</dt>
+<dd class="field-odd"><p>2020-10-07</p>
+</dd>
+<dt class="field-even">Post-History</dt>
+<dd class="field-even"><p>2020-10-07</p>
+</dd>
+</dl>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>All of the ETS codebase, with the exception of the Codetools module,
+supports Python 3.  With the end-of-life of Python 2 in 2020, we want
+to move to a Python 3-only codebase.</p>
+<p>Additionally, we would like to make use of some of the new features of
+Traits 6.1 and remove the usage of things like <code class="docutils literal notranslate"><span class="pre">TraitHandlers</span></code> which
+were deprecated in Traits 6.0 and 6.1.  In doing this we want to minimize
+the disruption to other codebases.</p>
+<p>This also presents a plan for dropping support for old versions of the
+GUI toolkits (Qt 4, WxPython &lt; 4.1).</p>
+</div>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>ETS is a codebase with roots that go back 15 years.  As a result there
+is a lot of old code that either doesn’t take advantage of new features,
+or which is overly complicated because it needs to take into account the
+changes in behaviour of code over the past decade and a half.</p>
+<p>Currently the codebase supports Python 2.7 and 3.5+ in most cases, with
+the notable exception of Codetools, which has substantial components which
+need to be re-written for Python 3.</p>
+<p>Supporting Python 2 requires additional effort from the ETS maintainers
+and becomes more and more difficult as Python 3 progresses, preventing
+us from using new libraries and features in Python 3.  This has already
+been done for Traits 6.0, TraitsUI 7.0, Pyface 7.0 and Envisage (not yet
+released), and has seen payoff in terms of code simplicity and quality.</p>
+<p>Traits 6.1 presents a new observable framework, trait types and better
+container objects which resolve a number of issues with the solutions
+in Traits 6.0 and before.  There are some improvements to these scheduled
+for Traits 6.2 that we may want to take advantage of as they will make the
+transition from old code easier.</p>
+<p>We have support in the GUI code for releases of the underlying
+toolkits which have not been in use for many years.  Just as supporting
+Python 2 causes extra effort, so does supporting these older versions
+the toolkit.</p>
+<p>Finally, the ETS codebase has a mix of code styles and conventions
+used over the years.  Part of this modernization should be to use tools
+like <code class="docutils literal notranslate"><span class="pre">black</span></code> to make sure that ETS passes Flake8 and matches the
+<a class="reference external" href="eep-1.html">EEP-1 style guide.</a>  Consistent code style reduces support
+effort and makes a codebase more pleasant to work with.</p>
+</div>
+<div class="section" id="proposal">
+<h2>Proposal<a class="headerlink" href="#proposal" title="Permalink to this headline">¶</a></h2>
+<p>This proposal talks about the development of the following ETS libraries:</p>
+<ul class="simple">
+<li><p>Envisage (current version 4.9.2)</p></li>
+<li><p>Apptools (current version 4.5.0)</p></li>
+<li><p>Enable (current version 4.8.1)</p></li>
+<li><p>Chaco (current version 4.8.0)</p></li>
+<li><p>Mayavi (current version 4.7.2)</p></li>
+<li><p>Scimath (current version 4.2.0)</p></li>
+<li><p>Graphcanvas (current version 4.1.0)</p></li>
+</ul>
+<p>We might also use this process for Codetools, but the effort there is
+likely to be larger since it is more closely bound to the syntax of Python
+by the nature of the library, and as a result will likely be upgraded
+next year and as a separate effort.</p>
+<p>We propose to support all Python versions that are not yet end-of-life.
+At the time of writing this is Python 3.6 through to Python 3.9.  All
+new code should support this range of Python versions, and we should no
+longer write any new Python 2 code.</p>
+<p>All ETS projects which have not yet dropped Python 2 support will do so
+in their next major release, which is release 5.0 for all these libraries.</p>
+<p>We propose that the next major release of all ETS projects should work
+with Traits 6.0, 6.1 and 6.2.  This means that they will not be able to
+take advantage of new features of Traits, but hopefully smooths migration
+paths.</p>
+<p>The minor release after that, 5.1, should drop support for Traits 6.0 and
+6.1 and should as much as possible remove everything that has been
+deprecated in Traits 6.0.</p>
+<p>We propose that for all ETS projects that have not yet dropped Python 2
+support that the next major release should support Qt 4.8, Qt 5.6+, and
+WxPython 4.0+ as much as possible.  This will likely require modernization
+of any WxPython code that these libraries contain, and possibly some minor
+fixes to Qt code, but is not likely to be a major effort.  Enable is the
+library which is most likely to have work to do here, as it is the library
+with the most Wx-specific code that needs updating.</p>
+<p>The releases for Pyface 7.2 and TraitsUI 7.2 should drop support for Qt
+versions earlier than 5.6 and WxPython 4.0.  This will likely have little
+downstream impact, but libraries might also choose to make this change in
+their 5.2 releases if they have Qt or Wx-specific code.</p>
+<p>Finally, as part of code clean-up, re-formatting to match modern code
+style should be done opportunistically during the modernization process.
+In particular, bulk clean-up, like running <code class="docutils literal notranslate"><span class="pre">black</span></code> over a codebase should
+be done at a point where there are not a lot of open PRs, to reduce the
+impact from merge conflicts from re-formatting operations.  Once this is
+done, CI should check to ensure flake8 tests continue to pass.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EEP 7: ETS Code Modernization</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#motivation">Motivation</a></li>
+<li><a class="reference internal" href="#proposal">Proposal</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/eeps/eep-7.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Enthought Developers
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

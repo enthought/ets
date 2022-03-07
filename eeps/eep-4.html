@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>EEP 4: Type Annotation Integration &mdash; Enthought Tool Suite  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Enthought Tool Suite  documentation" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Enthought Tool Suite  documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="eep-4-type-annotation-integration">
+<h1>EEP 4: Type Annotation Integration<a class="headerlink" href="#eep-4-type-annotation-integration" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Corran Webster</p>
+</dd>
+<dt class="field-even">Status</dt>
+<dd class="field-even"><p>Active</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Standards Track</p>
+</dd>
+<dt class="field-even">Content-Type</dt>
+<dd class="field-even"><p>text/x-rst</p>
+</dd>
+<dt class="field-odd">Created</dt>
+<dd class="field-odd"><p>2020-01-29</p>
+</dd>
+<dt class="field-even">Post-History</dt>
+<dd class="field-even"><p>2020-01-29</p>
+</dd>
+</dl>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This is a proposal to allow Traits to be recognized by Python’s new static
+typing infrastructure, primarily to allow integration with IDEs such as
+PyCharm and VS Code that can recognize and make use of the information.</p>
+</div>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>There is a growing use of basic static typing and type annotation in Python,
+as well as things like dataclasses, that are heading in the direction of
+Traits-like capabilities.  Similarly, the fact that Traits provide (amongst
+other things) typing information about class attributes, means that there is
+at least the possibility of integrating with these new tools.</p>
+<p>While there is some appeal to using mypy for static type checking, we already
+see most of these benefits by using Traits: when combined with a good test
+suite, most type mismatches are caught at testing time, and any that are not
+are caught at runtime with a clear error message.  There is one concrete place
+where static type checking might help, and that is with ensuring that default
+values are of the correct type.</p>
+<p>A stronger motivation is from the integration with IDEs and similar coding
+environments which are aware of type annotations.  These allow coders to
+get more detailed information about the classes and APIs that they are using
+interactively, reducing the chance of errors and cognitive load.  While
+the ETS developers could build plugins for popular IDEs that understand
+Traits and can provide similar information, it is not something which is a
+high priority compared with generally improving the codebase and adding new
+features, and would probably not be the best use of limited development time.</p>
+<p>Given this, there is a temptation to bring in deeper integration with type
+annotations.  For example, a class definition like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Example</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+
+    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Trait</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is fairly clear in its meaning and close to the equivalent <code class="docutils literal notranslate"><span class="pre">dataclass</span></code>
+usage.  However heading in that direction would be a fairly major change
+to Traits, and would not permit existing code to enjoy the benefits of
+type annotation.</p>
+<p>Additionally, there has been substantial change in the design of standard
+library support for type annotations (particularly the <a class="reference external" href="https://docs.python.org/3/library/typing.html#module-typing" title="(in Python v3.10)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">typing</span></code></a>
+module) through the supported versions of Python (currently 3.5 to 3.8).
+This provides technical obstacles in mapping complex <a class="reference external" href="https://docs.python.org/3/library/typing.html#module-typing" title="(in Python v3.10)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">typing</span></code></a> types
+to corresponding Traits types.</p>
+<p>Finally, because the <code class="xref py py-class docutils literal notranslate"><span class="pre">HasMetaTraits</span></code> class manipulates the structure
+of <code class="xref py py-class docutils literal notranslate"><span class="pre">HasTraits</span></code> subclasses substantially, the structure of the runtime
+objects end up being quite different from the declared structures.  It is
+quite difficult to directly annotate that (for example) the <code class="xref py py-class docutils literal notranslate"><span class="pre">Int</span></code>
+trait type, when used like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Example</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">Int</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>means that value holds an integer value, rather than an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">Int</span></code>,
+without effectively declaring that <code class="xref py py-class docutils literal notranslate"><span class="pre">Int</span></code> is a sub-type of <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>,
+which can then lead to further issues.</p>
+<p>As a result, a more conservative approach is warranted, at least initially.
+Rather than starting to annotate directly and completely, it makes more sense
+to only partially annotate, and to do so with the use of stub files, so that
+the type annotation is distinct from the source code; this also permits some
+more freedom in the way that we annotate.</p>
+</div>
+<div class="section" id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<p>Initially, we propose adding stub files for the basic trait types, with the
+following restrictions:</p>
+<ul class="simple">
+<li><p>we only attempt to provide valid annotations for _instances_ of trait types,
+not the _classes_.  That is, we will provide a useful annotation for
+<code class="docutils literal notranslate"><span class="pre">Int()</span></code> but not for <code class="docutils literal notranslate"><span class="pre">Int</span></code>.  There is an ulterior motive in this to
+discourage the use of bare classes like <code class="docutils literal notranslate"><span class="pre">Int</span></code>, as supporting this adds
+some complexity to the codebase.</p></li>
+<li><p>for classes with inner traits eg. <code class="xref py py-class docutils literal notranslate"><span class="pre">List(Int)</span></code> we may initially simply
+annotate as <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> rather than using the full <a class="reference external" href="https://docs.python.org/3/library/typing.html#module-typing" title="(in Python v3.10)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">typing</span></code></a> module
+<code class="docutils literal notranslate"><span class="pre">List[int]</span></code>.  A partial, but true, annotation is better than a complex and
+complete annotation, at least initially.  However initial experimentation
+indicates that it should be possible to cover the inner types.</p></li>
+<li><p>following that design, for traits that cannot easily be expressed in terms
+of Python types, we may simply annotate as allowing anything.</p></li>
+</ul>
+<p>This will require some auxilliary type definitions (and likely some generic
+types) to describe these situations, but should not require any deep work
+with the <a class="reference external" href="https://docs.python.org/3/library/typing.html#module-typing" title="(in Python v3.10)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">typing</span></code></a> module.</p>
+<p>Since developing the stub files is an iterative process which is likely to
+proceed quickly initially, we do not want to be tied to the Traits release
+cycle.  Consequently the stub files should be initially delivered as a
+stub-only package <code class="docutils literal notranslate"><span class="pre">traits-stubs</span></code> targetting the Traits 6.0 release, with a
+plan to merge the stubs into the main traits package once the ETS developers
+agree that they are mature and useful.  We do want the stubs to be
+included in the long-term, as that gets around deployment problems and
+the issue of keeping stubs synchronized with the traits release.</p>
+<p>We won’t be able to give typing hints for:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">**traits</span></code> keyword arguments: if a user wants this they will need to
+express it themselves in the signature of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code> as the
+typing system has no way to link the keyword arguments with particular
+named attributes.  Fortunately these will be run-time type-checked.</p></li>
+<li><p>overloaded defaults of the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Int</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Subclass</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</li>
+<li><p>trait listeners: there is no way to automatically connect traits to
+specially named methods or <code class="xref py py-func docutils literal notranslate"><span class="pre">on_trait_change()</span></code> decorators and
+use that to give typing information to the callbacks.</p></li>
+<li><p>properties and delegates are similarly likely to be difficult, as
+behaviour may depend on run-time values, or on looking up signatures
+of specially-names methods.</p></li>
+</ul>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>A reasonable initial step may be to use stub generation tools to generate
+stub files for most of the modules.  However most of the work will need to
+be done with the <code class="xref py py-mod docutils literal notranslate"><span class="pre">traits.trait_types</span></code> module, since those need to
+be converted into something that represents the value type (eg. int, str,
+list, etc.) rather than the <code class="docutils literal notranslate"><span class="pre">TraitType</span></code> object.</p>
+<p>For example, a stub file annotation for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Int</span></code> might, in the
+simplest possible approach, look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Int</span><span class="p">(</span><span class="n">default_value</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>This is clearly a lie, but is an 80% solution that captures many use-cases.</p>
+<p>More likely, we will need to make trait types look like descriptors.
+Something like the following works for simple trait types:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">_TraitType</span><span class="p">(</span><span class="n">BaseTraitHandler</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">_Accepts</span><span class="p">,</span> <span class="n">_Stores</span><span class="p">]):</span>
+    <span class="n">default_value</span><span class="p">:</span> <span class="n">_Stores</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_value</span><span class="p">:</span> <span class="n">_Stores</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">get_default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">_Stores</span><span class="p">]:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_value</span><span class="p">:</span> <span class="n">_Stores</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TraitType&#39;</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trait</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Stores</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">_Accepts</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">as_ctrait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">instantiate_and_get_ctrait</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Stores</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">_Accepts</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>We will likely have to make use of definition overloading for traits with
+more complex signatures, particularly for constructors.  Some experimentation
+will be needed to find the best approach for individual trait types.</p>
+<p>For lists and similar trait types with inner traits, it is possible to express
+constructs like <code class="docutils literal notranslate"><span class="pre">List(Int)</span></code> and <code class="docutils literal notranslate"><span class="pre">List(Int())</span></code> with something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">List</span><span class="p">(</span><span class="n">_TraitType</span><span class="p">[</span><span class="n">_Sequence</span><span class="p">[</span><span class="n">_S</span><span class="p">],</span> <span class="n">_List</span><span class="p">[</span><span class="n">_T</span><span class="p">]]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">trait</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">_TraitType</span><span class="p">[</span><span class="n">_S</span><span class="p">,</span> <span class="n">_T</span><span class="p">],</span> <span class="n">_Type</span><span class="p">[</span><span class="n">_TraitType</span><span class="p">[</span><span class="n">_S</span><span class="p">,</span> <span class="n">_T</span><span class="p">]]],</span>
+        <span class="n">value</span><span class="p">:</span> <span class="n">_Sequence</span><span class="p">[</span><span class="n">_S</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">minlen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+        <span class="n">maxlen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+        <span class="n">items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">_Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>However some further overloading will be needed to cover the full signature
+of the class.</p>
+<p>With some work, we can hope to cover perhaps 80-90% of typical usage without
+giving warnings in cases where there is no way to represent the type.</p>
+</div>
+<div class="section" id="what-is-not-part-of-this-proposal">
+<h2>What is Not Part of this Proposal<a class="headerlink" href="#what-is-not-part-of-this-proposal" title="Permalink to this headline">¶</a></h2>
+<p>It is important to note that this is _not_ a proposal to make Traits aware
+of type annotations, as in this example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Example</span><span class="p">(</span><span class="n">HasTraits</span><span class="p">):</span>
+
+    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Trait</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Foo:&#39;</span><span class="p">)</span>
+
+    <span class="n">other_value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Hello&quot;</span>
+</pre></div>
+</div>
+<p>There might be value in doing this, but it is not part of this EEP.</p>
+<p>It’s also not part of this proposal to modify the current architecture of
+Traits to make it more amenable to type inference.  For example, we are
+likely to have to make <code class="xref py py-class docutils literal notranslate"><span class="pre">TraitTypes</span></code> _look_ like descriptors to the
+typing system, but it is not the intention to actually _make_ them
+descriptors.  Again, there might be value in doing this, but it is not
+part of this EEP.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EEP 4: Type Annotation Integration</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#motivation">Motivation</a></li>
+<li><a class="reference internal" href="#design">Design</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+<li><a class="reference internal" href="#what-is-not-part-of-this-proposal">What is Not Part of this Proposal</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/eeps/eep-4.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Enthought Developers
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

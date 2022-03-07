@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>EEP 2: Improved Trait Container Types &mdash; Enthought Tool Suite  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Enthought Tool Suite  documentation" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Enthought Tool Suite  documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="eep-2-improved-trait-container-types">
+<h1>EEP 2: Improved Trait Container Types<a class="headerlink" href="#eep-2-improved-trait-container-types" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Corran Webster</p>
+</dd>
+<dt class="field-even">Status</dt>
+<dd class="field-even"><p>Active</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Standards Track</p>
+</dd>
+<dt class="field-even">Content-Type</dt>
+<dd class="field-even"><p>text/x-rst</p>
+</dd>
+<dt class="field-odd">Created</dt>
+<dd class="field-odd"><p>2020-01-02</p>
+</dd>
+<dt class="field-even">Post-History</dt>
+<dd class="field-even"><p>2020-01-02</p>
+</dd>
+</dl>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This is a proposal to replace <code class="docutils literal notranslate"><span class="pre">TraitListObject</span></code>, <code class="docutils literal notranslate"><span class="pre">TraitDictObject</span></code>
+and <code class="docutils literal notranslate"><span class="pre">TraitSetObject</span></code> by simpler stand-alone classes that can
+independently fire trait change notifications, while keeping compatibility
+with existing behaviour via some specialized listeners that provide
+backward compatibility.</p>
+</div>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>Traits implements its own specialized subtypes of the standard
+Python container types (<code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">set</span></code> and <code class="docutils literal notranslate"><span class="pre">dict</span></code>) that are
+able to generate notifications when they change.  However the
+implementation ties these instances closely to the trait and object
+that they are assigned to: in particular, they store weak references
+to the <code class="docutils literal notranslate"><span class="pre">HasTraits</span></code> instance and the name of the trait, and then
+all changes are fired via the appropriate <code class="docutils literal notranslate"><span class="pre">*_items</span></code> trait.</p>
+<p>This implementation leads to limitations, the most noticable one
+being the inability to listen to nested containers (eg. <code class="docutils literal notranslate"><span class="pre">List(List)</span></code>
+or <code class="docutils literal notranslate"><span class="pre">Dict(Str,</span> <span class="pre">List)</span></code> being commonly desired cases).  As a result
+developers often have to write very thin wrapper classes around the
+nested container.  <a class="footnote-reference brackets" href="#id3" id="id1">1</a></p>
+<p>Instances of these subclasses have to be aware of modifications that
+are made to them, and there is no intrinsic reason why they could not
+be independently observed.  The refactoring to make this work is likely
+to create clearer and simpler code, by separating the concerns of change
+tracking and keeping track of objects and names that need to have
+<code class="docutils literal notranslate"><span class="pre">*_items</span></code> events fired.</p>
+<p>By making the container instances first-class listenables, we can then
+write infrastructure code that either extends the existing trait listeners
+(or perhaps replaces it with something better) that can perform chained
+listening down into nested containers.</p>
+<p>There are also advantages that may be able to be taken advantage of in
+TraitsUI list and table editors, where the lists themselves become the
+objects being observed without having to track the underlying <code class="docutils literal notranslate"><span class="pre">HasTraits</span></code>
+instance.</p>
+</div>
+<div class="section" id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<p>New versions of the <code class="docutils literal notranslate"><span class="pre">TraitListObject</span></code>, <code class="docutils literal notranslate"><span class="pre">TraitDictObject</span></code> and
+<code class="docutils literal notranslate"><span class="pre">TraitSetObject</span></code> (possibly with different names, for backwards
+compatibility) will be written.  They will have two additional
+pieces of state beyond the base list class:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">validator</span></code> which is a callable that expects information about
+the change that the object is about to undergo (eg. adding or removing
+items) and either returns a validated replacement for the added items
+or raises a <code class="docutils literal notranslate"><span class="pre">TraitError</span></code>.</p></li>
+<li><p>a list of <code class="docutils literal notranslate"><span class="pre">notifiers</span></code> which are callables that are given information
+about the change that the object has just undergone and can do whatever
+they want with that information.</p></li>
+</ul>
+<p>The classes will override all the appropriate base class methods that
+mutate the object in place so that they compute information about the
+change and call the <code class="docutils literal notranslate"><span class="pre">validator</span></code>, apply the change, and then call
+each of the <code class="docutils literal notranslate"><span class="pre">notifiers</span></code>.</p>
+<p>For example, a list validator would be given the list object, the index or
+slice that the change is applied to, the object or sub-list of objects that
+will be removed, and the value or list of values that will replace those
+objects, and would be expected to return a validated value or list of values
+that will then be used in the actual change.</p>
+<p>A list notifier would look a lot like a current list items notifier.  It
+would expect the list object, the index or slice that was modified, the
+object or sub-list of objects that were removed, and the value or list of
+values that were added in their place.</p>
+<p>For backwards compatibility, there would be validators and notifiers written
+that implement the current behaviours.  So the backwards compatibile
+validators would hold references to the inner traits of the container to
+validate values and would also check that any length constraints were being
+maintained.  The backwards compatible notifier would hold a weak reference
+to the <code class="docutils literal notranslate"><span class="pre">HasTraits</span></code> object and the trait that is being used, and would pass
+the change information through to the <code class="docutils literal notranslate"><span class="pre">*_items</span></code> event trait after constructing
+the appropriate trait event object.</p>
+<p>A factory function or thin subclass that populates appropriately could then
+be used in place of the current classes.</p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>A proof-of-concept implementation for <code class="docutils literal notranslate"><span class="pre">TraitListObject</span></code> is avalaible. <a class="footnote-reference brackets" href="#id4" id="id2">2</a></p>
+<p>It is expected that the dictionary and set implementations would be very
+similar.</p>
+<p>To get a feel for how the code might look like, the <code class="docutils literal notranslate"><span class="pre">__setitem__</span></code> method
+could be implemented this way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Set self[index] to value. &quot;&quot;&quot;</span>
+    <span class="n">removed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_removed</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">removed</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">and</span> <span class="n">index</span><span class="o">.</span><span class="n">step</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">}:</span>
+            <span class="c1"># will fail with ValueError</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="n">added</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">norm_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_slice</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">added</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">added</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">norm_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_index</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">added</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">norm_index</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are standardized utility methods for determining which values are removed
+and for normalizing indices and slices.</p>
+<p>For backwards compatibilty, we might define a helper class that holds the state
+required (eg. weak references to the <code class="docutils literal notranslate"><span class="pre">HasTraits</span></code> object, trait names, trait instances,
+etc.) and provide a notifier method something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">notifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_list</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;trait&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_items</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="nb">object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># bug-for-bug conversion of parameters to TraitListEvent</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span><span class="o">.</span><span class="n">step</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">}:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">index</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">added</span><span class="p">:</span>
+                <span class="n">added</span> <span class="o">=</span> <span class="p">[</span><span class="n">added</span><span class="p">]</span>
+            <span class="n">removed</span> <span class="o">=</span> <span class="p">[</span><span class="n">removed</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">removed</span> <span class="ow">is</span> <span class="n">Undefined</span><span class="p">:</span>
+            <span class="n">removed</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">removed</span> <span class="o">=</span> <span class="p">[</span><span class="n">removed</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">added</span> <span class="ow">is</span> <span class="n">Undefined</span><span class="p">:</span>
+            <span class="n">added</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">added</span> <span class="o">=</span> <span class="p">[</span><span class="n">added</span><span class="p">]</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="n">TraitListEvent</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">removed</span><span class="p">,</span> <span class="n">added</span><span class="p">)</span>
+    <span class="n">items_event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait</span><span class="o">.</span><span class="n">items_event</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">items_event</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">items_event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait</span><span class="o">.</span><span class="n">items_event</span><span class="p">()</span>
+
+    <span class="nb">object</span><span class="o">.</span><span class="n">trait_items_event</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_items</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">items_event</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The backwards compatible <code class="docutils literal notranslate"><span class="pre">TraitListObject</span></code> interface could then just be a
+factory function like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">TraitListObject</span><span class="p">(</span><span class="n">trait</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">notifiers</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">helper</span> <span class="o">=</span> <span class="n">TraitListObjectHelper</span><span class="p">(</span><span class="n">trait</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">TraitList</span><span class="p">(</span>
+        <span class="n">value</span><span class="p">,</span>
+        <span class="n">validator</span><span class="o">=</span><span class="n">helper</span><span class="o">.</span><span class="n">validator</span><span class="p">,</span>
+        <span class="n">notifiers</span><span class="o">=</span><span class="p">[</span><span class="n">helper</span><span class="o">.</span><span class="n">notifier</span><span class="p">]</span> <span class="o">+</span> <span class="n">notifiers</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The proof of concept implementation is able to pass almost all of the current
+tests.</p>
+</div>
+<div class="section" id="references-and-footnotes">
+<h2>References and Footnotes<a class="headerlink" href="#references-and-footnotes" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Traits Issue #281
+(<a class="reference external" href="https://github.com/enthought/traits/issues/281">https://github.com/enthought/traits/issues/281</a>)</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Traits Pull Request #678
+(<a class="reference external" href="https://github.com/enthought/traits/pull/678">https://github.com/enthought/traits/pull/678</a>)</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EEP 2: Improved Trait Container Types</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#motivation">Motivation</a></li>
+<li><a class="reference internal" href="#design">Design</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+<li><a class="reference internal" href="#references-and-footnotes">References and Footnotes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/eeps/eep-2.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Enthought Developers
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

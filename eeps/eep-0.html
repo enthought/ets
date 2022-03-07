@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>EEP 0: EEP Purpose and Guidelines &mdash; Enthought Tool Suite  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Enthought Tool Suite  documentation" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Enthought Tool Suite  documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="eep-0-eep-purpose-and-guidelines">
+<h1>EEP 0: EEP Purpose and Guidelines<a class="headerlink" href="#eep-0-eep-purpose-and-guidelines" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Corran Webster</p>
+</dd>
+<dt class="field-even">Status</dt>
+<dd class="field-even"><p>Active</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Informational</p>
+</dd>
+<dt class="field-even">Content-Type</dt>
+<dd class="field-even"><p>text/x-rst</p>
+</dd>
+<dt class="field-odd">Created</dt>
+<dd class="field-odd"><p>2020-01-02</p>
+</dd>
+<dt class="field-even">Post-History</dt>
+<dd class="field-even"><p>2020-01-02</p>
+</dd>
+</dl>
+<div class="section" id="what-is-an-eep">
+<h2>What is an EEP?<a class="headerlink" href="#what-is-an-eep" title="Permalink to this headline">¶</a></h2>
+<p>An EEP is an ETS Enhancement Proposal, similar in purpose and conventions
+to a Python Enhancement Proposal <a class="footnote-reference brackets" href="#id5" id="id1">1</a>.  At present they are intended to be
+less formal than a PEP, but like PEPs are intended to record the design
+decisions about significant new features or changes.</p>
+<p>EEPs are not required for bugfixes or small improvements such as new
+TraitsUI editors or Chaco plot types; these should be handled through the
+usual GitHub issue and pull request mechanisms.  Rather EEPs are reserved for
+more substantial changes to design and architecture, or significant new
+features where high-level design is important.</p>
+</div>
+<div class="section" id="what-is-ets">
+<h2>What is ETS?<a class="headerlink" href="#what-is-ets" title="Permalink to this headline">¶</a></h2>
+<p>ETS is the Enthought Tool Suite, a collection of open source libraries for
+the rapid development of desktop scientific software applications. <a class="footnote-reference brackets" href="#id6" id="id2">2</a></p>
+</div>
+<div class="section" id="ets-maintainers">
+<h2>ETS Maintainers<a class="headerlink" href="#ets-maintainers" title="Permalink to this headline">¶</a></h2>
+<p>Each ETS project has a maintainer (usually an Enthought employee).  The
+current maintainer of the core ETS projects are listed here:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Project</p></th>
+<th class="head"><p>Maintainer</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Traits</p></td>
+<td><p>Mark Dickinson</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pyface/TraitsUI</p></td>
+<td><p>Corran Webster</p></td>
+</tr>
+<tr class="row-even"><td><p>Envisage</p></td>
+<td><p>Mark Dickinson</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apptools</p></td>
+<td><p>Robert Kern</p></td>
+</tr>
+<tr class="row-even"><td><p>Kiva/Enable</p></td>
+<td><p>John Wiggins</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chaco</p></td>
+<td><p>Joris Vankerschaver</p></td>
+</tr>
+<tr class="row-even"><td><p>Mayavi</p></td>
+<td><p>Prabhu Ramachandran</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="eep-workflow">
+<h2>EEP Workflow<a class="headerlink" href="#eep-workflow" title="Permalink to this headline">¶</a></h2>
+<p>Anyone can make an Enthought Enhancement Proposal by making a pull request
+on the EEPs in the main ETS repo’s documentation. <a class="footnote-reference brackets" href="#id7" id="id3">3</a> <a class="footnote-reference brackets" href="#id8" id="id4">4</a></p>
+<p>That pull request will be reviewed and feedback given on the structure and
+content which should be addressed by the proposer before an ETS maintainer
+merges the EEP.  This review should be fairly lenient, with the assumption
+that any significant issues will come up in subsequent disucssion.</p>
+<p>Discussion of the EEP will take place in an issue on the ETS repo opened for
+that purpose.  Enthought developers will make an effort to summarize any
+internal discussion about an EEP to that issue.</p>
+<p>Once the discussion is done, the appropriate ETS maintainers will decide on
+whether to approve or reject the proposal.  A proposer can also choose to
+withdraw a proposal.</p>
+<p>Once a proposal is accepted, one or more issues will be opened in project
+repos to track the implementation.</p>
+</div>
+<div class="section" id="index">
+<h2>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 69%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>EEP</p></th>
+<th class="head"><p>EEP Title</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="eep-0.html">EEP-0</a></p></td>
+<td><p>EEP Purpose and Guidelines</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="eep-1.html">EEP-1</a></p></td>
+<td><p>ETS Code Style</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="eep-2.html">EEP-2</a></p></td>
+<td><p>Improved Trait Container Types</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="eep-3.html">EEP-3</a></p></td>
+<td><p>Trait Observables</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="eep-4.html">EEP-4</a></p></td>
+<td><p>Type Annotation Integration</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="eep-5.html">EEP-5</a></p></td>
+<td><p>TraitsUI Tables and Trees</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="eep-6.html">EEP-6</a></p></td>
+<td><p>Whither Apptools?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="eep-7.html">EEP-7</a></p></td>
+<td><p>ETS Code Modernization</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="references-and-footnotes">
+<h2>References and Footnotes<a class="headerlink" href="#references-and-footnotes" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>PEP 1, PEP Purpose and Guidelines
+(<a class="reference external" href="http://www.python.org/dev/peps/pep-0001">http://www.python.org/dev/peps/pep-0001</a>)</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Enthought Tool Suite
+(<a class="reference external" href="http://docs.enthought.com/ets">http://docs.enthought.com/ets</a>)</p>
+</dd>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>ETS Repo
+(<a class="reference external" href="https://github.com/enthought/ets">https://github.com/enthought/ets</a>)</p>
+</dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>EEPs Document Directory
+(<a class="reference external" href="https://github.com/enthought/ets/tree/master/docs/source/eeps">https://github.com/enthought/ets/tree/master/docs/source/eeps</a>)</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EEP 0: EEP Purpose and Guidelines</a><ul>
+<li><a class="reference internal" href="#what-is-an-eep">What is an EEP?</a></li>
+<li><a class="reference internal" href="#what-is-ets">What is ETS?</a></li>
+<li><a class="reference internal" href="#ets-maintainers">ETS Maintainers</a></li>
+<li><a class="reference internal" href="#eep-workflow">EEP Workflow</a></li>
+<li><a class="reference internal" href="#index">Index</a></li>
+<li><a class="reference internal" href="#references-and-footnotes">References and Footnotes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/eeps/eep-0.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Enthought Developers
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

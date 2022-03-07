@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>EEP 5: TraitsUI Tables and Trees &mdash; Enthought Tool Suite  documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/enthought.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/wrap_on_dot.js"></script>
+    <link rel="shortcut icon" href="../_static/img/favicon.png">
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Enthought Tool Suite  documentation" href="../index.html" > 
+  </head>
+  <body>
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Enthought Tool Suite  documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body" role="main">
+            
+  <div class="section" id="eep-5-traitsui-tables-and-trees">
+<h1>EEP 5: TraitsUI Tables and Trees<a class="headerlink" href="#eep-5-traitsui-tables-and-trees" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Corran Webster</p>
+</dd>
+<dt class="field-even">Status</dt>
+<dd class="field-even"><p>Active</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Standards Track</p>
+</dd>
+<dt class="field-even">Content-Type</dt>
+<dd class="field-even"><p>text/x-rst</p>
+</dd>
+<dt class="field-odd">Created</dt>
+<dd class="field-odd"><p>2020-04-21</p>
+</dd>
+<dt class="field-even">Post-History</dt>
+<dd class="field-even"><p>2020-04-21</p>
+</dd>
+</dl>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This EEP proposes creating a new combined Tree and Table editor for
+presenting data with a consistent format.</p>
+</div>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>The current situation with TraitsUI table and tree editors is not very
+satisfactory.  There are 4 Editors available that perform similar sorts
+of functions, but all of them have issues and limitations.</p>
+<dl class="simple">
+<dt>TableEditor</dt><dd><p>Perhaps the simplest to use, the TableEditor is limited by using
+underlying table widgets which have to load the entire data set
+into memory.  As a result, it is fine for small tables, but is not
+performant for larger data sets (more than a few hundred rows).</p>
+</dd>
+<dt>TabularEditor</dt><dd><p>While overcoming most of the performance issues of the TableEditor,
+the TabularEditor is far less flexible and the TabularAdaptor class
+which is required for usage is difficult for new users to understand.
+Perhaps most importantly, the TabularEditor does not permit the use
+of different styles of editors in the cells.</p>
+</dd>
+<dt>ListStrEditor</dt><dd><p>This follows the same approach as the TabularEditor, with the same
+pros and cons, although it is much easier to use for basic situations.</p>
+</dd>
+<dt>TreeEditor</dt><dd><p>The TreeEditor has similar performance issues to the TableEditor,
+but also has issues caused by multiple ways of writing the model
+code (TreeNode vs. TreeNodeAdapter vs. ObjectTreeNode).  It can
+do multi-column views, but only on Qt, and the columns beyond the
+first have a different and weaker API.</p>
+</dd>
+<dt>ArrayViewEditor</dt><dd><p>A specialized editor for 2D NumPy arrays, it is essentially a
+TabularEditor with a custom adapter.</p>
+</dd>
+<dt>DataFrameEditor</dt><dd><p>A specialized editor for Pandas DataFrames arrays.  Like the
+ArrayViewEditor it is essentially a TabularEditor with a custom
+adapter.</p>
+</dd>
+</dl>
+<p>This situation is far from ideal.  For example:</p>
+<ul class="simple">
+<li><p>it may be unclear to new users which editor to use in which situation</p></li>
+<li><p>while documentation is better than it was, usage of advanced features
+can be difficult to get right</p></li>
+<li><p>sometimes non-optimal choices must be made because of hard constraints,
+such as using a TabularEditor because of performance concerns, but then
+being limited in the ability to customize editing.</p></li>
+<li><p>there are differences in capabilities between the toolkits with some of
+the editors.</p></li>
+<li><p>some functionality is harder to access than it ought to be, such as
+checkbox columns, or image columns.</p></li>
+</ul>
+<p>This EEP proposes to write a new Editor around a consistent data model that
+can be used easily in most common cases, is performant, and can be the one
+clear “use this” choice in most cases.  This should include adapters that
+allow using the new Editor on top of different data types easily.</p>
+</div>
+<div class="section" id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="underlying-data-structures">
+<h3>Underlying Data Structures<a class="headerlink" href="#underlying-data-structures" title="Permalink to this headline">¶</a></h3>
+<p>Before laying out a design, it is worth thinking about the way that data
+is often presented in scientific applications, and how the current Editors
+handle it.  We commonly find that there are the following use-cases that we
+might want to handle.</p>
+<dl>
+<dt>Row-oriented Data</dt><dd><p>This is the most common: there is a possibly heirarchical set of data
+that we want to display, where each item has a number of fields.  The
+data items are frequently HasTraits instances, and the fields are some
+subset of the traits.</p>
+<p>This style of data is handled acceptably by the current editors, once
+you understand the way to structure things.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>a list of HasTraits instances</p></li>
+<li><p>a list of dictionaries with similar keys</p></li>
+<li><p>a tree of HasTraits instances</p></li>
+<li><p>a simple DataFrame, viewed as a collection of rows</p></li>
+<li><p>file-system views</p></li>
+<li><p>object heirarchies</p></li>
+<li><p>results of a SQL query</p></li>
+</ul>
+</dd>
+<dt>Column-oriented Data</dt><dd><p>This occurs when there are multiple data values that are series of
+(usually homogeneous) items.  These series usually share the same
+length.  There is usually no heirarchy to the data, but it is
+possible that there might be groupings of the items in the case
+where things are not homogeneous.</p>
+<p>This type of data is not handled well by current editors.  It can’t
+be used with the TableEditor, and requires a heavily customized
+adapter to work with the TabularEditor or TreeEditor.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>a HasTraits instance with attributes which are lists or arrays</p></li>
+<li><p>a dictionary with values that are lists or arrays</p></li>
+<li><p>a simple DataFrame, viewed as a collection of columns</p></li>
+<li><p>a Chaco ArrayPlotData</p></li>
+</ul>
+</dd>
+<dt>Data Cube</dt><dd><p>This is an n-dimensional set of (usually numerical) data indexed by
+various categorical values, possibly with a heirarchy associated
+with the categories.</p>
+<p>This type of data is not handled well by any of the current editors.
+There Enthought has an old, proprietary Qt editor for this sort of
+application.</p>
+<p>Examples</p>
+<ul class="simple">
+<li><p>a Pandas DataFrame, particularly with complex indices.</p></li>
+<li><p>an XArray or similar extensions of the dataframe</p></li>
+<li><p>a data set in tidy format, which can include lists of HasTraits</p></li>
+</ul>
+</dd>
+<dt>Homogeneous 2D Data</dt><dd><p>This is data where there is no direct preference of rows over columns.
+In this case, the most natural way of indexing into the data is with
+an (i, j) pair, and the values themselves tend to be all similar (or
+very generic), but not heirarchical.</p>
+<p>This is handled reasonably well by the TabularEditor and the
+ArrayViewEditor for simple data types.  There is no good support for
+spreadsheet-style displays in TraitsUI.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>2D NumPy arrays</p></li>
+<li><p>image data</p></li>
+<li><p>spreadsheet-style displays</p></li>
+</ul>
+</dd>
+<dt>Mappings</dt><dd><p>This is data that has a key-value structure, possibly with some grouping
+or even heirarchy to the keys.  The keys are typically strings, but the
+values are often not homogeneous.</p>
+<p>These can be handled by the current editors, but require significant work
+to adapt the data structures to the required form.  Essentially the
+mapping must be converted to a list of pairs.  In some cases a TraitsUI
+View may be a more appropriate UI.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>dictionaries of simple key/value pairs</p></li>
+<li><p>a HasTraits object</p></li>
+<li><p>Pandas Series objects</p></li>
+</ul>
+</dd>
+<dt>Homogeneous 1D Lists</dt><dd><p>In this case, we have a sequence object with homogeneous values.
+This is more-or-less the trivial intersection of row-oriented (with
+just one field per row) with column-oriented (with just one column).</p>
+<p>These are handled reasonably well by the current editors.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>lists of simple values</p></li>
+<li><p>lists of HasTraits objects with one field of interest</p></li>
+<li><p>1D NumPy arrays</p></li>
+</ul>
+</dd>
+</dl>
+<p>Ideally we would like to be able to handle all of these cases within TraitsUI,
+but not necessarily in the same Editor.  However, we can probably avoid the
+DataCube use-case as being sufficiently specialized as to be out of scope
+for this EEP.</p>
+</div>
+<div class="section" id="widgets">
+<h3>Widgets<a class="headerlink" href="#widgets" title="Permalink to this headline">¶</a></h3>
+<p>The design is also constrained by the widgets that are available in the
+respective toolkits.  Both Qt and WxPython have performant versions of:</p>
+<ul class="simple">
+<li><p>a single-column list editor</p></li>
+<li><p>a multi-column table/tree editor</p></li>
+<li><p>a grid</p></li>
+</ul>
+<p>In WxPython the first two cases are handled by  the DataViewCtrl class,
+while Qt provides the more specialized QListView and QTreeView.  WxPython
+also includes a PropertyGrid system which may be useful in some situations,
+but Qt has no similar widget so it would need to be built from a QTreeView.
+In both toolkits, the grid view is a separate widget.</p>
+<p>Qt has the strong advantage that the different widgets all use the same
+data model interface under the covers; the WxPython toolkits do not have
+that advantage, and so if we want to support different widgets, we will
+need to write multiple data adapters.</p>
+<p>In most widgets there is a way to override the rendering of cells to permit
+the substitution of another control, or an arbitrary rendering of contents
+(eg. to insert an image or a plot).  The WxPython DataViewCtrl is limited in
+that expects every value in a column to be the same data type, and that on
+non-Windows platforms the editors are restricted to those provided by Wx
+and cannot be customized beyond that.  The Wx Grid is not limited in this way,
+but is not heirarchical so any such structure would need to be implemented
+in custom code.</p>
+<p>So we can easily support in a cross-platform way:</p>
+<ul class="simple">
+<li><p>possibly heirarchial data where the columns are of a set of standard types</p></li>
+<li><p>arbitrarily organized non-heirarchical grids</p></li>
+</ul>
+<p>However, that isn’t sufficient to cover all currently existing use cases of
+the current set of editors.  As a result the target set of features will
+be what the Qt TreeViewEditor can support, most critically the ability to
+have custom renderers and editors.  Support for Wx may require either a
+customized Grid widget or some way to provide needed functionality on top
+of the DataViewCtrl.</p>
+</div>
+<div class="section" id="data-model">
+<h3>Data Model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h3>
+<p>Both WxPython and Qt have abstract model classes that provide a way to
+allow the widgets to access data and styling information, however they
+have some differences in how they handle heirarchies.  The WxPython
+DataViewCtrl model only allows rows to nest, not columns; the WxPython
+Grid model doesn’t handle nesting at all, and the Qt model allows nesting
+inside arbitrary row and column values.  In practice, however, the Qt views
+do not make use of this arbitrary nesting, and only make use of row-based
+nesting (using the 0 column as the place where nesting is done).</p>
+<p>Practically, then, the data model can be taken to be presenting a possibly
+heirarchical set of rows, but non-heirarchical columns.  This data model is
+a presenter: the underlying data itself can potentially be quite different
+in structure, and we should provide a clear interface to allow Traits
+adaptation to be used, as well as traditional subclassing, to map the
+underlying data structure to the data model.</p>
+<p>This does preclude “pivot table”-style data views where there is
+heirarchical organization of both the rows and the columns, but they are
+sufficiently specialized to deserve their own treatment, and would need
+custom implementations of the row and column headers, including custom
+rendering, for both toolkits.  This is beyond the scope of what we want
+to support.</p>
+<p>In addition to the generic interface for the data model, we should write
+a number of standard data models for the common situations described above.</p>
+<p>The other important aspect is that the data model must be “virtual” for
+performance.  We can’t be passing data through to the underlying toolkit,
+rather the toolkit myst query for the data.  This should be straightforward
+to support.</p>
+<div class="section" id="sorting-searching-etc">
+<h4>Sorting, Searching, etc.<a class="headerlink" href="#sorting-searching-etc" title="Permalink to this headline">¶</a></h4>
+<p>Sorting is potentially problematic for virtual models, so we should not
+attempt to sort at the widget level, but rather have sorting state part
+of the data model so that it can be handled appropriately by the underlying
+data.</p>
+</div>
+</div>
+<div class="section" id="styling-rendering-and-editing">
+<h3>Styling, Rendering and Editing<a class="headerlink" href="#styling-rendering-and-editing" title="Permalink to this headline">¶</a></h3>
+<p>When working with TraitsUI, the data will likely be supplied in some form
+via the Editor’s value, but auxilliary information about aesthetics, all
+the way up to possibly the use of custom rendering and editing, will need
+to be supplied via other channels; most likely provided to the Editor, but
+potentially in a way that can be modified at run-time.  The data model should
+be able to be bound to a named trait, if needed, for ease of modification,
+and the model and editor should react appropriately to changes, firing UI
+updates when needed.</p>
+</div>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Data Model<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Perhaps the most critical part of get right is the data model. It cannot
+require large numbers of Python objects when displaying part of a large
+data structure, such as a NumPy array: in particular, any Python level
+constructs required for the editor should at worst scale by the number of
+visible cells (possibly plus some for their parents).  Since we are planning
+a row-heirarchial design we need to be particularly careful about <em>requiring</em>
+a Python object for each leaf in the heirarchy.</p>
+<p>This leads to a design where the API for getting a value should look something
+like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>where index will usually be a tuple of a row index and column index.
+In most cases the column index will be an integer, but the row index
+may be more complex</p>
+<p>Similarly other methods for returning whether an index has children and
+accessing aesthetics and renderers and editors, should just take an index
+as argument.  It may make sense to have aesthetics grouped into a lightweight
+object to make it easier to provide standard styling.</p>
+</div>
+<div class="section" id="index-managers">
+<h3>Index Managers<a class="headerlink" href="#index-managers" title="Permalink to this headline">¶</a></h3>
+<p>Internally, the various toolkit data models use their own internal notions
+of an index.  For example, each row in a wx DataViewModel has a corresponding
+DataViewItem which holds an integer or None as its ID, while
+QAbstractItemModel has a more complex system of ModelIndex objects.  These
+internal notions of models need to be mapped to more natural row indices that
+match the actual data being displayed.  For example, a completely
+non-heirachical structure, like a list or array, the natural notion of an
+index is an integer.  For a DataFrame it might be a tuple, for other data
+structures it may make sense to have some notion of a tree node.  However
+there are a few such mappings that are going to be used over and over again,
+and it makes sense to extract these into an independent object, rather than
+having multiple data models which differ in how they convert.</p>
+<p>For example,  an index manager for a flat data structure that indexes with
+integers might look like this in the wxPython case:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IntIndexManager</span><span class="p">(</span><span class="n">BaseIndexManager</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="n">Root</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DataViewItem</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">DataViewItem</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">GetID</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Root</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataViewItem</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">GetID</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DataViewItem</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Invalid child.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These structures may not be completely stateless.  For example, although it
+is possible to use a tree ordering to map integers item ids to nodes in a
+more complex tree structure, this is likely to be computationally inefficient.
+In particular for large trees we would like to avoid traversing the entire
+tree to enumerate it, but rather would prefer to do it on the fly.</p>
+<p>One solution to this is to assign to each row as it is encountered a unique
+and repeatable ID.  For example the wxPython PyDataViewModel uses the Python
+id() of an object as the DataViewItem ID.  However this requires the object
+to persist at least as long as the item.  As a result, more general data
+mappers will have to hold some sort of memento that provides enough context
+to build the tree structure.</p>
+<p>For example, the following uses two dictionaries to map between DataViewItems
+and tuple-based indices:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TupleIndexManager</span><span class="p">(</span><span class="n">BaseIndexManager</span><span class="p">):</span>
+
+    <span class="n">_parents</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">()</span>
+    <span class="n">_children</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_item_to_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">GetID</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">id</span>
+
+    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">DataViewItem</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">index</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">item</span>
+
+    <span class="k">def</span> <span class="nf">get_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">Root</span>
+        <span class="k">while</span> <span class="n">item</span><span class="o">.</span><span class="n">GetID</span><span class="p">():</span>
+            <span class="n">item</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">,)</span> <span class="o">+</span> <span class="n">index</span>
+        <span class="k">return</span> <span class="n">index</span>
+
+    <span class="k">def</span> <span class="nf">get_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_item_to_id</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># XXX or raise - should never happen</span>
+            <span class="k">return</span> <span class="n">DataViewItem</span><span class="p">()</span>
+        <span class="n">parent_id</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">DataViewItem</span><span class="p">(</span><span class="n">parent_id</span><span class="p">),</span> <span class="n">row</span>
+
+    <span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="n">parent_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_item_to_id</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">memento</span> <span class="o">=</span> <span class="p">(</span><span class="n">parent_id</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">memento</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">memento</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">memento</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">memento</span><span class="p">)]</span> <span class="o">=</span> <span class="n">memento</span>
+        <span class="k">return</span> <span class="n">DataViewItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">memento</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>There is a fair amount of boxing and unboxing of DataViewItems, so this could
+be made more efficient, and a better system of mementos may mean that fewer
+dictionaries are needed, but this gets the idea across.  In particular, it may
+make sense to remove the wx specific code and work with IDs, and handle the
+boxing and unboxing in the DataViewModel.</p>
+<p>Qt QAbstractItemModels and QModelIndices have similar sorts ot issues which can
+be solved in similar ways, althought the details are slightly different and
+the implementation can be done slightly more efficiently because the user data
+is richer than just a number.</p>
+<p>Writing IndexManagers is finicky, as if you get things wrong you will end
+up with segfaults and crashes at the C++ level.  We should ensure that the
+core code supplies IndexManagers that cover all the common cases, so that a
+user merely needs to select the one that matches their data best.</p>
+<p>While rows index managers are likely to be more complex, it makes sense to
+also have an index mapper for columns to map numerical columns into whatever
+makes most sense for the underlying data.  Frequently this will be a
+stright-through mapping, but once can image other uses.</p>
+</div>
+<div class="section" id="data-model-api-details">
+<h3>Data Model API Details<a class="headerlink" href="#data-model-api-details" title="Permalink to this headline">¶</a></h3>
+<p>The data model needs to provide methods that allow the toolkit object to
+reconstruct the structure of the model.  This means that we need the
+following methods:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">has_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_index</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">child_row_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_index</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">column_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>For data and different representations of that data, at a minimum there need
+to be the following:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def get_value(self, index):</dt><dd><p>…</p>
+</dd>
+<dt>def get_text(self, index):</dt><dd><p>…</p>
+</dd>
+<dt>def get_checked(self, index):</dt><dd><p>…</p>
+</dd>
+<dt>def get_decoration(self, index):</dt><dd><p>…</p>
+</dd>
+<dt>def get_text_style(self, index):</dt><dd><p>…</p>
+</dd>
+<dt>def get_tooltip(self, index):</dt><dd><p>…</p>
+</dd>
+<dt>def get_drag_data(self, index, type):</dt><dd><p># if dragging items out is enabled
+…</p>
+</dd>
+</dl>
+<p># etc.</p>
+</div></blockquote>
+<p>and for editable models, we need:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def set_value(self, index, value):</dt><dd><p>…</p>
+</dd>
+<dt>def set_text(self, index, text):</dt><dd><p>…</p>
+</dd>
+<dt>def set_checked(self, index, checked):</dt><dd><p>…</p>
+</dd>
+<dt>def accepts_drop(self, index):</dt><dd><p>…</p>
+</dd>
+<dt>def handle_drop(self, index):</dt><dd><p>…</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>While text, checked state and/or decorations are the most commonly used data
+types, we expect that the views (particularly editable views) should be able
+to provide appropriate editors beyond the default text editor.  We may need
+additional hints to be provided by the data model in some cases (eg. for a
+spinbox cell editor, what are the minimum and maximum values allowed? for a
+combobox what are the allowed values).  In some cases we might be able to
+infer these from the trait types of the underlying object, or from the dtype
+of an array or dataframe, but these may need to be unified in some way by
+this layer.  This may potentially tie in with how to handle drag and drop
+data types for external dragging and dropping.</p>
+</div>
+<div class="section" id="selections">
+<h3>Selections<a class="headerlink" href="#selections" title="Permalink to this headline">¶</a></h3>
+<p>Selections will be available as a list of raw indexes of the selected values:
+the exact value will depend on the selection mode.  The TraitsUI editor may
+also expose the selected values, if that makes sense, and so we may want an
+API method that exposes those values easily.</p>
+<p>We should be able to handle selection modes of at least:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>single cell</p></li>
+<li><p>single row</p></li>
+<li><p>multiple rows</p></li>
+<li><p>single column</p></li>
+<li><p>multiple column</p></li>
+</ul>
+</div></blockquote>
+<p>We may also want to be able to handle multiple cell selection and selecting
+a contiguous array of rows and columns.</p>
+<p>Selection should be handled at the model level so that selections can be
+easily shared across multiple views of the same model.  Thought should be
+given to making it straightforward to share the selection via the apptools
+selection service.</p>
+</div>
+<div class="section" id="sorting">
+<h3>Sorting<a class="headerlink" href="#sorting" title="Permalink to this headline">¶</a></h3>
+<p>Users will want to sort their data, and it can, potentially be done within
+the view, rather than in the underlying data.  Sorting large datasets is
+potentially problematic from a performance and data storage point of view.
+It also may not particularly make sense for a given data model.</p>
+<p>In some cases the best way to implement sorting may be at the level of the
+IndexMappers, as they control the mapping between logical table indices and
+the underlying data, and so could hold a lookup table (essentially an
+argsort).</p>
+<p>However in other cases it may be that the best way to sort is to push the
+request for sorting down to the underlying data structure (eg. in a view of
+a SQL query it makes sense for the sorting to be pushed all the way down to
+SQL).</p>
+<p>So we need to support the option for sorting, but it is the data model which
+has to decide how best to handle this.</p>
+</div>
+<div class="section" id="view-widgets">
+<h3>View Widgets<a class="headerlink" href="#view-widgets" title="Permalink to this headline">¶</a></h3>
+<p>We want to provide traits-aware wrappers of the toolkit widgets that we are
+using.  For greatest flexibility the right way to implement this is at the
+level of Pyface, as the WxPython backend does currently with the Grid API.</p>
+<p>This allows us to build incrementally: we can focus on getting the Pyface
+API right before wrapping in one or more TraitsUI editors, and the TraitsUI
+editors can then potentially be written in a largely toolkit-independent way
+(similar to the toolkit-independent TabularAdapter and Table Column classes).</p>
+<p>The Widgets should handle view configuration matters, such as showing,
+hiding and ordering columns, row and column geometry, whether to display
+headers, global features like whether the table is read-only, how many
+levels to expand by default, event-reporting, and so on.</p>
+<p>The widget will most likely be a thin object, mainly responsible for mapping
+toolkit features to a common API of traits and methods, and hooking up the
+models in a toolkit-appropriate way.</p>
+</div>
+<div class="section" id="editors">
+<h3>Editors<a class="headerlink" href="#editors" title="Permalink to this headline">¶</a></h3>
+<p>We intend to implement one Editor that covers all cases, but it may be that
+we want to have multiple Editor factories built on top of it for convenience
+(in a similar way to the current <cite>ArrayViewEditor</cite> and <cite>DataFrameEditor</cite>).</p>
+<p>There may be a case for having different editors that talk to the same model
+in the way that Qt’s tree, table and list views do, but it should be done
+very cautiously and with clear reasoning, and initially implemented at the
+Pyface level.</p>
+<p>The editor should be able to be implemented in a toolkit-independent way (or
+nearly so) by talking strictly against the Pyface API.  If we find things
+outside the Pyface API, there is a strong argument that they should be
+folded into that API.</p>
+</div>
+<div class="section" id="technologies">
+<h3>Technologies<a class="headerlink" href="#technologies" title="Permalink to this headline">¶</a></h3>
+<p>This should be a test-bed for the new observer framework from Traits.  It
+has sufficient complexity that it should be possible to give a good workout
+of the capabilties.  This will give feedback on things like the performance,
+user-friendliness, and missing features that are needed.  Time should be
+taken to fix any substantial problems.</p>
+</div>
+<div class="section" id="code-sketches">
+<h3>Code Sketches<a class="headerlink" href="#code-sketches" title="Permalink to this headline">¶</a></h3>
+<p>End-user code might look something like this at its simplest:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Song</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Str</span><span class="p">()</span>
+    <span class="n">artist</span> <span class="o">=</span> <span class="n">Str</span><span class="p">()</span>
+    <span class="n">album</span> <span class="o">=</span> <span class="n">Str</span><span class="p">()</span>
+    <span class="n">genre</span> <span class="o">=</span> <span class="n">Enum</span><span class="p">(</span><span class="n">GENRES</span><span class="p">)</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="n">Float</span><span class="p">()</span>
+    <span class="n">rating</span> <span class="o">=</span> <span class="n">Range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+    <span class="n">songs</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="n">Song</span><span class="p">))</span>
+
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Item</span><span class="p">(</span><span class="s1">&#39;songs&#39;</span><span class="p">,</span> <span class="n">editor</span><span class="o">=</span><span class="n">DataViewEditor</span><span class="p">())</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>This should display a flat table with columns for each editable trait of the
+Song class in arbitary order.  This may require some effort in the Editor
+class to introspect the object being edited to select an appropriate model and
+configure it.  This should ideally include using a combobox editor for genre,
+a text editor with float conversion for duration, and an integer spinbox for
+rating.</p>
+<p>Adding a bit of configurability and a selection.  This is similar to the
+current TableEditor behaviour:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+    <span class="n">songs</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="n">Song</span><span class="p">))</span>
+    <span class="n">selected_song</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">Song</span><span class="p">)</span>
+
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">VSplit</span><span class="p">(</span>
+            <span class="n">Item</span><span class="p">(</span>
+                <span class="s1">&#39;songs&#39;</span><span class="p">,</span>
+                <span class="n">editor</span><span class="o">=</span><span class="n">DataViewEditor</span><span class="p">(</span>
+                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;artist&#39;</span><span class="p">,</span> <span class="s1">&#39;album&#39;</span><span class="p">,</span> <span class="s1">&#39;rating&#39;</span><span class="p">,]</span>
+                    <span class="n">selection_name</span><span class="o">=</span><span class="s1">&#39;selected_song&#39;</span><span class="p">,</span>
+                    <span class="n">selection_mode</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">Item</span><span class="p">(</span><span class="s1">&#39;selected_song&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;custom&#39;</span><span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>An alternative view, showing the songs in columns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+    <span class="n">songs</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Instance</span><span class="p">(</span><span class="n">Song</span><span class="p">))</span>
+    <span class="n">selected_song</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">Song</span><span class="p">)</span>
+
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">VSplit</span><span class="p">(</span>
+            <span class="n">Item</span><span class="p">(</span>
+                <span class="s1">&#39;songs&#39;</span><span class="p">,</span>
+                <span class="n">editor</span><span class="o">=</span><span class="n">DataViewEditor</span><span class="p">(</span>
+                    <span class="n">model</span><span class="o">=</span><span class="n">ObjectColumnDataModel</span><span class="p">,</span>
+                    <span class="n">rows</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;artist&#39;</span><span class="p">,</span> <span class="s1">&#39;album&#39;</span><span class="p">,</span> <span class="s1">&#39;rating&#39;</span><span class="p">,]</span>
+                    <span class="n">selection_name</span><span class="o">=</span><span class="s1">&#39;selected_song&#39;</span><span class="p">,</span>
+                    <span class="n">selection_mode</span><span class="o">=</span><span class="s1">&#39;column&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">Item</span><span class="p">(</span><span class="s1">&#39;selected_song&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;custom&#39;</span><span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>For something like a Pandas DataFrame containing the same information:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+    <span class="n">songs</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">)</span>
+    <span class="n">selected_index</span> <span class="o">=</span> <span class="n">Int</span>
+
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Item</span><span class="p">(</span>
+            <span class="s1">&#39;songs&#39;</span><span class="p">,</span>
+            <span class="n">editor</span><span class="o">=</span><span class="n">DataFrameEditor</span><span class="p">(</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;artist&#39;</span><span class="p">,</span> <span class="s1">&#39;album&#39;</span><span class="p">,</span> <span class="s1">&#39;rating&#39;</span><span class="p">,]</span>
+                <span class="n">index_selection_name</span><span class="o">=</span><span class="s1">&#39;selected_index&#39;</span><span class="p">,</span>
+                <span class="n">selection_mode</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Again, appropriate cell editors should be inferrable from the DataFrame.</p>
+<p>For more fundamental objects:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+    <span class="n">songs</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Dict</span><span class="p">(</span><span class="n">Str</span><span class="p">,</span> <span class="n">Any</span><span class="p">))</span>
+
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Item</span><span class="p">(</span>
+            <span class="s1">&#39;songs&#39;</span><span class="p">,</span>
+            <span class="n">editor</span><span class="o">=</span><span class="n">DataFrameEditor</span><span class="p">(</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;artist&#39;</span><span class="p">,</span> <span class="s1">&#39;album&#39;</span><span class="p">,</span> <span class="s1">&#39;rating&#39;</span><span class="p">,]</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Here the rows are from the list, the columns the selected keys from the
+dictionaries.  It would be good to be able to determine the cell editors,
+but that may be too much to expect.  Which leads to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Collection</span><span class="p">(</span><span class="n">HasStrictTraits</span><span class="p">):</span>
+    <span class="n">songs</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="n">Dict</span><span class="p">(</span><span class="n">Str</span><span class="p">,</span> <span class="n">Any</span><span class="p">))</span>
+
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span>
+        <span class="n">Item</span><span class="p">(</span>
+            <span class="s1">&#39;songs&#39;</span><span class="p">,</span>
+            <span class="n">editor</span><span class="o">=</span><span class="n">DataViewEditor</span><span class="p">(</span>
+                <span class="n">model</span><span class="o">=</span><span class="n">ListDictDataModel</span><span class="p">,</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">Column</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+                    <span class="n">Column</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;artist&#39;</span><span class="p">),</span>
+                    <span class="n">Column</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;album&#39;</span><span class="p">),</span>
+                    <span class="n">Column</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                <span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/img/e-logo.png" alt="Logo">
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EEP 5: TraitsUI Tables and Trees</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#motivation">Motivation</a></li>
+<li><a class="reference internal" href="#design">Design</a><ul>
+<li><a class="reference internal" href="#underlying-data-structures">Underlying Data Structures</a></li>
+<li><a class="reference internal" href="#widgets">Widgets</a></li>
+<li><a class="reference internal" href="#data-model">Data Model</a><ul>
+<li><a class="reference internal" href="#sorting-searching-etc">Sorting, Searching, etc.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#styling-rendering-and-editing">Styling, Rendering and Editing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#implementation">Implementation</a><ul>
+<li><a class="reference internal" href="#id1">Data Model</a></li>
+<li><a class="reference internal" href="#index-managers">Index Managers</a></li>
+<li><a class="reference internal" href="#data-model-api-details">Data Model API Details</a></li>
+<li><a class="reference internal" href="#selections">Selections</a></li>
+<li><a class="reference internal" href="#sorting">Sorting</a></li>
+<li><a class="reference internal" href="#view-widgets">View Widgets</a></li>
+<li><a class="reference internal" href="#editors">Editors</a></li>
+<li><a class="reference internal" href="#technologies">Technologies</a></li>
+<li><a class="reference internal" href="#code-sketches">Code Sketches</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/eeps/eep-5.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Enthought Developers
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 3.5.4.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
