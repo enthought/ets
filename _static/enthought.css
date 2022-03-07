@@ -36,7 +36,7 @@
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
-  src: local('Poppins'), local('Poppins-Regular'), url('fonts/poppins-v19-latin-regular.otf.woff2') format('woff2');
+  src: local('Poppins'), local('Poppins-Regular'), url('fonts/poppins-v19-latin-regular.woff2') format('woff2');
 }
 
 @font-face{
@@ -44,7 +44,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  src: local('Poppins Semibold'), local('Poppins-SemiBold'), url('fonts/poppins-v19-latin-600.otf.woff2') format('woff2');
+  src: local('Poppins Semibold'), local('Poppins-SemiBold'), url('fonts/poppins-v19-latin-600.woff2') format('woff2');
 }
 
 @font-face{
@@ -52,7 +52,7 @@
   font-weight: 400;
   font-style: italic;
   font-stretch: normal;
-  src: local('Poppins Italic'), local('Poppins-Italic'), url('fonts/poppins-v19-latin-italic.otf.woff2') format('woff2');
+  src: local('Poppins Italic'), local('Poppins-Italic'), url('fonts/poppins-v19-latin-italic.woff2') format('woff2');
 }
 
 @font-face{
@@ -60,7 +60,7 @@
   font-weight: 600;
   font-style: italic;
   font-stretch: normal;
-  src: local('Poppins Semibold Italic'), local('Poppins-SemiBoldItalic'), url('fonts/poppins-v19-latin-600italic.otf.woff2') format('woff2');
+  src: local('Poppins Semibold Italic'), local('Poppins-SemiBoldItalic'), url('fonts/poppins-v19-latin-600italic.woff2') format('woff2');
 }
 
 /*
